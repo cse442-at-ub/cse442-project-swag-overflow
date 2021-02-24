@@ -1,0 +1,45 @@
+html {
+    scroll-behavior: smooth;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background-image:url(../../assets/background.png);
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: center; 
+    background-size: contain;
+    overflow-x: hidden;
+}
+
+.splash {
+    margin: 0;
+    position: relative;
+    height: 100%;
+    width: 95%;
+}
+
+.splash-text {
+    width: 400px;
+    position: relative;
+    float: right;
+    margin-top: 200px;
+}
+
+.splash-text p {
+    font-weight: 500px;
+    font-size: 20px;
+}
+
+.form-floating > label {
+    left: 5px;
+}
+
+.table { 
+    width: 90%;
+    position: relative;
+    margin-top: auto;
+}
