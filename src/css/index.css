@@ -43,3 +43,7 @@ body {
     position: relative;
     margin-top: auto;
 }
+
+#login {
+    margin-right: 15px;
+}
