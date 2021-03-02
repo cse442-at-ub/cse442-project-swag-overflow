@@ -8,6 +8,7 @@
         <!-- Image by <a href="https://pixabay.com/users/deeptuts-2691814/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=2198763">Manish Dhawan</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=2198763">Pixabay</a> -->
     </head>
     <body>
+      <!--This is the upper navigation bar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
               <a class="navbar-brand" href="index.html">Realtime Scheduling</a>
@@ -33,20 +34,39 @@
               </div>
             </div>
           </nav>
-          <div class="container-lg schedules-search">
-              <h1 class="mt-3">
-                  Search for Schedules Here:
-              </h1>
-              <form>
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-info" type="submit">Search</button>
-              </form>
-          </div>
-          <hr>
+
+          <!--Create new event-->
+        <div class="card text-white bg-primary mb-3">
+        <form>
           <div class="container-lg schedules-list">
               <h1 class="mt-3">
-                  Currently Active Schedules:
+               Create a New Event:
               </h1>
-          </div>
+              <div class="input-group">
+                 <input class="form-control" type="datetime-local" value="2021-01-01T00:00:00" id="datetimeInput">
+                 <input type="text" class="form-control" id="eventDescription" placeholder="Meeting Description">
+                <button class="btn btn-primary" type="submit" onclick="alert('Event Created!');">Create New Event</button>
+              </div>
+            </div>
+            <div class="row bottom-buffer"></div>
+        </form>
+        </div>
+
+        <!--This is the search bar for schedules-->
+        <div class="container-lg schedules-search">
+            <h1 class="mt-3">
+                Search for Schedules Here:
+            </h1>
+            <form>
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            </form>
+        </div>
+
+        <div class="footer">
+          <p>Swag Overflow</p>
+        </div>
+
+
+          <!--possibly use timelines for schedule frame-->
     </body>
 </html>
