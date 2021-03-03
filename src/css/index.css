@@ -44,6 +44,15 @@ body {
     margin-top: auto;
 }
 
+.table td {
+    background: white;  
+}
+
+td.text-center:hover {
+    cursor: pointer;
+    background: lightgrey;
+}
+
 #login {
     margin-right: 15px;
 }
