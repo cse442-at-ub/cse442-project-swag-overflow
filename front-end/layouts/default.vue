@@ -1,89 +1,146 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
     <v-app-bar
-      :clipped-left="clipped"
-      fixed
       app
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
+      <v-container class="py-0 fill-height">
+        <v-avatar
+          class="mr-10"
+          color="grey darken-1"
+          size="32"
+        >
+          <img
+            src="https://cdn.vuetifyjs.com/images/john.jpg"
+            alt="John"
+          >
+        </v-avatar>
+
+        <v-btn
+          v-for="(link, i) in links"
+          :key="i"
+          :to="link.to"
+          text
+        >
+          {{ link.title }}
+        </v-btn>
+
+        <v-spacer></v-spacer>
+          <v-dialog
+            v-model="dialog"
+            max-width="550px"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                color="accent"
+                dark
+                v-bind="attrs"
+                v-on="on"
+              >
+                Sign-up
+              </v-btn>
+            </template>
+            <v-form v-model="form">
+            <v-card>
+              <v-card-title>
+                <span class="headline">Welcome new user!</span>
+              </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      sm="6"
+                      md="6"
+                    >
+                      <v-text-field
+                        v-model="signup.first_name"
+                        label= "First Name"
+                        :rules = "[rules.required]"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col
+                      cols="12"
+                      sm="6"
+                      md="6"
+                    >
+                      <v-text-field
+                        v-model="signup.last_name"
+                        label= "Last Name"
+                        :rules = "[rules.required]"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model="signup.user_name"
+                        label="Username"
+                        :rules = "[rules.required, rules.length(6)]"
+                        counter
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model="signup.email"
+                        label="Email"
+                        :rules = "[rules.required, rules.email]"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model="signup.password"
+                        :append-icon="sneak ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="sneak ? 'text' : 'password'"
+                        :rules = "[rules.required, rules.password, rules.length(8)]"
+                        counter
+                        @click:append="sneak = !sneak"
+                      ></v-text-field>
+                    </v-col>
+
+                  </v-row>
+                </v-container>
+
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="dialog = false"
+                >
+                  Close
+                </v-btn>
+                <v-btn
+                  :disabled = "!form"
+                  :loading="isLoading"
+                  color="success"
+                  text
+                  @click="dialog = false"
+                  depressed
+                >
+                  Submit
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+            </v-form>
+          </v-dialog>
+
+
+      </v-container>
     </v-app-bar>
     <v-main>
       <v-container>
         <nuxt />
       </v-container>
     </v-main>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+
     <v-footer
       :absolute="!fixed"
       app
     >
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+      <span>&copy; {{ new Date().getFullYear() }} - A Swag Overflow Project</span>
     </v-footer>
   </v-app>
 </template>
@@ -92,26 +149,64 @@
 export default {
   data () {
     return {
+      sneak: false,
+      form: false,
       clipped: false,
       drawer: false,
+      dialog: false,
       fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
+      isLoading: false,
+      links: [
+          {
+              title: 'Dashboard',
+              to: '/'
+          },
+          {
+              title: 'Profile',
+              to: '/profile'
+          },
+          {
+              title: 'Scheduler',
+              to: '/scheduler'
+          },
+          {
+              title: 'Updates',
+              to: '/updates'
+          },
       ],
+      signup: {
+          first_name: '',
+          last_name: '',
+          user_name: '',
+          password: '',
+          email: '',
+          DoB: null
+      },
+      default_signup: {
+          first_name: '',
+          last_name: '',
+          user_name: '',
+          password: '',
+          email: '',
+          DoB: null,
+      },
+        rules: {
+            email: v => !!(v || '').match(/@/) || 'Please enter a valid email',
+            length: len => v => (v || '').length >= len || `Invalid character length, required ${len}`,
+            password: v => !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
+                'Password must contain an upper case letter, a numeric character, and a special character',
+            required: v => !!v || 'This field is required'
+
+        },
       miniVariant: false,
-      right: true,
-      rightDrawer: false,
       title: 'Vuetify.js'
     }
+  },
+
+  watch: {
+  },
+
+  methods: {
   }
 }
 </script>

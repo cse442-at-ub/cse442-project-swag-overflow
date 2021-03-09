@@ -1,0 +1,26 @@
+[
+  {
+    "name": "profile",
+    "path": "/profile",
+    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/profile.vue",
+    "chunkName": "pages/profile"
+  },
+  {
+    "name": "scheduler",
+    "path": "/scheduler",
+    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/scheduler.vue",
+    "chunkName": "pages/scheduler"
+  },
+  {
+    "name": "updates",
+    "path": "/updates",
+    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/updates.vue",
+    "chunkName": "pages/updates"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/index.vue",
+    "chunkName": "pages/index"
+  }
+]
