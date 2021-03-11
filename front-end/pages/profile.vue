@@ -41,6 +41,82 @@
               {{ $refs.calendar.title }}
             </v-toolbar-title>
             <v-spacer></v-spacer>
+
+            <!-- New event form !-->
+            <v-dialog
+              v-model="new_event"
+              max-width="550px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="dialog"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                  class="ma-2"
+                >
+                  + New Event
+                </v-btn>
+              </template>
+              <v-form v-model="form">
+                <v-card>
+                  <v-card-title>
+                    <span class="headline">Add a new event</span>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+
+                        <v-col cols="12">
+                          <v-text-field
+                            v-model="new_event.title"
+                            label= "Add Title"
+                          ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12">
+                          <v-btn-toggle
+                            v-model="event_type"
+                            tile
+                            color="deep-purple accent-3"
+                            group
+                            v-for="names in event_type" :key="names"
+                          >
+                            <v-btn value=names>
+                              {{names}}
+                            </v-btn>
+                          </v-btn-toggle>
+                        </v-col>
+
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="new_event = false"
+                    >
+                      Close
+                    </v-btn>
+                    <v-btn
+                      color="success"
+                      text
+                      @click="new_event = false"
+                      depressed
+                    >
+                      Save
+                    </v-btn>
+                  </v-card-actions>
+
+                </v-card>
+              </v-form>
+            </v-dialog>
+
+
+
             <v-menu
               bottom
               right
@@ -51,6 +127,7 @@
                   color="accent"
                   v-bind="attrs"
                   v-on="on"
+                  class="ma-2"
                 >
                   <span>{{ typeToLabel[type] }}</span>
                   <v-icon right>
@@ -73,13 +150,14 @@
                 </v-list-item>
               </v-list>
             </v-menu>
+
           </v-toolbar>
         </v-sheet>
         <v-sheet height="600">
           <v-calendar
             ref="calendar"
             v-model="focus"
-            color="primary"
+            color="accent"
             :events="events"
             :event-color="getEventColor"
             :type="type"
@@ -139,6 +217,8 @@
 <script>
 export default {
     data: () => ({
+      new_event: false,
+      form: false,
       focus: '',
       type: 'month',
       typeToLabel: {
@@ -153,6 +233,15 @@ export default {
       events: [],
       colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+      event_type: ['Event', 'Out of office', 'Task', 'Appointment slots', 'Holiday', 'Party'],
+      event: {
+          title: '',
+          type: '',
+          date: null,
+          guests: '',
+          location: '',
+          description: ''
+      },
     }),
 
     mounted () {
@@ -183,7 +272,7 @@ export default {
               setTimeout(() => {
                   this.selectedOpen = true
               }, 10)
-          }
+          };
 
           if (this.selectedOpen) {
               this.selectedOpen = false;
