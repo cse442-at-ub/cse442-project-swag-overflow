@@ -2,29 +2,53 @@
   {
     "name": "profile",
     "path": "/profile",
+<<<<<<< Updated upstream
     "component": "C:\\\\Users\\\\offic\\\\Repos\\\\cse442-project-swag-overflow\\\\front-end\\\\pages\\\\profile.vue",
     "chunkName": "pages/profile",
     "_name": "_19c6b200"
+=======
+    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/profile.vue",
+    "chunkName": "pages/profile",
+    "_name": "_85714dd6"
+>>>>>>> Stashed changes
   },
   {
     "name": "scheduler",
     "path": "/scheduler",
+<<<<<<< Updated upstream
     "component": "C:\\\\Users\\\\offic\\\\Repos\\\\cse442-project-swag-overflow\\\\front-end\\\\pages\\\\scheduler.vue",
     "chunkName": "pages/scheduler",
     "_name": "_fcf19d5c"
+=======
+    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/scheduler.vue",
+    "chunkName": "pages/scheduler",
+    "_name": "_6bcdb227"
+>>>>>>> Stashed changes
   },
   {
     "name": "updates",
     "path": "/updates",
+<<<<<<< Updated upstream
     "component": "C:\\\\Users\\\\offic\\\\Repos\\\\cse442-project-swag-overflow\\\\front-end\\\\pages\\\\updates.vue",
     "chunkName": "pages/updates",
     "_name": "_713af4be"
+=======
+    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/updates.vue",
+    "chunkName": "pages/updates",
+    "_name": "_dce59094"
+>>>>>>> Stashed changes
   },
   {
     "name": "index",
     "path": "/",
+<<<<<<< Updated upstream
     "component": "C:\\\\Users\\\\offic\\\\Repos\\\\cse442-project-swag-overflow\\\\front-end\\\\pages\\\\index.vue",
     "chunkName": "pages/index",
     "_name": "_31024d69"
+=======
+    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_4cec80be"
+>>>>>>> Stashed changes
   }
 ]
