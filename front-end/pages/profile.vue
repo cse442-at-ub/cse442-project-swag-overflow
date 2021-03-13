@@ -45,7 +45,7 @@
             <!-- New event form !-->
             <v-dialog
               v-model="new_event"
-              max-width="550px"
+              max-width="650px"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -66,27 +66,247 @@
                   <v-card-text>
                     <v-container>
                       <v-row>
-
                         <v-col cols="12">
-                          <v-text-field
-                            v-model="new_event.title"
-                            label= "Add Title"
-                          ></v-text-field>
-                        </v-col>
+                          <v-icon>
+                            mdi-folder-outline
+                          </v-icon>
 
-                        <v-col cols="12">
                           <v-btn-toggle
-                            v-model="event_type"
+                            v-model="selected_event_type"
                             tile
-                            color="deep-purple accent-3"
                             group
-                            v-for="names in event_type" :key="names"
+                            color="accent"
+                            mandatory
                           >
-                            <v-btn value=names>
-                              {{names}}
+                            <v-btn
+                              v-for="type in event_type"
+                              :key="type"
+                              class="ma-2"
+                            >
+                              {{ type }}
                             </v-btn>
                           </v-btn-toggle>
                         </v-col>
+
+                        <v-tabs-items v-model="selected_event_type">
+                          <v-tab-item>
+                            <v-col cols="12">
+                              <v-text-field
+                                prepend-icon="mdi-format-title"
+                                v-model="event_lecture.name"
+                                label= "Lecture Name"
+                                dense
+                                class="mb-3"
+                              ></v-text-field>
+                            </v-col>
+
+                            <v-row>
+                              <v-col
+                                cols="12"
+                                sm="4"
+                                md="4"
+                                class="ml-3"
+                              >
+                                <v-text-field
+                                  dense
+                                  prepend-icon="mdi-clock-outline"
+                                  outlined
+                                  v-model="event_lecture.date"
+                                  label= "Date"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="3"
+                                md="3"
+                              >
+                                <v-text-field
+                                  dense
+                                  v-model="event_lecture.start_time"
+                                  label= "Start Time"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="3"
+                                md="3"
+                              >
+                                <v-text-field
+                                  dense
+                                  v-model="event_lecture.end_time"
+                                  label= "End Time"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
+
+                            <v-col cols="12">
+                              <v-autocomplete
+                                v-model="event_lecture.hall"
+                                prepend-icon="mdi-map-marker"
+                                dense
+                                outlined
+                                :items="location"
+                                color="white"
+                                item-text="name"
+                                label="Lecture Hall"
+                              ></v-autocomplete>
+                            </v-col>
+
+                            <v-col cols="12">
+                              <v-textarea
+                                v-model="event_lecture.description"
+                                prepend-icon="mdi-comment"
+                                dense
+                                outlined
+                                label="Description"
+                              ></v-textarea>
+                            </v-col>
+                          </v-tab-item>
+
+                          <v-tab-item>
+                            <v-col>
+                              <v-text-field
+                                prepend-icon="mdi-format-title"
+                                v-model="event_recitation.name"
+                                label= "Recitation Name"
+                                dense
+                                class="mb-3"
+                              ></v-text-field>
+                            </v-col>
+
+                            <v-row>
+                              <v-col
+                                cols="12"
+                                sm="4"
+                                md="4"
+                                class="ml-3"
+                              >
+                                <v-text-field
+                                  dense
+                                  prepend-icon="mdi-clock-outline"
+                                  outlined
+                                  v-model="event_recitation.date"
+                                  label= "Date"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="3"
+                                md="3"
+                              >
+                                <v-text-field
+                                  dense
+                                  v-model="event_recitation.start_time"
+                                  label= "Start Time"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="3"
+                                md="3"
+                              >
+                                <v-text-field
+                                  dense
+                                  v-model="event_recitation.end_time"
+                                  label= "End Time"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
+
+                            <v-col cols="12">
+                              <v-autocomplete
+                                v-model="event_recitation.hall"
+                                prepend-icon="mdi-map-marker"
+                                dense
+                                outlined
+                                :items="location"
+                                color="white"
+                                item-text="name"
+                                label="Recitation Hall"
+                              ></v-autocomplete>
+                            </v-col>
+                          </v-tab-item>
+
+                          <v-tab-item>
+                            <v-col>
+                              <v-text-field
+                                prepend-icon="mdi-format-title"
+                                v-model="event_deadline.name"
+                                label= "Project / HW / Essay Name"
+                                dense
+                                class="mb-3"
+                              ></v-text-field>
+                            </v-col>
+
+                            <v-row>
+                              <v-col
+                                cols="12"
+                                sm="4"
+                                md="4"
+                                class="ml-3"
+                              >
+                                <v-text-field
+                                  dense
+                                  prepend-icon="mdi-clock-outline"
+                                  outlined
+                                  v-model="event_deadline.start_date"
+                                  label= "Start Date"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="4"
+                                md="4"
+                              >
+                                <v-text-field
+                                  dense
+                                  outlined
+                                  v-model="event_deadline.end_date"
+                                  label= "Due Date"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="3"
+                                md="3"
+                              >
+                                <v-text-field
+                                  dense
+                                  v-model="event_recitation.end_time"
+                                  label= "Due Time"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
+
+                            <v-col cols="12">
+                              <v-textarea
+                                v-model="event_lecture.description"
+                                prepend-icon="mdi-comment"
+                                dense
+                                outlined
+                                label="Description"
+                              ></v-textarea>
+                            </v-col>
+                          </v-tab-item>
+
+                          <v-tab-item>
+                            <v-col>
+                              <v-text-field
+                                prepend-icon="mdi-format-title"
+                                v-model="event_task.name"
+                                label= "Task Name"
+                                outlined
+                              ></v-text-field>
+                            </v-col>
+                          </v-tab-item>
+
+                          <v-tab-item>
+                            <v-card flat>
+                              <v-card-text>Personal</v-card-text>
+                            </v-card>
+                          </v-tab-item>
+
+                        </v-tabs-items>
 
                       </v-row>
                     </v-container>
@@ -114,8 +334,6 @@
                 </v-card>
               </v-form>
             </v-dialog>
-
-
 
             <v-menu
               bottom
@@ -233,15 +451,44 @@ export default {
       events: [],
       colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
-      event_type: ['Event', 'Out of office', 'Task', 'Appointment slots', 'Holiday', 'Party'],
-      event: {
+      event_type: ['Lecture', 'Recitation', 'Deadline', 'Task', 'Birthday'],
+      selected_event_type: 'Lecture',
+      event_lecture: {
+          name: '',
+          date: null,
+          start_time: null,
+          end_time: null,
+          hall: '',
+          description: ''
+      },
+      event_recitation: {
+          name: '',
+          date: null,
+          start_time: null,
+          end_time: null,
+          hall: '',
+      },
+      event_deadline: {
+          course: '',
+          type: '',
+          start_date: null,
+          end_date: null,
+          end_time: null,
+          notes: ''
+      },
+      event_task: {
           title: '',
           type: '',
           date: null,
-          guests: '',
-          location: '',
-          description: ''
+          notes: ''
       },
+      location: [
+          { name: 'Davis Hall', abbr: 'DV', id: 1 },
+          { name: 'Baldy Hall', abbr: 'BL', id: 2 },
+          { name: 'Cooke Hall', abbr: 'CK', id: 3 },
+          { name: 'Talbert Hall', abbr: 'TB', id: 4 },
+          { name: 'Norton Hall', abbr: 'NT', id: 5 },
+      ],
     }),
 
     mounted () {
