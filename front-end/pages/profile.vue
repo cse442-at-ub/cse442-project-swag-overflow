@@ -161,6 +161,20 @@
                                 label="Description"
                               ></v-textarea>
                             </v-col>
+
+                            <v-col cols="12">
+                              <v-autocomplete
+                                v-model="event_lecture.attendees"
+                                prepend-icon="mdi-email-outline"
+                                dense
+                                multiple
+                                outlined
+                                :items="friendsList"
+                                color="white"
+                                item-text="name"
+                                label="Attendees"
+                              ></v-autocomplete>
+                            </v-col>
                           </v-tab-item>
 
                           <v-tab-item>
@@ -225,6 +239,20 @@
                                 label="Recitation Hall"
                               ></v-autocomplete>
                             </v-col>
+
+                            <v-col cols="12">
+                              <v-autocomplete
+                                v-model="event_recitation.attendees"
+                                prepend-icon="mdi-email-outline"
+                                dense
+                                multiple
+                                outlined
+                                :items="friendsList"
+                                color="white"
+                                item-text="name"
+                                label="Attendees"
+                              ></v-autocomplete>
+                            </v-col>
                           </v-tab-item>
 
                           <v-tab-item>
@@ -272,7 +300,7 @@
                               >
                                 <v-text-field
                                   dense
-                                  v-model="event_recitation.end_time"
+                                  v-model="event_deadline.end_time"
                                   label= "Due Time"
                                 ></v-text-field>
                               </v-col>
@@ -280,13 +308,28 @@
 
                             <v-col cols="12">
                               <v-textarea
-                                v-model="event_lecture.description"
+                                v-model="event_deadline.notes"
                                 prepend-icon="mdi-comment"
                                 dense
                                 outlined
                                 label="Description"
                               ></v-textarea>
                             </v-col>
+
+                            <v-col cols="12">
+                              <v-autocomplete
+                                v-model="event_deadline.attendees"
+                                prepend-icon="mdi-email-outline"
+                                dense
+                                multiple
+                                outlined
+                                :items="friendsList"
+                                color="white"
+                                item-text="name"
+                                label="Project Partners"
+                              ></v-autocomplete>
+                            </v-col>
+                            
                           </v-tab-item>
 
                           <v-tab-item>
@@ -472,7 +515,8 @@ export default {
           start_time: null,
           end_time: null,
           hall: '',
-          description: ''
+          description: '',
+          attendees: []
       },
       event_recitation: {
           name: '',
@@ -480,6 +524,7 @@ export default {
           start_time: null,
           end_time: null,
           hall: '',
+          attendees: []
       },
       event_deadline: {
           course: '',
@@ -487,7 +532,8 @@ export default {
           start_date: null,
           end_date: null,
           end_time: null,
-          notes: ''
+          notes: '',
+          attendees: []
       },
       event_task: {
           title: '',
@@ -502,6 +548,11 @@ export default {
           { name: 'Talbert Hall', abbr: 'TB', id: 4 },
           { name: 'Norton Hall', abbr: 'NT', id: 5 },
       ],
+      friendsList: [
+        {name: 'Mike', abbr: 'MC', id: 1},
+        {name: 'Adarsh', abbr: 'AS', id: 2},
+        {name: 'Truong', abbr: 'TP', id: 3},
+      ]
     }),
 
     mounted () {
