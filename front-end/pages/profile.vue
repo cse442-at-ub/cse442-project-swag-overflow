@@ -290,13 +290,24 @@
                           </v-tab-item>
 
                           <v-tab-item>
-                            <v-col>
+                            <v-col cols="12">
                               <v-text-field
                                 prepend-icon="mdi-format-title"
-                                v-model="event_task.name"
+                                v-model="event_deadline.name"
                                 label= "Task Name"
-                                outlined
+                                dense
+                                class="mb-3"
                               ></v-text-field>
+                            </v-col>
+
+                            <v-col cols="12">
+                              <v-textarea
+                                v-model="event_lecture.description"
+                                prepend-icon="mdi-comment"
+                                dense
+                                outlined
+                                label="Description"
+                              ></v-textarea>
                             </v-col>
                           </v-tab-item>
 
@@ -324,7 +335,7 @@
                     <v-btn
                       color="success"
                       text
-                      @click="new_event = false"
+                      @click="addLecture"
                       depressed
                     >
                       Save
@@ -433,6 +444,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
     data: () => ({
       new_event: false,
@@ -451,7 +464,7 @@ export default {
       events: [],
       colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
-      event_type: ['Lecture', 'Recitation', 'Deadline', 'Task', 'Birthday'],
+      event_type: ['Lecture', 'Recitation', 'Deadline', 'Task'],
       selected_event_type: 'Lecture',
       event_lecture: {
           name: '',
@@ -530,7 +543,9 @@ export default {
 
           nativeEvent.stopPropagation()
       },
+
       updateRange ({ start, end }) {
+          /*
           const events = [];
 
           const min = new Date(`${start.date}T00:00:00`);
@@ -555,11 +570,37 @@ export default {
           }
 
           this.events = events
+           */
+          this.start = start;
+          this.end = end
       },
+
       rnd (a, b) {
           return Math.floor((b - a + 1) * Math.random()) + a
       },
-    }
+
+
+      addLecture(){
+          const lecture = [];
+
+          let startTime = this.event_lecture.date + ' '  + this.event_lecture.start_time;
+          let endTime = this.event_lecture.date + " " + this.event_lecture.end_time;
+          const allDay = this.rnd(0, 3) === 0;
+
+          startTime = moment(startTime, "YYYY-MM-DD HH:mm:ss");
+          endTime = moment(endTime, "YYYY-MM-DD HH:mm:ss");
+
+          lecture.push({
+              name: this.event_lecture.name,
+              start: startTime.format("YYYY-MM-DD HH:mm:ss"),
+              end: endTime.format("YYYY-MM-DD HH:mm:ss"),
+              color: 'indigo',
+              timed: !allDay,
+          });
+
+          this.events = lecture
+      },
+    },
 }
 
 </script>
