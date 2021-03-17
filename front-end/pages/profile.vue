@@ -111,7 +111,7 @@
                                   dense
                                   prepend-icon="mdi-clock-outline"
                                   outlined
-                                  v-model="event_lecture.date"
+                                  v-model="event.start_date"
                                   label= "Date"
                                 ></v-text-field>
                               </v-col>
@@ -122,7 +122,7 @@
                               >
                                 <v-text-field
                                   dense
-                                  v-model="event_lecture.start_time"
+                                  v-model="event.start_time"
                                   label= "Start Time"
                                 ></v-text-field>
                               </v-col>
@@ -133,7 +133,7 @@
                               >
                                 <v-text-field
                                   dense
-                                  v-model="event_lecture.end_time"
+                                  v-model="event.end_time"
                                   label= "End Time"
                                 ></v-text-field>
                               </v-col>
@@ -141,7 +141,7 @@
 
                             <v-col cols="12">
                               <v-autocomplete
-                                v-model="event_lecture.hall"
+                                v-model="event.hall"
                                 prepend-icon="mdi-map-marker"
                                 dense
                                 outlined
@@ -154,7 +154,7 @@
 
                             <v-col cols="12">
                               <v-textarea
-                                v-model="event_lecture.description"
+                                v-model="event.description"
                                 prepend-icon="mdi-comment"
                                 dense
                                 outlined
@@ -164,7 +164,7 @@
 
                             <v-col cols="12">
                               <v-autocomplete
-                                v-model="event_lecture.attendees"
+                                v-model="event.attendees"
                                 prepend-icon="mdi-email-outline"
                                 dense
                                 multiple
@@ -181,7 +181,7 @@
                             <v-col>
                               <v-text-field
                                 prepend-icon="mdi-format-title"
-                                v-model="event_recitation.name"
+                                v-model="event.name"
                                 label= "Recitation Name"
                                 dense
                                 class="mb-3"
@@ -199,7 +199,7 @@
                                   dense
                                   prepend-icon="mdi-clock-outline"
                                   outlined
-                                  v-model="event_recitation.date"
+                                  v-model="event.start_date"
                                   label= "Date"
                                 ></v-text-field>
                               </v-col>
@@ -210,7 +210,7 @@
                               >
                                 <v-text-field
                                   dense
-                                  v-model="event_recitation.start_time"
+                                  v-model="event.start_time"
                                   label= "Start Time"
                                 ></v-text-field>
                               </v-col>
@@ -221,7 +221,7 @@
                               >
                                 <v-text-field
                                   dense
-                                  v-model="event_recitation.end_time"
+                                  v-model="event.end_time"
                                   label= "End Time"
                                 ></v-text-field>
                               </v-col>
@@ -229,7 +229,7 @@
 
                             <v-col cols="12">
                               <v-autocomplete
-                                v-model="event_recitation.hall"
+                                v-model="event.hall"
                                 prepend-icon="mdi-map-marker"
                                 dense
                                 outlined
@@ -242,7 +242,7 @@
 
                             <v-col cols="12">
                               <v-autocomplete
-                                v-model="event_recitation.attendees"
+                                v-model="event.attendees"
                                 prepend-icon="mdi-email-outline"
                                 dense
                                 multiple
@@ -259,7 +259,7 @@
                             <v-col>
                               <v-text-field
                                 prepend-icon="mdi-format-title"
-                                v-model="event_deadline.name"
+                                v-model="event.name"
                                 label= "Project / HW / Essay Name"
                                 dense
                                 class="mb-3"
@@ -277,7 +277,7 @@
                                   dense
                                   prepend-icon="mdi-clock-outline"
                                   outlined
-                                  v-model="event_deadline.start_date"
+                                  v-model="event.start_date"
                                   label= "Start Date"
                                 ></v-text-field>
                               </v-col>
@@ -289,7 +289,7 @@
                                 <v-text-field
                                   dense
                                   outlined
-                                  v-model="event_deadline.end_date"
+                                  v-model="event.end_date"
                                   label= "Due Date"
                                 ></v-text-field>
                               </v-col>
@@ -300,7 +300,7 @@
                               >
                                 <v-text-field
                                   dense
-                                  v-model="event_deadline.end_time"
+                                  v-model="event.end_time"
                                   label= "Due Time"
                                 ></v-text-field>
                               </v-col>
@@ -308,7 +308,7 @@
 
                             <v-col cols="12">
                               <v-textarea
-                                v-model="event_deadline.notes"
+                                v-model="event.description"
                                 prepend-icon="mdi-comment"
                                 dense
                                 outlined
@@ -318,7 +318,7 @@
 
                             <v-col cols="12">
                               <v-autocomplete
-                                v-model="event_deadline.attendees"
+                                v-model="event.attendees"
                                 prepend-icon="mdi-email-outline"
                                 dense
                                 multiple
@@ -336,7 +336,7 @@
                             <v-col cols="12">
                               <v-text-field
                                 prepend-icon="mdi-format-title"
-                                v-model="event_deadline.name"
+                                v-model="event.name"
                                 label= "Task Name"
                                 dense
                                 class="mb-3"
@@ -345,7 +345,7 @@
 
                             <v-col cols="12">
                               <v-textarea
-                                v-model="event_lecture.description"
+                                v-model="event.description"
                                 prepend-icon="mdi-comment"
                                 dense
                                 outlined
@@ -509,37 +509,15 @@ export default {
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       event_type: ['Lecture', 'Recitation', 'Deadline', 'Task'],
       selected_event_type: 'Lecture',
-      event_lecture: {
+      event: {
           name: '',
-          date: null,
+          start_date: null,
+          end_date: null,
           start_time: null,
           end_time: null,
           hall: '',
           description: '',
           attendees: []
-      },
-      event_recitation: {
-          name: '',
-          date: null,
-          start_time: null,
-          end_time: null,
-          hall: '',
-          attendees: []
-      },
-      event_deadline: {
-          course: '',
-          type: '',
-          start_date: null,
-          end_date: null,
-          end_time: null,
-          notes: '',
-          attendees: []
-      },
-      event_task: {
-          title: '',
-          type: '',
-          date: null,
-          notes: ''
       },
       location: [
           { name: 'Davis Hall', abbr: 'DV', id: 1 },
