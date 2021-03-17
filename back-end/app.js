@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mysql      = require('mysql');
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -39,3 +41,25 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "yourusername",
+  password: "yourpassword",
+  port: 3000
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+  con.query("CREATE DATABASE mydb", function (err, result) {
+    if (err) throw err;
+    console.log("Database created");
+  });
+});
+
+app.listen(3000);
+
+
+// con.end();
