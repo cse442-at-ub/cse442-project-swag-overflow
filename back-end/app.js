@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mysql      = require('mysql');
 
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -42,24 +41,21 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "yourusername",
-  password: "yourpassword",
-  port: 3000
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '$wag_442',
+  port: 3306
 });
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-  con.query("CREATE DATABASE mydb", function (err, result) {
-    if (err) throw err;
-    console.log("Database created");
-  });
+connection.connect(function(err) {
+  if (err) {
+    console.error('error connecting: ' + err.stack);
+    return;
+  }
+ 
+  console.log('connected as id ' + connection.threadId);
 });
 
 app.listen(3000);
 
-
-// con.end();
