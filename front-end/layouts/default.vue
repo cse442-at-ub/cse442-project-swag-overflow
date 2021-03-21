@@ -42,7 +42,7 @@
               Sign-up
             </v-btn>
           </template>
-          <v-form v-model="form">
+          <v-form v-model="form" @submit.prevent>
           <v-card>
             <v-card-title>
               <span class="headline">Welcome new user!</span>
@@ -145,7 +145,7 @@
                 :loading="isLoading"
                 color="success"
                 text
-                @click="signup_dialog = false"
+                @click="submit"
                 depressed
               >
                 Submit
@@ -318,6 +318,14 @@ export default {
   },
 
   methods: {
+    submit() {
+      console.log("SUBMITTED");
+      let data = {
+        bop: "thing 1",
+        bop2: "thing 2"
+      }
+      axios.post("/users/signup", data);
+    }
   }
 }
 </script>
