@@ -93,7 +93,7 @@
                             <v-col cols="12">
                               <v-text-field
                                 prepend-icon="mdi-format-title"
-                                v-model="event_lecture.name"
+                                v-model="event.name"
                                 label= "Lecture Name"
                                 dense
                                 class="mb-3"
@@ -329,7 +329,7 @@
                                 label="Project Partners"
                               ></v-autocomplete>
                             </v-col>
-                            
+
                           </v-tab-item>
 
                           <v-tab-item>
@@ -612,15 +612,15 @@ export default {
       addLecture(){
           const lecture = [];
 
-          let startTime = this.event_lecture.date + ' '  + this.event_lecture.start_time;
-          let endTime = this.event_lecture.date + " " + this.event_lecture.end_time;
+          let startTime = this.event.date + ' '  + this.event.start_time;
+          let endTime = this.event.date + " " + this.event.end_time;
           const allDay = this.rnd(0, 3) === 0;
 
           startTime = moment(startTime, "YYYY-MM-DD HH:mm:ss");
           endTime = moment(endTime, "YYYY-MM-DD HH:mm:ss");
 
           lecture.push({
-              name: this.event_lecture.name,
+              name: this.event.name,
               start: startTime.format("YYYY-MM-DD HH:mm:ss"),
               end: endTime.format("YYYY-MM-DD HH:mm:ss"),
               color: 'indigo',
