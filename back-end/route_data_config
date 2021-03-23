@@ -1,0 +1,17 @@
+/users/register: POST request to register a new user
+
+----------------
+
+first_name: First Name
+last_name: Last Name
+dob: Date of Birth
+username: username
+email: Email
+password: password
+
+/users/signin
+
+----------------
+
+username: username
+password: password
