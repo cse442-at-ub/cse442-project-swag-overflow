@@ -2,9 +2,10 @@ var mysql        = require('mysql');
 var sha1         = require('sha1');
 
 var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : '$wag_442',
+    host     : 'oceanus.cse.buffalo.edu',
+    user     : 'mbclever',
+    password : '50261234',
+    db: 'cse442_2021_spring_team_m_db',
     port: 3306
   });
   
@@ -19,7 +20,7 @@ var connection = mysql.createConnection({
   
   // connection.query('CREATE DATABASE users');
   
-  connection.query('USE users');
+  connection.query('USE cse442_2021_spring_team_m_db');
   
   connection.query('CREATE TABLE IF NOT EXISTS user (firstname VARCHAR(20), lastname VARCHAR(20), dob DATE, username VARCHAR(20), email VARCHAR(20), password CHAR(60))', function(error, results, fields) {
     if (error) throw error;
