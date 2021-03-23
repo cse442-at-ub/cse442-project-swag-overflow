@@ -21,7 +21,7 @@ var connection = mysql.createConnection({
   
   connection.query('USE users');
   
-  connection.query('CREATE TABLE IF NOT EXISTS user (firstname VARCHAR(20), lastname VARCHAR(20), dob DATE, username VARCHAR(20), email VARCHAR(20), password VARCHAR(20))', function(error, results, fields) {
+  connection.query('CREATE TABLE IF NOT EXISTS user (firstname VARCHAR(20), lastname VARCHAR(20), dob DATE, username VARCHAR(20), email VARCHAR(20), password CHAR(60))', function(error, results, fields) {
     if (error) throw error;
     // console.log(results);
   });

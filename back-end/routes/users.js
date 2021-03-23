@@ -1,6 +1,9 @@
-var express =   require('express');
+var express    = require('express');
 var connection = require('../db.js');
-var router = express.Router();
+var router     = express.Router();
+var bcrypt     = require('bcrypt');
+
+const saltRounds = 10;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -23,14 +26,22 @@ router.post('/register', function(req, res, next) {
     if (error) throw error;
     if (results.length != 0) {
       res.send("Sorry, an account with that username or email already exists.");
+      // res.send("ACCOUNT ALREADY EXISTS"); USE WHEN FRONT-END BACKEND INTEGRATION COMPLETE
     } else {
       // if it's made it to this point, actually insert user into database
-      connection.query(sql_insert, user, function(error, results, fields) {
-        if (error) throw error;
-        console.log(results);
-      });
-    res.send("Welcome to Swag Overflow, " + req.body.first_name + " " + req.body.last_name + "! Or, should I call you, " + req.body.username + "!");
-    }
+
+      // salt and hash
+      bcrypt.hash(user.password, saltRounds, function (err, hash) {
+        user.password = hash;
+        console.log(user.password);
+        connection.query(sql_insert, user, function(error, results, fields) {
+          if (error) throw error;
+          console.log(results);
+        });
+      });   
+      res.send("Welcome to Swag Overflow, " + req.body.first_name + " " + req.body.last_name + "! Or, should I call you, " + req.body.username + "!");
+      // res.send("REGISTERED"); USE WHEN FRONT-END BACKEND INTEGRATION COMPLETE
+  }
   });
   
 });
@@ -40,17 +51,24 @@ router.post('/signin', function(req, res, next) {
   var user = req.body.username;
   var password = req.body.password;
   var sql = 'SELECT * FROM user WHERE username = ?';
+
   connection.query(sql, [user], function(error, results) {
     if (error) throw error;
     if (results.length == 0) {
       res.send("Sorry, username not found.");
+      // res.send("USER NOT FOUND"); USE WHEN FRONT-END BACKEND INTEGRATION COMPLETE
     } else {
       // username is found, now check the password
-      if (results[0].password == password) {
-        res.send("Success! Logged in as user " + req.body.username);
-      } else {
-        res.send("Sorry, that username doesn't match.");
-      }
+      var hash = results[0].password;
+      bcrypt.compare(password, hash, function(err, result) {
+        if (result) {
+          res.send("Success! Logged in as user " + req.body.username);
+        // res.send("INCORRECT PASSWORD"); USE WHEN FRONT-END BACKEND INTEGRATION COMPLETE
+        } else {
+          res.send("Sorry, that username doesn't match.");
+        // res.send("LOGGED IN"); USE WHEN FRONT-END BACKEND INTEGRATION COMPLETE
+        }
+      });
     }
   });
 });
