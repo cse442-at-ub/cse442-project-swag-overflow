@@ -319,16 +319,33 @@ export default {
   },
 
   methods: {
-      async signUp({ $axios }) {
+      async signUp() {
           this.signup_dialog = false;
-          await this.$axios.$post('/register', {
+          
+          await this.$axios.post('http://localhost:5555/users/register', {
+            headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            "Access-Control-Allow-Credentials": "true",
+            "CrossOrigin": "true"
+            },
+            data: {
               first_name: this.signup.first_name,
               last_name: this.signup.last_name,
               dob: this.signup.DoB,
               username: this.signup.user_name,
               email: this.signup.email,
               password: this.signup.password,
-          }),
+            }
+          })
+          .then(function (response) {
+              console.log(response);
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
           console.log(this.signup);
       }
   }
