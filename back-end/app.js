@@ -1,10 +1,9 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
+var createError  = require('http-errors');
+var express      = require('express');
+var path         = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var mysql      = require('mysql');
-
+var logger       = require('morgan');
+var db           = require('./db.js');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -20,6 +19,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.json() );       // to support JSON-encoded bodies
+app.use(express.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -42,24 +46,5 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "yourusername",
-  password: "yourpassword",
-  port: 3000
-});
-
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-  con.query("CREATE DATABASE mydb", function (err, result) {
-    if (err) throw err;
-    console.log("Database created");
-  });
-});
-
 app.listen(3000);
 
-
-// con.end();

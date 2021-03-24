@@ -1,0 +1,26 @@
+/users/register: POST request to register a new user
+
+first_name: First Name
+last_name: Last Name
+dob: Date of Birth
+username: username
+email: Email
+password: password
+
+----------------
+
+/users/signin: POST request to sign in
+
+username: username
+password: password
+
+----------------
+
+res.send expected messages:
+
+res.send("ACCOUNT ALREADY EXISTS"): a user tried registering with a username/email that already exists
+res.send("REGISTERED"): a user has successfully registered
+
+res.send("USER NOT FOUND"): a user tried signing up with a username that doesn't exists
+res.send("INCORRECT PASSWORD"): username was found but the password is incorrect
+res.send("LOGGED IN"): user successfully signed in
