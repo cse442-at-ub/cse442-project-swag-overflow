@@ -551,7 +551,7 @@ export default {
       events: [],
       colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
-      event_type: ['Lecture', 'Recitation', 'Deadline'],
+      event_type: ['Lecture', 'Recitation'],
       selected_event_type: 'Lecture',
       event: {
           name: '',
