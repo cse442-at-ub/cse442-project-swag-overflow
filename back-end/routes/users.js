@@ -25,8 +25,8 @@ router.post('/register', function(req, res, next) {
   connection.query(sql_select, [user.username, user.email], function(error, results) {
     if (error) throw error;
     if (results.length != 0) {
-      res.send("Sorry, an account with that username or email already exists.");
-      // res.send("ACCOUNT ALREADY EXISTS"); USE WHEN FRONT-END BACKEND INTEGRATION COMPLETE
+      // res.send("Sorry, an account with that username or email already exists.");
+      res.send("ACCOUNT ALREADY EXISTS"); // USE WHEN FRONT-END BACKEND INTEGRATION COMPLETE
     } else {
       // if it's made it to this point, actually insert user into database
 
@@ -39,8 +39,8 @@ router.post('/register', function(req, res, next) {
           console.log(results);
         });
       });   
-      res.send("Welcome to Swag Overflow, " + req.body.first_name + " " + req.body.last_name + "! Or, should I call you, " + req.body.username + "!");
-      // res.send("REGISTERED"); USE WHEN FRONT-END BACKEND INTEGRATION COMPLETE
+      // res.send("Welcome to Swag Overflow, " + req.body.first_name + " " + req.body.last_name + "! Or, should I call you, " + req.body.username + "!");
+      res.send("REGISTERED"); // USE WHEN FRONT-END BACKEND INTEGRATION COMPLETE
   }
   });
   
@@ -55,18 +55,18 @@ router.post('/signin', function(req, res, next) {
   connection.query(sql, [user], function(error, results) {
     if (error) throw error;
     if (results.length == 0) {
-      res.send("Sorry, username not found.");
-      // res.send("USER NOT FOUND"); USE WHEN FRONT-END BACKEND INTEGRATION COMPLETE
+      // res.send("Sorry, username not found.");
+      res.send("USER NOT FOUND"); // USE WHEN FRONT-END BACKEND INTEGRATION COMPLETE
     } else {
       // username is found, now check the password
       var hash = results[0].password;
       bcrypt.compare(password, hash, function(err, result) {
         if (result) {
-          res.send("Success! Logged in as user " + req.body.username);
-        // res.send("INCORRECT PASSWORD"); USE WHEN FRONT-END BACKEND INTEGRATION COMPLETE
+          // res.send("Success! Logged in as user " + req.body.username);
+          res.send("LOGGED IN"); // USE WHEN FRONT-END BACKEND INTEGRATION COMPLETE
         } else {
-          res.send("Sorry, that username doesn't match.");
-        // res.send("LOGGED IN"); USE WHEN FRONT-END BACKEND INTEGRATION COMPLETE
+          // res.send("Sorry, that username doesn't match.");
+          res.send("INCORRECT PASSWORD"); // USE WHEN FRONT-END BACKEND INTEGRATION COMPLETE
         }
       });
     }
