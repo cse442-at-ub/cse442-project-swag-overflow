@@ -378,7 +378,7 @@
                     <v-btn
                       color="success"
                       text
-                      @click="addLecture"
+                      @click="submit"
                       depressed
                     >
                       Save
@@ -482,6 +482,22 @@
         </v-sheet>
       </v-col>
     </v-row>
+    <v-alert
+        :value="success"
+        outlined
+        type="success"
+        transition="scale-transition"
+      >
+        Event Created!
+      </v-alert>
+      <v-alert
+        :value="failure"
+        outlined
+        type="failure"
+        transition="scale-transition"
+      >
+        Uh oh. Something went wrong.
+      </v-alert>
   </v-app>
 
 </template>
@@ -530,7 +546,11 @@ export default {
         {name: 'Mike', abbr: 'MC', id: 1},
         {name: 'Adarsh', abbr: 'AS', id: 2},
         {name: 'Truong', abbr: 'TP', id: 3},
-      ]
+      ],
+
+      // alert variables
+      success: false,
+      failure: false
     }),
 
     mounted () {
@@ -629,7 +649,18 @@ export default {
 
           this.events = lecture
       },
-    },
+      async submit() {
+        let data = this.event
+        data.event_type = this.selected_event_type
+
+        // This post request is subject to change as the back-end is developed
+        try {
+          await $axios.post("/users/signup", data).then(this.success = true);
+        } catch (error) {
+          this.failure = true
+        }
+      }
+    }
 }
 
 </script>
