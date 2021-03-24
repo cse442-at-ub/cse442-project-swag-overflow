@@ -107,13 +107,32 @@
                                 md="4"
                                 class="ml-3"
                               >
-                                <v-text-field
-                                  dense
-                                  prepend-icon="mdi-clock-outline"
-                                  outlined
-                                  v-model="event.start_date"
-                                  label= "Date"
-                                ></v-text-field>
+                                <v-menu
+                                  v-model="lecture_menu"
+                                  :close-on-content-click="false"
+                                  :nudge-right="40"
+                                  transition="scale-transition"
+                                  offset-y
+                                  min-width="auto"
+                                >
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-text-field
+                                      v-model="event.start_date"
+                                      label="Date"
+                                      prepend-icon="mdi-clock-outline"
+                                      dense
+                                      outlined
+                                      readonly
+                                      v-bind="attrs"
+                                      v-on="on"
+                                    ></v-text-field>
+                                  </template>
+                                  <v-date-picker
+                                    v-model="event.start_date"
+                                    @input="lecture_menu = false"
+                                  >
+                                  </v-date-picker>
+                                </v-menu>
                               </v-col>
                               <v-col
                                 cols="12"
@@ -122,6 +141,7 @@
                               >
                                 <v-text-field
                                   dense
+                                  outlined
                                   v-model="event.start_time"
                                   label= "Start Time"
                                 ></v-text-field>
@@ -133,6 +153,7 @@
                               >
                                 <v-text-field
                                   dense
+                                  outlined
                                   v-model="event.end_time"
                                   label= "End Time"
                                 ></v-text-field>
@@ -195,14 +216,34 @@
                                 md="4"
                                 class="ml-3"
                               >
-                                <v-text-field
-                                  dense
-                                  prepend-icon="mdi-clock-outline"
-                                  outlined
-                                  v-model="event.start_date"
-                                  label= "Date"
-                                ></v-text-field>
+                                <v-menu
+                                  v-model="recitation_menu"
+                                  :close-on-content-click="false"
+                                  :nudge-right="40"
+                                  transition="scale-transition"
+                                  offset-y
+                                  min-width="auto"
+                                >
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-text-field
+                                      v-model="event.start_date"
+                                      label="Date"
+                                      prepend-icon="mdi-clock-outline"
+                                      dense
+                                      outlined
+                                      readonly
+                                      v-bind="attrs"
+                                      v-on="on"
+                                    ></v-text-field>
+                                  </template>
+                                  <v-date-picker
+                                    v-model="event.start_date"
+                                    @input="recitation_menu = false"
+                                  >
+                                  </v-date-picker>
+                                </v-menu>
                               </v-col>
+
                               <v-col
                                 cols="12"
                                 sm="3"
@@ -378,7 +419,7 @@
                     <v-btn
                       color="success"
                       text
-                      @click="submit"
+                      @click="addEvent"
                       depressed
                     >
                       Save
@@ -482,22 +523,6 @@
         </v-sheet>
       </v-col>
     </v-row>
-    <v-alert
-        :value="success"
-        outlined
-        type="success"
-        transition="scale-transition"
-      >
-        Event Created!
-      </v-alert>
-      <v-alert
-        :value="failure"
-        outlined
-        type="failure"
-        transition="scale-transition"
-      >
-        Uh oh. Something went wrong.
-      </v-alert>
   </v-app>
 
 </template>
@@ -507,6 +532,9 @@ import moment from 'moment'
 
 export default {
     data: () => ({
+      lecture_menu: false,
+      recitation_menu: false,
+      deadline_menu: false,
       new_event: false,
       form: false,
       focus: '',
@@ -523,7 +551,7 @@ export default {
       events: [],
       colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
-      event_type: ['Lecture', 'Recitation', 'Deadline', 'Task'],
+      event_type: ['Lecture', 'Recitation', 'Deadline'],
       selected_event_type: 'Lecture',
       event: {
           name: '',
@@ -547,14 +575,11 @@ export default {
         {name: 'Adarsh', abbr: 'AS', id: 2},
         {name: 'Truong', abbr: 'TP', id: 3},
       ],
-
-      // alert variables
-      success: false,
-      failure: false
     }),
 
     mounted () {
-      this.$refs.calendar.checkChange()
+      this.$refs.calendar.checkChange();
+      this.$refs.calendar.scrollToTime('08:00')
     },
 
     methods: {
@@ -594,32 +619,6 @@ export default {
       },
 
       updateRange ({ start, end }) {
-          /*
-          const events = [];
-
-          const min = new Date(`${start.date}T00:00:00`);
-          const max = new Date(`${end.date}T23:59:59`);
-          const days = (max.getTime() - min.getTime()) / 86400000;
-          const eventCount = this.rnd(days, days + 20);
-
-          for (let i = 0; i < eventCount; i++) {
-              const allDay = this.rnd(0, 3) === 0;
-              const firstTimestamp = this.rnd(min.getTime(), max.getTime());
-              const first = new Date(firstTimestamp - (firstTimestamp % 900000));
-              const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
-              const second = new Date(first.getTime() + secondTimestamp);
-
-              events.push({
-                  name: this.names[this.rnd(0, this.names.length - 1)],
-                  start: first,
-                  end: second,
-                  color: this.colors[this.rnd(0, this.colors.length - 1)],
-                  timed: !allDay,
-              })
-          }
-
-          this.events = events
-           */
           this.start = start;
           this.end = end
       },
@@ -628,30 +627,40 @@ export default {
           return Math.floor((b - a + 1) * Math.random()) + a
       },
 
+      addEvent(){
+          let userEvent = [];
 
-      addLecture(){
-          const lecture = [];
+          let startTime = '';
+          let endTime = '';
 
-          let startTime = this.event.date + ' '  + this.event.start_time;
-          let endTime = this.event.date + " " + this.event.end_time;
-          const allDay = this.rnd(0, 3) === 0;
+          if (this.event.start_date == this.event.end_date || this.event.end_date == null) {
+              startTime = this.event.start_date + ' ' + this.event.start_time;
+              endTime = this.event.start_date + " " + this.event.end_time;
+          }
+          else {
+              startTime = this.event.start_date + ' ' + this.event.start_time;
+              endTime = this.event.end_date + " " + this.event.start_time;
+          }
 
           startTime = moment(startTime, "YYYY-MM-DD HH:mm:ss");
           endTime = moment(endTime, "YYYY-MM-DD HH:mm:ss");
 
-          lecture.push({
+          userEvent.push({
               name: this.event.name,
               start: startTime.format("YYYY-MM-DD HH:mm:ss"),
               end: endTime.format("YYYY-MM-DD HH:mm:ss"),
-              color: 'indigo',
-              timed: !allDay,
+              details: this.event.description,
+              attendees: this.event.attendees,
+              color: this.colors[this.rnd(0, this.colors.length - 1)],
           });
 
-          this.events = lecture
+          console.log(userEvent);
+
+          this.events = userEvent
       },
       async submit() {
-        let data = this.event
-        data.event_type = this.selected_event_type
+        let data = this.event;
+        // data.event_type = this.selected_event_type
 
         // This post request is subject to change as the back-end is developed
         try {
