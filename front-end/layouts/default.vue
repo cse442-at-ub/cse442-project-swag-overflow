@@ -218,7 +218,7 @@
                   :loading="isLoading"
                   color="success"
                   text
-                  @click="login_dialog = false"
+                  @click="logIN"
                   depressed
                 >
                   Log in
@@ -227,9 +227,8 @@
             </v-card>
           </v-form>
         </v-dialog>
-
-
       </v-container>
+
     </v-app-bar>
     <v-main>
       <v-container>
@@ -242,6 +241,16 @@
       app
     >
       <span>&copy; {{ new Date().getFullYear() }} - A Swag Overflow Project</span>
+      <v-alert
+        :value="alert"
+        type="success"
+        border="top"
+        dense
+        dismissible
+        transition="scale-transition"
+        >
+        Success! Please continue onto the profile page.
+      </v-alert>
     </v-footer>
   </v-app>
 </template>
@@ -251,6 +260,7 @@
 export default {
   data () {
     return {
+      alert: false,
       sneak: false,
       form: false,
       menu: false,
@@ -320,7 +330,7 @@ export default {
   methods: {
       async signUp() {
           this.signup_dialog = false;
-          
+          this.alert = true;
           await this.$axios.post('http://localhost:5555/users/register', {
             headers: {
             "Content-Type": "application/json",
@@ -337,6 +347,32 @@ export default {
               username: this.signup.user_name,
               email: this.signup.email,
               password: this.signup.password,
+            }
+          })
+          .then(function (response) {
+              this.alert = true;
+              console.log(response);
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
+          console.log(this.signup);
+      },
+    async logIN() {
+          this.login_dialog = false;
+          this.alert = true;
+          await this.$axios.post('http://localhost:5555/users/signin', {
+            headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            "Access-Control-Allow-Credentials": "true",
+            "CrossOrigin": "true"
+            },
+            data: {
+              username: this.login.user_name,
+              password: this.login.password
             }
           })
           .then(function (response) {
