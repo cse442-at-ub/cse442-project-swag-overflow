@@ -6,11 +6,10 @@
       <v-container class="py-0 fill-height">
         <v-avatar
           class="mr-10"
-          color="grey darken-1"
-          size="32"
+          size="40"
         >
           <img
-            src="https://cdn.vuetifyjs.com/images/john.jpg"
+            src="logo.png"
             alt="John"
           >
         </v-avatar>

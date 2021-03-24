@@ -1,9 +1,12 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
+      <v-img
+        src="1ad.png"
+        center
+        max-height="200px"
+      ></v-img>
       <div class="text-center">
-        <logo />
-        <vuetify-logo />
       </div>
       <v-card>
         <v-card-title class="headline">
@@ -22,7 +25,11 @@
           </p>
 
           <p>
-            [PROFILE] is your personal hub for all things calendar
+            [PROFILE] == Your personal hub for all things calendar
+            <br>
+            [SCHEDULER] == You can schedule meetings, discuss plans and projects!
+            <br>
+            [UPDATES] == TBD: Stay tuned!
           </p>
 
           <p>
