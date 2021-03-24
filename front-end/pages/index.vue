@@ -7,32 +7,27 @@
       </div>
       <v-card>
         <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
+          Welcome to SwagOverflow!
         </v-card-title>
         <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
+          <p>SwagOverflow is a simple calendar applications, capable of many powerful things! It was designed to help you manage your time and make you more productive.</p>
           <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
+            This is an open source project! We are building our documentation. Feel free to chime in @  <a
+              href="mailto: adarshsi@buffalo.edu"
               target="_blank"
               rel="noopener noreferrer"
             >
-              documentation
+              adarshsi@buffalo.edu
             </a>.
           </p>
+
           <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
+            [PROFILE] is your personal hub for all things calendar
           </p>
+
           <p>
             Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
+              href="https://github.com/cse442-spring-2020-offering/cse442-project-swag-overflow/issues"
               target="_blank"
               rel="noopener noreferrer"
               title="contribute"
@@ -40,37 +35,18 @@
               issue board
             </a>.
           </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
+          <p>Want to maximize your lifestyle? Click on the Sign up button now!</p>
           <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
+            <em><small>&mdash; Michael Cleversley</small></em>
+            <em><small>, Adarsh Sivadas</small></em>
+            <em><small>, Truong Pham</small></em>
           </div>
           <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
+          <p
           >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
+            Made with ❤️ from SwagOverflow
+          </p>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-col>
   </v-row>

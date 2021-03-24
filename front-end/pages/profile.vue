@@ -658,17 +658,6 @@ export default {
 
           this.events = userEvent
       },
-      async submit() {
-        let data = this.event;
-        // data.event_type = this.selected_event_type
-
-        // This post request is subject to change as the back-end is developed
-        try {
-          await $axios.post("/users/signup", data).then(this.success = true);
-        } catch (error) {
-          this.failure = true
-        }
-      }
     }
 }
 

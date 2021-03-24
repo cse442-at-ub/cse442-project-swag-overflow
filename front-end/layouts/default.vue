@@ -145,7 +145,7 @@
                 :loading="isLoading"
                 color="success"
                 text
-                @click="submit"
+                @click="signUp"
                 depressed
               >
                 Submit
@@ -248,6 +248,7 @@
 </template>
 
 <script>
+
 export default {
   data () {
     return {
@@ -318,14 +319,18 @@ export default {
   },
 
   methods: {
-    submit() {
-      console.log("SUBMITTED");
-      let data = {
-        bop: "thing 1",
-        bop2: "thing 2"
+      async signUp({ $axios }) {
+          this.signup_dialog = false;
+          await this.$axios.$post('/register', {
+              first_name: this.signup.first_name,
+              last_name: this.signup.last_name,
+              dob: this.signup.DoB,
+              username: this.signup.user_name,
+              email: this.signup.email,
+              password: this.signup.password,
+          }),
+          console.log(this.signup);
       }
-      axios.post("/users/signup", data);
-    }
   }
 }
 </script>
