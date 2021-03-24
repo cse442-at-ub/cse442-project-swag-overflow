@@ -4,6 +4,7 @@ var path         = require('path');
 var cookieParser = require('cookie-parser');
 var logger       = require('morgan');
 var db           = require('./db.js');
+var cors         = require('cors')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -31,8 +32,16 @@ app.use('/users', usersRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Authorization");
+  res.header("Content-Type", "application/json");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("crossorigin", "true");
 });
 
+app.use(cors())
+app.options('*', cors())
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
@@ -46,5 +55,5 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-app.listen(3000);
+app.listen(5555);
 

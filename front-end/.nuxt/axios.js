@@ -171,15 +171,6 @@ export default (ctx, inject) => {
     headers
   }
 
-  // Proxy SSR request headers headers
-  if (process.server && ctx.req && ctx.req.headers) {
-    const reqHeaders = { ...ctx.req.headers }
-    for (const h of ["accept","cf-connecting-ip","cf-ray","content-length","content-md5","content-type","host","x-forwarded-host","x-forwarded-port","x-forwarded-proto"]) {
-      delete reqHeaders[h]
-    }
-    axiosOptions.headers.common = { ...reqHeaders, ...axiosOptions.headers.common }
-  }
-
   if (process.server) {
     // Don't accept brotli encoding because Node can't parse it
     axiosOptions.headers.common['accept-encoding'] = 'gzip, deflate'
