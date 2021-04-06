@@ -287,6 +287,10 @@ export default {
               title: 'Updates',
               to: '/updates'
           },
+          {
+            title: 'Associates',
+            to: '/associates'
+          },
       ],
       signup: {
           first_name: '',
