@@ -34,9 +34,9 @@ export default {
   mounted () {
     this.friendsList = this.$store.state.user.friends
     // Remove this soon
-    this.friendsList.push("Truong")
-    this.friendsList.push("Adarsh")
-    this.friendsList.push("Mike")
+    // this.friendsList.push("Truong")
+    // this.friendsList.push("Adarsh")
+    // this.friendsList.push("Mike")
   }
 }
 

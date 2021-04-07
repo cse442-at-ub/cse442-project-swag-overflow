@@ -371,7 +371,8 @@ export default {
       async signUp() {
           this.signup_dialog = false;
           this.alert = true;
-          await this.$axios.post('http://localhost:5555/users/register', {
+          const PATH_API = '/users/register'
+          await this.$axios.post(`/api/${PATH_API}`, {
             headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
@@ -401,7 +402,8 @@ export default {
     async logIN() {
           this.login_dialog = false;
           this.alert = true;
-          await this.$axios.post('http://localhost:5555/users/signin', {
+          const PATH_API = '/users/signin'
+          await this.$axios.post(`/api/${PATH_API}`, {
             headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",

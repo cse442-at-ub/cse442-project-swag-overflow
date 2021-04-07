@@ -37,15 +37,15 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy'
   ],
-  
   axios: {
-    baseURL: 'http://localhost:3000',
-    proxyHeaders: false,
-    credentials: false
+    proxy: true
   },
-
+  proxy: {
+    '/api/': { target: 'http://localhost:5555/', pathRewrite: {'^/api/': ''}, changeOrigin: true }
+  },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
