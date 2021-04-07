@@ -39,19 +39,44 @@
               v-on="on"
               class="ma-2"
             >
-              Notification
+              Notifications
             </v-btn>
           </template>
 
 
-          <v-col cols="12"
-            v-for="item in notifications"
-            :key="item">
+          <v-col cols="12">
             <v-card
-              color="warning"
+              color="error"
+              v-if="notifications.length > 0"
             >
+              <v-list class="transparent">
+                <v-list-item
+                  v-for="item in notifications"
+                  :key="item.id"
+                >
+                  <v-list-item-title>
+                    {{ item.title }}
+                  </v-list-item-title>
 
-                <v-card-title v-text="item"></v-card-title>
+                  <v-list-item>
+                    <div class="close">
+                      <v-chip
+                        @click="removeNotification(item.id)"
+                        >
+                        X
+                      </v-chip>
+                    </div>
+                  </v-list-item>
+                </v-list-item>
+              </v-list>
+            </v-card>
+            <v-card
+              color="success"
+              v-else
+            >
+              <v-card-title class="subtitle">
+                All caught up
+              </v-card-title>
             </v-card>
           </v-col>
 
@@ -295,6 +320,7 @@ export default {
   data () {
     return {
       notification_panel: false,
+      show: true,
       alert: false,
       sneak: false,
       form: false,
@@ -351,7 +377,7 @@ export default {
           user_name: '',
           password: '',
       },
-      notifications: [...Array(4)].map((_, i) => `Item ${i}`),
+      notifications: [{id: 0, title: 'KYS'}, {id: 1, title: 'Brush'}, {id: 2, title: 'All chest no legs'}],
       rules: {
           email: v => !!(v || '').match(/@/) || 'Please enter a valid email',
           length: len => v => (v || '').length >= len || `Invalid character length, required ${len}`,
@@ -368,6 +394,11 @@ export default {
   },
 
   methods: {
+      removeNotification(id) {
+          this.notifications = this.notifications.filter(function( obj ) {
+              return obj.id !== id;
+          });
+      },
       async signUp() {
           this.signup_dialog = false;
           this.alert = true;
