@@ -24,6 +24,40 @@
         </v-btn>
 
         <v-spacer></v-spacer>
+        <!-- Notification Panel !-->
+        <v-menu
+          v-model="notification_panel"
+          :close-on-content-click="false"
+          :nudge-width="200"
+          offset-y
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="warning"
+              dark
+              v-bind="attrs"
+              v-on="on"
+              class="ma-2"
+            >
+              Notification
+            </v-btn>
+          </template>
+
+
+          <v-col cols="12"
+            v-for="item in notifications"
+            :key="item">
+            <v-card
+              color="warning"
+            >
+
+                <v-card-title v-text="item"></v-card-title>
+            </v-card>
+          </v-col>
+
+        </v-menu>
+
+
         <!-- Sign up form !-->
         <v-dialog
           v-model="signup_dialog"
@@ -260,6 +294,7 @@
 export default {
   data () {
     return {
+      notification_panel: false,
       alert: false,
       sneak: false,
       form: false,
@@ -316,6 +351,7 @@ export default {
           user_name: '',
           password: '',
       },
+      notifications: [...Array(4)].map((_, i) => `Item ${i}`),
       rules: {
           email: v => !!(v || '').match(/@/) || 'Please enter a valid email',
           length: len => v => (v || '').length >= len || `Invalid character length, required ${len}`,
@@ -324,7 +360,7 @@ export default {
           required: v => !!v || 'This field is required'
       },
       miniVariant: false,
-      title: 'Vuetify.js'
+      title: 'SwagOverflow'
     }
   },
 
