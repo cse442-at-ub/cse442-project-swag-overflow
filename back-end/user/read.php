@@ -16,9 +16,6 @@
 
     // query products
     $stmt = $user->read();
-
-    // echo $stmt;
-
     $num = $stmt->rowCount();
     
     // check if more than 0 record found
