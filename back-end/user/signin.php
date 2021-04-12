@@ -35,25 +35,19 @@ if($successful){
         "email" => $user->email,
         "password" => $user->password
     );
-  
-    // set response code - 200 OK
-    // http_response_code(200);
+    // make it json format
+    echo "Successfully signed in.\n";
+    echo json_encode($user_arr);
 
     header("message: success");
     header("firstname: $user->firstname");
     header("lastname: $user->lastname");
     header("username: $user->username");
     header("Location: $url");
-  
-    // make it json format
-    echo "Successfully signed in.\n"; // TODO 
-    echo json_encode($user_arr);
-}
-  
-else {
-    // set response code - 404 Not found
-    http_response_code(404);
-    
+
+    // set response code - 200 OK
+    http_response_code(200);
+} else {
     if ($user->password == "DNM") {
         // tell the user the password Does Not Match
         header("message: error-dnm");
@@ -65,5 +59,8 @@ else {
         header("Location: $url");
         echo json_encode(array("message" => "User does not exist."));
     }
+
+    // set response code - 404 Not found
+    http_response_code(404);
 }
 ?>

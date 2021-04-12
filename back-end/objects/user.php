@@ -74,7 +74,7 @@ class User {
     }
 
     // sign in user
-    function signin($data){
+    function signin($data) {
     
         // query to read single record
         $query = "SELECT * FROM user WHERE username = ?";
