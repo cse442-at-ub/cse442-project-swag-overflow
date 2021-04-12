@@ -48,9 +48,11 @@
     
         // set response code - 200 OK
         http_response_code(200);
-    
-        // show products data in json format
+        
         echo json_encode($users_arr);
+
+        $url = 'http://localhost:3000/';
+        header("Location: $url");
     } else {
   
         // set response code - 404 Not found

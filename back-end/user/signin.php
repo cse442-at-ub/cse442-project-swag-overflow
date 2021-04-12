@@ -22,6 +22,8 @@ $data = json_decode(file_get_contents("php://input"));
   
 // read the details of user to be edited
 $successful = $user->signin($data);
+
+$url = 'http://localhost:3000/profile';
   
 if($successful){
     // create array
@@ -35,7 +37,13 @@ if($successful){
     );
   
     // set response code - 200 OK
-    http_response_code(200);
+    // http_response_code(200);
+
+    header("message: success");
+    header("firstname: $user->firstname");
+    header("lastname: $user->lastname");
+    header("username: $user->username");
+    header("Location: $url");
   
     // make it json format
     echo "Successfully signed in.\n"; // TODO 
@@ -48,9 +56,13 @@ else {
     
     if ($user->password == "DNM") {
         // tell the user the password Does Not Match
+        header("message: error-dnm");
+        header("Location: $url");
         echo json_encode(array("message" => "Password does not match."));
     } else {
         // tell the user user does not exist
+        header("message: error-nm");
+        header("Location: $url");
         echo json_encode(array("message" => "User does not exist."));
     }
 }
