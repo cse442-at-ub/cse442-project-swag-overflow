@@ -295,22 +295,14 @@
       </v-container>
     </v-main>
 
+
     <v-footer
       :absolute="!fixed"
       app
     >
       <span>&copy; {{ new Date().getFullYear() }} - A Swag Overflow Project</span>
-      <v-alert
-        :value="alert"
-        type="success"
-        border="top"
-        dense
-        dismissible
-        transition="scale-transition"
-        >
-        Success! Please continue onto the profile page.
-      </v-alert>
     </v-footer>
+    <notifications group="login"/>
   </v-app>
 </template>
 
@@ -321,7 +313,6 @@ export default {
     return {
       notification_panel: false,
       show: true,
-      alert: false,
       sneak: false,
       form: false,
       menu: false,
@@ -399,10 +390,26 @@ export default {
               return obj.id !== id;
           });
       },
+      loginNotification(name, success) {
+        if (success) {
+          var str1 = "Hello " + name + ".";
+          this.$notify({
+            'group': 'login',
+            'title': str1,
+            'text': 'Welcome to Swag Overflow!'
+            })
+        }
+        else {
+          this.$notify({
+            'group': 'login',
+            'title': 'Uh oh. Something went wrong!',
+            'text': 'Please try again.'
+            })
+        }
+      },
       async signUp() {
           this.signup_dialog = false;
-          this.alert = true;
-          const PATH_API = '/users/register'
+          const PATH_API = '/user/register.php'
           await this.$axios.post(`/api/${PATH_API}`, {
             headers: {
             "Content-Type": "application/json",
@@ -422,18 +429,17 @@ export default {
             }
           })
           .then(function (response) {
-              this.alert = true;
-              console.log(response);
+              headers = response.headers
+              this.loginNotification(headers['firstname'], true)
           })
           .catch(function (error) {
-              console.log(error);
+              this.loginNotification('error', false)
           });
           console.log(this.signup);
       },
     async logIN() {
           this.login_dialog = false;
-          this.alert = true;
-          const PATH_API = '/users/signin'
+          const PATH_API = '/user/signin.php'
           await this.$axios.post(`/api/${PATH_API}`, {
             headers: {
             "Content-Type": "application/json",
@@ -449,12 +455,12 @@ export default {
             }
           })
           .then(function (response) {
-              console.log(response);
+              headers = response.headers
+              this.loginNotification(headers['firstname'], true)
           })
           .catch(function (error) {
-              console.log(error);
+              this.loginNotification('error', false)
           });
-          console.log(this.signup);
       }
   }
 }

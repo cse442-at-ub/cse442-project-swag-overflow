@@ -37,6 +37,8 @@ export default {
     // this.friendsList.push("Truong")
     // this.friendsList.push("Adarsh")
     // this.friendsList.push("Mike")
+  },
+  methods: {
   }
 }
 
