@@ -48,10 +48,10 @@
     
         // set response code - 200 OK
         http_response_code(200);
-        
+
         echo json_encode($users_arr);
 
-        $url = 'http://localhost:3000/';
+        $url = 'https://www-student.cse.buffalo.edu/CSE442-542/2021-Spring/cse-442m/front-end/dist/';
         header("Location: $url");
     } else {
   

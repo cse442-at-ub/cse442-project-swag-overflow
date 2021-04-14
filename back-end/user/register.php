@@ -22,7 +22,7 @@ $data = json_decode(file_get_contents("php://input"))->data;
 // $data = $_POST["data"];
 // echo $data;
 
-$url = 'http://localhost:3000/profile';
+$url = 'https://www-student.cse.buffalo.edu/CSE442-542/2021-Spring/cse-442m/front-end/dist/';
   
 // make sure data is not empty for all fields
 if (
