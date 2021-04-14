@@ -7,8 +7,8 @@ export default {
     base: '/CSE442-542/2021-Spring/cse-442m/front-end/dist'
   },
   head: {
-    titleTemplate: '%s - front-end',
-    title: 'front-end',
+    titleTemplate: 'Swag Overflow',
+    title: 'Swag Overflow',
     htmlAttrs: {
       lang: 'en'
     },

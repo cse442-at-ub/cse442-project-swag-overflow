@@ -2,36 +2,36 @@
   {
     "name": "associates",
     "path": "/associates",
-    "component": "C:\\\\Users\\\\cleve\\\\Documents\\\\Swag Overflow\\\\cse442-project-swag-overflow-dev\\\\cse442-project-swag-overflow\\\\front-end\\\\pages\\\\associates.vue",
+    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/associates.vue",
     "chunkName": "pages/associates",
-    "_name": "_82ad92d8"
+    "_name": "_3a3f294e"
   },
   {
     "name": "profile",
     "path": "/profile",
-    "component": "C:\\\\Users\\\\cleve\\\\Documents\\\\Swag Overflow\\\\cse442-project-swag-overflow-dev\\\\cse442-project-swag-overflow\\\\front-end\\\\pages\\\\profile.vue",
+    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/profile.vue",
     "chunkName": "pages/profile",
-    "_name": "_75adcfba"
+    "_name": "_85714dd6"
   },
   {
     "name": "scheduler",
     "path": "/scheduler",
-    "component": "C:\\\\Users\\\\cleve\\\\Documents\\\\Swag Overflow\\\\cse442-project-swag-overflow-dev\\\\cse442-project-swag-overflow\\\\front-end\\\\pages\\\\scheduler.vue",
+    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/scheduler.vue",
     "chunkName": "pages/scheduler",
-    "_name": "_b71dd8e8"
+    "_name": "_6bcdb227"
   },
   {
     "name": "updates",
     "path": "/updates",
-    "component": "C:\\\\Users\\\\cleve\\\\Documents\\\\Swag Overflow\\\\cse442-project-swag-overflow-dev\\\\cse442-project-swag-overflow\\\\front-end\\\\pages\\\\updates.vue",
+    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/updates.vue",
     "chunkName": "pages/updates",
-    "_name": "_49f3ae5b"
+    "_name": "_dce59094"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "C:\\\\Users\\\\cleve\\\\Documents\\\\Swag Overflow\\\\cse442-project-swag-overflow-dev\\\\cse442-project-swag-overflow\\\\front-end\\\\pages\\\\index.vue",
+    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/index.vue",
     "chunkName": "pages/index",
-    "_name": "_695a5ca3"
+    "_name": "_4cec80be"
   }
 ]
