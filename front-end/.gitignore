@@ -90,4 +90,4 @@ sw.*
 *.swp
 
 # nuxt config
-front-end/.nuxt/
+.nuxt/
