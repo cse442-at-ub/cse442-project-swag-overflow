@@ -400,19 +400,35 @@ export default {
             })
         }
         else {
-          this.$notify({
+          if (name == 'error-dnm') {
+            this.$notify({
+            'group': 'login',
+            'title': 'Uh oh. Something went wrong!',
+            'text': 'Password does not match. Please try again.'
+            })
+          } else if (name == 'error-nm') {
+            this.$notify({
+            'group': 'login',
+            'title': 'Uh oh. Something went wrong!',
+            'text': 'User does not exist. Please try again.'
+            })
+          } else {
+            this.$notify({
             'group': 'login',
             'title': 'Uh oh. Something went wrong!',
             'text': 'Please try again.'
             })
+          }
         }
       },
       async signUp() {
           this.signup_dialog = false;
-          const PATH_API = '/user/register.php'
+          const PATH_API = 'user/register.php'
+          var self = this;
           await this.$axios.post(`/api/${PATH_API}`, {
             headers: {
             "Content-Type": "application/json",
+            "Accept": "*/*",
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type, Authorization",
@@ -420,26 +436,31 @@ export default {
             "CrossOrigin": "true"
             },
             data: {
-              first_name: this.signup.first_name,
-              last_name: this.signup.last_name,
+              firstname: this.signup.first_name,
+              lastname: this.signup.last_name,
               dob: this.signup.DoB,
               username: this.signup.user_name,
               email: this.signup.email,
               password: this.signup.password,
             }
+            
           })
+          // console.log(data)
           .then(function (response) {
-              headers = response.headers
-              this.loginNotification(headers['firstname'], true)
+              console.log(response)
+              var headers = response.headers
+              self.loginNotification(headers['firstname'], true)
           })
           .catch(function (error) {
-              this.loginNotification('error', false)
+              console.log(error)
+              self.loginNotification('error', false)
           });
           console.log(this.signup);
       },
     async logIN() {
           this.login_dialog = false;
-          const PATH_API = '/user/signin.php'
+          var self = this;
+          const PATH_API = 'user/signin.php'
           await this.$axios.post(`/api/${PATH_API}`, {
             headers: {
             "Content-Type": "application/json",
@@ -455,11 +476,22 @@ export default {
             }
           })
           .then(function (response) {
-              headers = response.headers
-              this.loginNotification(headers['firstname'], true)
+              var headers = response.headers
+              self.loginNotification(headers['firstname'], true)
           })
           .catch(function (error) {
-              this.loginNotification('error', false)
+            console.log(error.response)
+            var headers = error.response.headers
+            console.log(headers)
+            if (headers.hasOwnProperty('message')) {
+              if (headers['message'] === 'error-dnm') {
+                self.loginNotification('error-dnm', false)
+              } else {
+                self.loginNotification('error-nm', false)
+              }
+            } else {
+              self.loginNotification('error', false)
+            }
           });
       }
   }

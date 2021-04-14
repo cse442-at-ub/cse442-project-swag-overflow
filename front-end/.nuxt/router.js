@@ -4,11 +4,11 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _3a3f294e = () => interopDefault(import('../pages/associates.vue' /* webpackChunkName: "pages/associates" */))
-const _85714dd6 = () => interopDefault(import('../pages/profile.vue' /* webpackChunkName: "pages/profile" */))
-const _6bcdb227 = () => interopDefault(import('../pages/scheduler.vue' /* webpackChunkName: "pages/scheduler" */))
-const _dce59094 = () => interopDefault(import('../pages/updates.vue' /* webpackChunkName: "pages/updates" */))
-const _4cec80be = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
+const _82ad92d8 = () => interopDefault(import('..\\pages\\associates.vue' /* webpackChunkName: "pages/associates" */))
+const _75adcfba = () => interopDefault(import('..\\pages\\profile.vue' /* webpackChunkName: "pages/profile" */))
+const _b71dd8e8 = () => interopDefault(import('..\\pages\\scheduler.vue' /* webpackChunkName: "pages/scheduler" */))
+const _49f3ae5b = () => interopDefault(import('..\\pages\\updates.vue' /* webpackChunkName: "pages/updates" */))
+const _695a5ca3 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
 
@@ -23,23 +23,23 @@ export const routerOptions = {
 
   routes: [{
     path: "/associates",
-    component: _3a3f294e,
+    component: _82ad92d8,
     name: "associates"
   }, {
     path: "/profile",
-    component: _85714dd6,
+    component: _75adcfba,
     name: "profile"
   }, {
     path: "/scheduler",
-    component: _6bcdb227,
+    component: _b71dd8e8,
     name: "scheduler"
   }, {
     path: "/updates",
-    component: _dce59094,
+    component: _49f3ae5b,
     name: "updates"
   }, {
     path: "/",
-    component: _4cec80be,
+    component: _695a5ca3,
     name: "index"
   }],
 

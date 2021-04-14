@@ -45,7 +45,7 @@ export default {
     proxy: true
   },
   proxy: {
-    '/api/': { target: 'http://localhost/', pathRewrite: {'^/api/': ''}, changeOrigin: true }
+    '/api/': { target: 'http://localhost:80/', pathRewrite: {'^/api/': ''}, changeOrigin: true }
   },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
