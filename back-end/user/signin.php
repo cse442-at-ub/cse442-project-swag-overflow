@@ -18,7 +18,7 @@ $db = $database->getConnection();
 $user = new User($db);
   
 // get posted data
-$data = json_decode(file_get_contents("php://input"));
+$data = json_decode(file_get_contents("php://input"))->data;
   
 // read the details of user to be edited
 $successful = $user->signin($data);
