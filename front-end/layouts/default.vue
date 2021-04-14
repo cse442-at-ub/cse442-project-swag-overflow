@@ -5,35 +5,57 @@
       absolute
       temporary
       right
+      :width="500"
     >
-
       <v-list-item>
-        <v-list-item-avatar>
-          <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
-        </v-list-item-avatar>
-
         <v-list-item-content>
-          <v-list-item-title>John Leider</v-list-item-title>
+          <v-list-item-title>Your Notification Panel</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
       <v-divider></v-divider>
 
-      <v-list dense>
-        <v-list-item
-          v-for="item in notifications"
-          :key="item.id"
-          link
+      <v-list two-line>
+        <v-list-item-group
+          v-model="notification_panel"
+          active-class="pink--text"
+          multiple
         >
-          <v-list-item-icon>
-            <v-icon>{{ item.id }}</v-icon>
-          </v-list-item-icon>
+          <template v-for="(item, index) in notifications">
+            <v-list-item :key="item.id">
+              <template v-slot:default="{ active }">
+                <v-list-item-content>
+                  <v-list-item-title v-text="item.title"></v-list-item-title>
 
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+                  <v-list-item-subtitle
+                    class="text--primary"
+                    v-text="item.headline"
+                  ></v-list-item-subtitle>
+
+                  <v-list-item-subtitle v-text="item.subtitle"></v-list-item-subtitle>
+                </v-list-item-content>
+
+                <v-list-item-action>
+                  <v-list-item-action-text v-text="item.action"></v-list-item-action-text>
+
+                  <v-icon
+                    color="error"
+                    @click="removeNotification(item.id)"
+                  >
+                    mdi-delete
+                  </v-icon>
+                </v-list-item-action>
+              </template>
+            </v-list-item>
+
+            <v-divider
+              v-if="index < notifications.length - 1"
+              :key="index"
+            ></v-divider>
+          </template>
+        </v-list-item-group>
       </v-list>
+
     </v-navigation-drawer>
 
     <v-app-bar
@@ -69,7 +91,9 @@
           class="ma-2"
           @click.stop = "notification_panel = !notification_panel"
         >
-          Notifications
+          <v-icon dark>
+            mdi-bell
+          </v-icon>
         </v-btn>
 
 
@@ -358,7 +382,43 @@ export default {
           user_name: '',
           password: '',
       },
-      notifications: [{id: 0, title: 'KYS'}, {id: 1, title: 'Brush'}, {id: 2, title: 'All chest no legs'}],
+      notifications: [
+            {
+                id: 0,
+                action: '15 min',
+                headline: '20% of the grade!',
+                subtitle: `Make sure the meeting goes well.`,
+                title: 'CSE 442 Sprint #3',
+            },
+            {
+                id: 1,
+                action: '3 hr',
+                headline: 'Zoom proctored exam',
+                subtitle: `Review section 4.2 and section 4.3`,
+                title: 'MTH 309 Exam #2',
+            },
+            {
+                id: 2,
+                action: '6 hr',
+                headline: 'Log into adco',
+                subtitle: `Ask for receipt this time`,
+                title: 'Pay rent',
+            },
+            {
+                id: 3,
+                action: '12 hr',
+                headline: 'LA Fitness',
+                subtitle: 'All chest no legs',
+                title: 'Gym time',
+            },
+            {
+                id: 4,
+                action: '18hr',
+                headline: 'Recipe to try',
+                subtitle: 'We should eat this: Cheese, Chicken, Sour cream, and tomatoes.',
+                title: 'Lunch',
+            },
+          ],
       rules: {
           email: v => !!(v || '').match(/@/) || 'Please enter a valid email',
           length: len => v => (v || '').length >= len || `Invalid character length, required ${len}`,
