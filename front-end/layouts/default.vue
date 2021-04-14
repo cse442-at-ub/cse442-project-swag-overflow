@@ -1,5 +1,63 @@
 <template>
   <v-app dark>
+    <v-navigation-drawer
+      v-model="notification_panel"
+      absolute
+      temporary
+      right
+      :width="500"
+    >
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title>Your Notification Panel</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list two-line>
+        <v-list-item-group
+          v-model="notification_panel"
+          active-class="pink--text"
+          multiple
+        >
+          <template v-for="(item, index) in notifications">
+            <v-list-item :key="item.id">
+              <template v-slot:default="{ active }">
+                <v-list-item-content>
+                  <v-list-item-title v-text="item.title"></v-list-item-title>
+
+                  <v-list-item-subtitle
+                    class="text--primary"
+                    v-text="item.headline"
+                  ></v-list-item-subtitle>
+
+                  <v-list-item-subtitle v-text="item.subtitle"></v-list-item-subtitle>
+                </v-list-item-content>
+
+                <v-list-item-action>
+                  <v-list-item-action-text v-text="item.action"></v-list-item-action-text>
+
+                  <v-icon
+                    color="error"
+                    @click="removeNotification(item.id)"
+                  >
+                    mdi-delete
+                  </v-icon>
+                </v-list-item-action>
+              </template>
+            </v-list-item>
+
+            <v-divider
+              v-if="index < notifications.length - 1"
+              :key="index"
+            ></v-divider>
+          </template>
+        </v-list-item-group>
+      </v-list>
+
+    </v-navigation-drawer>
+
     <v-app-bar
       app
     >
@@ -25,62 +83,18 @@
 
         <v-spacer></v-spacer>
         <!-- Notification Panel !-->
-        <v-menu
-          v-model="notification_panel"
-          :close-on-content-click="false"
-          :nudge-width="200"
-          offset-y
+        <v-btn
+          color="warning"
+          dark
+          v-bind="attrs"
+          v-on="on"
+          class="ma-2"
+          @click.stop = "notification_panel = !notification_panel"
         >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="warning"
-              dark
-              v-bind="attrs"
-              v-on="on"
-              class="ma-2"
-            >
-              Notifications
-            </v-btn>
-          </template>
-
-
-          <v-col cols="12">
-            <v-card
-              color="error"
-              v-if="notifications.length > 0"
-            >
-              <v-list class="transparent">
-                <v-list-item
-                  v-for="item in notifications"
-                  :key="item.id"
-                >
-                  <v-list-item-title>
-                    {{ item.title }}
-                  </v-list-item-title>
-
-                  <v-list-item>
-                    <div class="close">
-                      <v-chip
-                        @click="removeNotification(item.id)"
-                        >
-                        X
-                      </v-chip>
-                    </div>
-                  </v-list-item>
-                </v-list-item>
-              </v-list>
-            </v-card>
-            <v-card
-              color="success"
-              v-else
-            >
-              <v-card-title class="subtitle">
-                All caught up
-              </v-card-title>
-            </v-card>
-          </v-col>
-
-        </v-menu>
+          <v-icon dark>
+            mdi-bell
+          </v-icon>
+        </v-btn>
 
 
         <!-- Sign up form !-->
@@ -368,7 +382,43 @@ export default {
           user_name: '',
           password: '',
       },
-      notifications: [{id: 0, title: 'KYS'}, {id: 1, title: 'Brush'}, {id: 2, title: 'All chest no legs'}],
+      notifications: [
+            {
+                id: 0,
+                action: '15 min',
+                headline: '20% of the grade!',
+                subtitle: `Make sure the meeting goes well.`,
+                title: 'CSE 442 Sprint #3',
+            },
+            {
+                id: 1,
+                action: '3 hr',
+                headline: 'Zoom proctored exam',
+                subtitle: `Review section 4.2 and section 4.3`,
+                title: 'MTH 309 Exam #2',
+            },
+            {
+                id: 2,
+                action: '6 hr',
+                headline: 'Log into adco',
+                subtitle: `Ask for receipt this time`,
+                title: 'Pay rent',
+            },
+            {
+                id: 3,
+                action: '12 hr',
+                headline: 'LA Fitness',
+                subtitle: 'All chest no legs',
+                title: 'Gym time',
+            },
+            {
+                id: 4,
+                action: '18hr',
+                headline: 'Recipe to try',
+                subtitle: 'We should eat this: Cheese, Chicken, Sour cream, and tomatoes.',
+                title: 'Lunch',
+            },
+          ],
       rules: {
           email: v => !!(v || '').match(/@/) || 'Please enter a valid email',
           length: len => v => (v || '').length >= len || `Invalid character length, required ${len}`,
@@ -443,7 +493,7 @@ export default {
               email: this.signup.email,
               password: this.signup.password,
             }
-            
+
           })
           // console.log(data)
           .then(function (response) {

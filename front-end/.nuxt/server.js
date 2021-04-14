@@ -55,7 +55,7 @@ const createNext = ssrContext => (opts) => {
   }
   let fullPath = withQuery(opts.path, opts.query)
   const $config = ssrContext.runtimeConfig || {}
-  const routerBase = ($config.app && $config.app.basePath) || '/'
+  const routerBase = ($config.app && $config.app.basePath) || '/CSE442-542/2021-Spring/cse-442m/front-end/dist/'
   if (!fullPath.startsWith('http') && (routerBase !== '/' && !fullPath.startsWith(routerBase))) {
     fullPath = joinURL(routerBase, fullPath)
   }

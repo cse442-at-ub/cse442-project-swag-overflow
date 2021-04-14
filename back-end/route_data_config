@@ -1,4 +1,4 @@
-/users/register: POST request to register a new user
+/user/register: POST request to register a new user
 
 first_name: First Name
 last_name: Last Name
@@ -7,20 +7,34 @@ username: username
 email: Email
 password: password
 
+expected headers to return:
+
+var headers = new Headers();
+headers.get('message');
+-Returns "error-in" if the provided data fields were incomplete. Should never happen since there's form validation
+-Returns "error" if the user could not be created. also should never really happen
+-Returns "success" if the user was successfully created, and will also return the following headers if successful:
+headers.get('firstname'); // returns user's first name
+headers.get('lastname'); // returns user's first name
+headers.get('username'); // returns user's first name
+
 ----------------
 
-/users/signin: POST request to sign in
+/user/signin: POST request to sign in
 
 username: username
 password: password
 
+expected headers to return:
+
+var headers = new Headers();
+headers.get('message');
+-Returns "error-dnm" if the username and password did not match
+-Returns "error-nf" if the username was not found
+-Returns "success" if the signin was successful, and will also return the following headers if successful:
+headers.get('firstname'); // returns user's first name
+headers.get('lastname'); // returns user's first name
+headers.get('username'); // returns user's first name
+
 ----------------
 
-res.send expected messages:
-
-res.send("ACCOUNT ALREADY EXISTS"): a user tried registering with a username/email that already exists
-res.send("REGISTERED"): a user has successfully registered
-
-res.send("USER NOT FOUND"): a user tried signing up with a username that doesn't exists
-res.send("INCORRECT PASSWORD"): username was found but the password is incorrect
-res.send("LOGGED IN"): user successfully signed in

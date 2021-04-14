@@ -1,71 +1,119 @@
 <template>
-    <v-row justify="center" align="center">
-        <v-col cols="3">
-            <v-card>
-                <v-card-title class="headline">
-                Associate #1 
-                </v-card-title>
-                <v-card-text>
-                    <p>
-                        <b>Name: </b>Adarsh Sivadas<br>
-                        <b>Last worked with: </b>Today<br>
-                        <b>Notes: </b><br>
-                    <ul>
-                        <li>Vue master</li>
-                        <li>Despiser of PHP</li>
-                        <li>Big fan of orange and black color scheme</li>
-                    </ul>
-                    </p>
-                </v-card-text>
+  <v-app id="associates">
+    <v-main>
+      <v-container>
+        <v-row>
+          <v-col
+            cols="4"
+          >
+            <v-card class="mx-auto"
+            >
+              <v-card-text>
+                <div>Team: Swag Overflow</div>
+                <p class="display-1 text--primary">
+                  Adarsh Sivadas
+                </p>
+                <p>Last worked with: 04/14/21</p>
+                <div class="text--primary">
+                  About:<br>
+                  -- Vue master <br>
+                  -- Hates PHP <br>
+                  -- Big fan of orange and black color scheme <br>
+                </div>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  text
+                  color="accent"
+                >
+                  Befriend me
+                </v-btn>
+              </v-card-actions>
             </v-card>
-        </v-col>
-        <v-col cols="3">
-            <v-card>
-                <v-card-title class="headline">
-                Associate #2
-                </v-card-title>
-                <v-card-text>
-                    <p>
-                        <b>Name: </b>Michael Cleversley<br>
-                        <b>Last worked with: </b>Yesterday<br>
-                        <b>Notes: </b><br>
-                        <ul>
-                            <li>Average Bootstrap enjoyer</li>
-                            <li>Hates Vue with a burning passion</li>
-                            <li>Loves a good bowl of cereal</li>
-                        </ul>
-                    </p>
-                </v-card-text>
+          </v-col>
+
+          <v-col
+            cols="4"
+          >
+            <v-card class="mx-auto"
+            >
+              <v-card-text>
+                <div>Team: Swag Overflow</div>
+                <p class="display-1 text--primary">
+                  Michael Cleversley
+                </p>
+                <p>Last worked with: 04/14/21</p>
+                <div class="text--primary">
+                  About:<br>
+                  -- PHP master <br>
+                  -- Hates Vue <br>
+                  -- Likes to gucci <br>
+                </div>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  text
+                  color="accent"
+                >
+                  Befriend me
+                </v-btn>
+              </v-card-actions>
+
             </v-card>
-        </v-col>
-        <v-col cols="3">
-            <v-card>
-                <v-card-title class="headline">
-                Associate #3
-                </v-card-title>
-                <v-card-text>
-                    <b>Name: </b>Truong Pham<br>
-                    <b>Last worked with: </b>4/1/2021<br>
-                    <b>Notes: </b><br>
-                    <ul>
-                        <li>Absolute swag king</li>
-                        <li>Port number changer</li>
-                        <li>Dips from meetings</li>
-                    </ul>
-                </v-card-text>
+          </v-col>
+
+          <v-col
+            cols="4"
+          >
+            <v-card class="mx-auto">
+              <v-card-text>
+                <div>Team: Swag Overflow</div>
+                <p class="display-1 text--primary">
+                  Truong Pham
+                </p>
+                <p>Last worked with: 04/14/21</p>
+                <div class="text--primary">
+                  About: <br>
+                  -- Absolute Swag King <br>
+                  -- First person to coin the term "Swag Overflow" <br>
+                  -- Port number changer <br>
+                </div>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  text
+                  color="accent"
+                >
+                  Befriend me
+                </v-btn>
+              </v-card-actions>
+
             </v-card>
-        </v-col>
-    </v-row>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+    import Logo from '~/components/Logo.vue'
+    import VuetifyLogo from '~/components/VuetifyLogo.vue'
 
+    export default {
+        components: {
+            Logo,
+            VuetifyLogo
+        }
+    }
+</script>
 export default {
-  components: {
-    Logo,
-    VuetifyLogo
-  }
+//
 }
 </script>
