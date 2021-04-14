@@ -1,5 +1,41 @@
 <template>
   <v-app dark>
+    <v-navigation-drawer
+      v-model="notification_panel"
+      absolute
+      temporary
+      right
+    >
+
+      <v-list-item>
+        <v-list-item-avatar>
+          <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
+        </v-list-item-avatar>
+
+        <v-list-item-content>
+          <v-list-item-title>John Leider</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list dense>
+        <v-list-item
+          v-for="item in notifications"
+          :key="item.id"
+          link
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.id }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
     <v-app-bar
       app
     >
@@ -25,62 +61,16 @@
 
         <v-spacer></v-spacer>
         <!-- Notification Panel !-->
-        <v-menu
-          v-model="notification_panel"
-          :close-on-content-click="false"
-          :nudge-width="200"
-          offset-y
+        <v-btn
+          color="warning"
+          dark
+          v-bind="attrs"
+          v-on="on"
+          class="ma-2"
+          @click.stop = "notification_panel = !notification_panel"
         >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="warning"
-              dark
-              v-bind="attrs"
-              v-on="on"
-              class="ma-2"
-            >
-              Notifications
-            </v-btn>
-          </template>
-
-
-          <v-col cols="12">
-            <v-card
-              color="error"
-              v-if="notifications.length > 0"
-            >
-              <v-list class="transparent">
-                <v-list-item
-                  v-for="item in notifications"
-                  :key="item.id"
-                >
-                  <v-list-item-title>
-                    {{ item.title }}
-                  </v-list-item-title>
-
-                  <v-list-item>
-                    <div class="close">
-                      <v-chip
-                        @click="removeNotification(item.id)"
-                        >
-                        X
-                      </v-chip>
-                    </div>
-                  </v-list-item>
-                </v-list-item>
-              </v-list>
-            </v-card>
-            <v-card
-              color="success"
-              v-else
-            >
-              <v-card-title class="subtitle">
-                All caught up
-              </v-card-title>
-            </v-card>
-          </v-col>
-
-        </v-menu>
+          Notifications
+        </v-btn>
 
 
         <!-- Sign up form !-->
@@ -443,7 +433,7 @@ export default {
               email: this.signup.email,
               password: this.signup.password,
             }
-            
+
           })
           // console.log(data)
           .then(function (response) {
