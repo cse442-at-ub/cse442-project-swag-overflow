@@ -425,7 +425,7 @@ export default {
           this.signup_dialog = false;
           const PATH_API = 'user/register.php'
           var self = this;
-          await this.$axios.post(`/api/${PATH_API}`, {
+          await this.$axios.post(`/CSE442-542/2021-Spring/cse-442m/back-end/register.php`, {
             headers: {
             "Content-Type": "application/json",
             "Accept": "*/*",
@@ -461,7 +461,7 @@ export default {
           this.login_dialog = false;
           var self = this;
           const PATH_API = 'user/signin.php'
-          await this.$axios.post(`/api/${PATH_API}`, {
+          await this.$axios.post(`/CSE442-542/2021-Spring/cse-442m/back-end/signin.php`, {
             headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
