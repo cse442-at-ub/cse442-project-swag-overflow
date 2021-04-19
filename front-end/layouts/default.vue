@@ -83,6 +83,7 @@
 
         <v-spacer></v-spacer>
         <!-- Notification Panel !-->
+
         <v-btn
           color="warning"
           dark
@@ -321,7 +322,6 @@
 </template>
 
 <script>
-
 export default {
   data () {
     return {
@@ -348,10 +348,6 @@ export default {
           {
               title: 'Scheduler',
               to: '/scheduler'
-          },
-          {
-              title: 'Updates',
-              to: '/updates'
           },
           {
             title: 'Associates',
