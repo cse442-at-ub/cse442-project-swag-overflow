@@ -41,9 +41,11 @@ if (
     $user->username = $data->username;
     $user->email = $data->email;
     $user->password = $data->password;
+
+    $code = $user->register();
   
     // create the user
-    if($user->register()){
+    if($code == "success"){
   
         // set response code - 201 created
         http_response_code(201);
@@ -51,6 +53,7 @@ if (
         // tell the user
         echo json_encode(array("message" => "User was successfully created."));
 
+        header("Access-Control-Allow-Origin: *");
         header("message: success");
         header("firstname: $user->firstname");
         header("lastname: $user->lastname");
@@ -60,20 +63,36 @@ if (
   
     // if unable to create the user, tell the user
     else {
-        header("message: error");
-        header("Location: $url");
-  
-        // tell the user
-        echo json_encode(array("message" => "Unable to create user."));
+        
+        if ($code == "error-tkn") {
+            // user already exists
+            header("Access-Control-Allow-Origin: *");
+            header("message: error-tkn");
+            header("Location: $url");
+    
+            // tell the user
+            echo json_encode(array("message" => "Username already exists."));
 
-        // set response code - 503 service unavailable
-        http_response_code(503);
+            // set response code - 409 Conflict
+            http_response_code(409);
+        } else {
+            // other error
+            header("Access-Control-Allow-Origin: *");
+            header("message: error");
+            header("Location: $url");
+    
+            // tell the user
+            echo json_encode(array("message" => "Unable to create user."));
 
+            // set response code - 503 service unavailable
+            http_response_code(503);
+        }
     }
 }
   
 // tell the user data is incomplete
 else{
+    header("Access-Control-Allow-Origin: *");
     header("message: error-in");
     header("Location: $url");
   

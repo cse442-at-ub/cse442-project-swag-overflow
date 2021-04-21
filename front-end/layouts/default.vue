@@ -458,6 +458,12 @@ export default {
             'title': 'Uh oh. Something went wrong!',
             'text': 'User does not exist. Please try again.'
             })
+          } else if (name == 'error-tkn') {
+            this.$notify({
+            'group': 'login',
+            'title': 'Uh oh. Something went wrong!',
+            'text': 'Username is already taken. Please choose another.'
+            })
           } else {
             this.$notify({
             'group': 'login',
@@ -470,8 +476,10 @@ export default {
       async signUp() {
           this.signup_dialog = false;
           const PATH_API = 'user/register.php'
+          // DEPLOYED_URL: '/CSE442-542/2021-Spring/cse-442m/back-end/user/register.php'
+          // LOCAL_URL = 'localhost/user/register.php'
           var self = this;
-          await this.$axios.post(`/CSE442-542/2021-Spring/cse-442m/back-end/user/register.php`, {
+          await this.$axios.post('/CSE442-542/2021-Spring/cse-442m/back-end/user/register.php', {
             headers: {
             "Content-Type": "application/json",
             "Accept": "*/*",
@@ -507,7 +515,9 @@ export default {
           this.login_dialog = false;
           var self = this;
           const PATH_API = 'user/signin.php'
-          await this.$axios.post(`/CSE442-542/2021-Spring/cse-442m/back-end/user/signin.php`, {
+          // DEPLOYED_URL = '/CSE442-542/2021-Spring/cse-442m/back-end/user/signin.php'
+          // LOCAL_URL = 'localhost/user/signin.php'
+          await this.$axios.post('/CSE442-542/2021-Spring/cse-442m/back-end/user/signin.php', {
             headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",

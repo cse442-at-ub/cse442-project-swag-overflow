@@ -35,6 +35,21 @@ class User {
 
     // create user
     function register() {
+
+        // check is user already exists
+        $check_query = "SELECT * FROM user WHERE username='$this->username'";
+
+        // prepare query
+        $check_stmt = $this->conn->prepare($check_query);
+
+        // sanitize
+        $this->username=htmlspecialchars(strip_tags($this->username));
+
+        // execute
+        $check_stmt->execute();
+        if ($check_stmt->rowCount() > 0) {
+            return "error-tkn";
+        }
     
         // query to insert record
         $query = "INSERT INTO
@@ -66,10 +81,10 @@ class User {
     
         // execute query
         if($stmt->execute()){
-            return true;
+            return "success";
         }
     
-        return false;
+        return "error";
         
     }
 

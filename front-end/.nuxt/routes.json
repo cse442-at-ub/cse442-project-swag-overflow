@@ -2,36 +2,36 @@
   {
     "name": "associates",
     "path": "/associates",
-    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/associates.vue",
+    "component": "C:\\\\Users\\\\cleve\\\\Documents\\\\Swag Overflow\\\\cse442-project-swag-overflow\\\\front-end\\\\pages\\\\associates.vue",
     "chunkName": "pages/associates",
-    "_name": "_3a3f294e"
+    "_name": "_7f0f3fcb"
   },
   {
     "name": "profile",
     "path": "/profile",
-    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/profile.vue",
+    "component": "C:\\\\Users\\\\cleve\\\\Documents\\\\Swag Overflow\\\\cse442-project-swag-overflow\\\\front-end\\\\pages\\\\profile.vue",
     "chunkName": "pages/profile",
-    "_name": "_85714dd6"
+    "_name": "_268429e3"
   },
   {
     "name": "scheduler",
     "path": "/scheduler",
-    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/scheduler.vue",
+    "component": "C:\\\\Users\\\\cleve\\\\Documents\\\\Swag Overflow\\\\cse442-project-swag-overflow\\\\front-end\\\\pages\\\\scheduler.vue",
     "chunkName": "pages/scheduler",
-    "_name": "_6bcdb227"
+    "_name": "_79198775"
   },
   {
     "name": "updates",
     "path": "/updates",
-    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/updates.vue",
+    "component": "C:\\\\Users\\\\cleve\\\\Documents\\\\Swag Overflow\\\\cse442-project-swag-overflow\\\\front-end\\\\pages\\\\updates.vue",
     "chunkName": "pages/updates",
-    "_name": "_dce59094"
+    "_name": "_0a6beef8"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "/Users/adarshsi/Desktop/Dashboard/Spring 2021/CSE 442/cse442-project-swag-overflow/front-end/pages/index.vue",
+    "component": "C:\\\\Users\\\\cleve\\\\Documents\\\\Swag Overflow\\\\cse442-project-swag-overflow\\\\front-end\\\\pages\\\\index.vue",
     "chunkName": "pages/index",
-    "_name": "_4cec80be"
+    "_name": "_2db9a5e8"
   }
 ]

@@ -12,6 +12,7 @@ expected headers to return:
 var headers = new Headers();
 headers.get('message');
 -Returns "error-in" if the provided data fields were incomplete. Should never happen since there's form validation
+-Returns "error-tkn" if the provided username is already taken
 -Returns "error" if the user could not be created. also should never really happen
 -Returns "success" if the user was successfully created, and will also return the following headers if successful:
 headers.get('firstname'); // returns user's first name
