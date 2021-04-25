@@ -39,3 +39,9 @@ headers.get('username'); // returns user's first name
 
 ----------------
 
+/event/read: POST request to return all events associated with a username
+
+
+----------------
+
+/event/create: POST request to create a new event

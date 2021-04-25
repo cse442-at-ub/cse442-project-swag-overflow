@@ -36,7 +36,7 @@ class User {
     // create user
     function register() {
 
-        // check is user already exists
+        // check if user already exists
         $check_query = "SELECT * FROM user WHERE username='$this->username'";
 
         // prepare query
