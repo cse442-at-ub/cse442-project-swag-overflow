@@ -4,11 +4,12 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _7f0f3fcb = () => interopDefault(import('..\\pages\\associates.vue' /* webpackChunkName: "pages/associates" */))
-const _268429e3 = () => interopDefault(import('..\\pages\\profile.vue' /* webpackChunkName: "pages/profile" */))
-const _79198775 = () => interopDefault(import('..\\pages\\scheduler.vue' /* webpackChunkName: "pages/scheduler" */))
-const _0a6beef8 = () => interopDefault(import('..\\pages\\updates.vue' /* webpackChunkName: "pages/updates" */))
-const _2db9a5e8 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
+const _3a3f294e = () => interopDefault(import('../pages/associates.vue' /* webpackChunkName: "pages/associates" */))
+const _85714dd6 = () => interopDefault(import('../pages/profile.vue' /* webpackChunkName: "pages/profile" */))
+const _6bcdb227 = () => interopDefault(import('../pages/scheduler.vue' /* webpackChunkName: "pages/scheduler" */))
+const _539f18d0 = () => interopDefault(import('../pages/temp.vue' /* webpackChunkName: "pages/temp" */))
+const _dce59094 = () => interopDefault(import('../pages/updates.vue' /* webpackChunkName: "pages/updates" */))
+const _4cec80be = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
 
@@ -16,30 +17,34 @@ Vue.use(Router)
 
 export const routerOptions = {
   mode: 'history',
-  base: '/',
+  base: '/CSE442-542/2021-Spring/cse-442m/front-end/dist/',
   linkActiveClass: 'nuxt-link-active',
   linkExactActiveClass: 'nuxt-link-exact-active',
   scrollBehavior,
 
   routes: [{
     path: "/associates",
-    component: _7f0f3fcb,
+    component: _3a3f294e,
     name: "associates"
   }, {
     path: "/profile",
-    component: _268429e3,
+    component: _85714dd6,
     name: "profile"
   }, {
     path: "/scheduler",
-    component: _79198775,
+    component: _6bcdb227,
     name: "scheduler"
   }, {
+    path: "/temp",
+    component: _539f18d0,
+    name: "temp"
+  }, {
     path: "/updates",
-    component: _0a6beef8,
+    component: _dce59094,
     name: "updates"
   }, {
     path: "/",
-    component: _2db9a5e8,
+    component: _4cec80be,
     name: "index"
   }],
 

@@ -55,7 +55,7 @@ export default {
       dark: true,
       themes: {
         dark: {
-          primary: '#E5E5E5',
+          primary: '#FEBC38',
           dialog: '#2A9D8F',
           accent: '#FCA311',
           secondary: '#14213D',
