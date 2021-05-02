@@ -64,6 +64,9 @@
 
             echo("User not found");
         } else {
+            $str = json_encode($event_arr);
+            header("data: $str");
+
             // set response code - 200 OK
             http_response_code(200);
 

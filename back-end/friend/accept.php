@@ -29,7 +29,7 @@
         $friend->username = $data->username;
         $friend->friend = $data->friend;
 
-        $code = $friend->accept($data);
+        $code = $friend->accept();
 
         if ($code == "success") {
             // set response code - 201 created

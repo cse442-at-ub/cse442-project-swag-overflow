@@ -23,50 +23,20 @@
     // make sure data is not empty for all fields
     if (
         !empty($data->username) &&
-        !empty($data->request)
+        !empty($data->request) && 
+        !empty($data->friend)
     ) {
         // set friend property values
         $friend->username = $data->username;
         $friend->request = $data->request;
+        $friend->friend = $friend->friend;
 
-        $code = $friend->request();
+        $code = $friend->read();
 
         if ($code == "success") {
-            // set response code - 201 created
-            http_response_code(201);
 
-            // tell the user
-            echo json_encode(array("message" => "Friend request successfully sent to $friend->username."));
-
-            // send back data
-            header("message: success");
-            header("request: $friend->request");
         } else {
-            // something went wrong
-
-            if ($code == "error-dne") {
-                // user does not exist
-
-                header("message: error-dne");
-                // header("Location: $url");
-                echo json_encode(array("message" => "User does not exist."));
-                // set response code - 404 Not found
-                http_response_code(404);
-            } else if ($code == "error-ae") {
-                // request has already been sent
-
-                // header("Location: $url");
-                echo json_encode(array("message" => "A request to this user has already been sent."));
-                // set response code - 400 Bad request
-                http_response_code(400);
-            } else {
-                // unknown error on our end
-
-                header("message: error");
-                echo json_encode(array("message" => "Something went wrong!"));
-                // header("Location: $url");
-                http_response_code(503);
-            }
+            
         }
     } else {
         // tell the user the data is incomplete

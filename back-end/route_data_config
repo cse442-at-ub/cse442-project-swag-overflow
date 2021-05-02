@@ -42,11 +42,58 @@ headers.get('username'); // returns user's first name
 
 /event/read: POST request to return all events associated with a username
 
+Expected data:
+
+username: The username associated with the events to fetch
+
+Expected headers to return:
+headers.get('message');
+-Returns
+headers.get('data'); // returns the data in JSON form, an example of which is provided below:
+{
+    "records": [
+        {
+            "username": "Test2",
+            "email": "bop@bop.bop",
+            "event_name": "Make event create",
+            "event_start_day": "2021-04-25",
+            "event_start_time": "08:00:00",
+            "event_end_day": "2021-04-25",
+            "event_end_time": "15:00:00",
+            "event_description": "Make the create route for the new event backend",
+            "event_location": "Home",
+            "event_attendee_username": "Test2",
+            "event_attendee_email": "bop@bop.bop"
+        }
+    ]
+}
 
 ----------------
 
 /event/create: POST request to create a new event
 
+Expected data (all self-explanatory from the form):
+
+username
+email
+event_name
+event_type
+event_start_day
+event_start_time
+event_end_day
+event_end_time
+event_description
+event_location
+event_attendee_username
+event_attendee_email
+
+Expected headers returned:
+
+headers.get('message')
+-Returns "error-in" if one of the fields is blank
+-Returns "error" if there was some internal error
+-Returns "success" if the event was successfully created
+All the rest of the data is by the same name above in expected data
 
 ----------------
 
@@ -60,7 +107,11 @@ request: The username of the user who is DOING THE REQUESTING
 Expected headers to return: 
 
 headers.get('message');
+-Returns "error-in" if one of the fields is blank
 -Returns "error-ae" if there was already a request
+-Returns "error-dne" if a user that matches 'username' does not exist
+-Returns "error" if there was some internal error
+-Returns "success" if the event was successfully created
 
 ----------------
 
@@ -74,4 +125,7 @@ friend: The username of the user who's request you are accepting
 Expected headers to return: 
 
 headers.get('message');
+-Returns "error-in" if one of the fields is blank
 -Returns "error-nr" if there isn't a request to accept
+-Returns "error" if there was some internal error
+-Returns "success" if the event was successfully created

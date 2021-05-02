@@ -15,7 +15,7 @@ class Friend {
         $this->conn = $db;
     }
 
-    function request($data) {
+    function request() {
         // check if user requested exists
         $user_query = "SELECT * FROM user WHERE username = ?";
     
@@ -23,7 +23,7 @@ class Friend {
         $user_stmt = $this->conn->prepare($user_query);
 
         // bind id of product to be updated
-        $user_stmt->bindParam(1, $data->username);
+        $user_stmt->bindParam(1, $this->username);
     
         // execute query
         $user_stmt->execute();
@@ -41,8 +41,8 @@ class Friend {
             $check_request_stmt = $this->conn->prepare($check_request_query);
 
             // bind parameters
-            $check_request_stmt->bindParam(1, $data->username);
-            $check_request_stmt->bindParam(2, $data->request);
+            $check_request_stmt->bindParam(1, $this->username);
+            $check_request_stmt->bindParam(2, $this->request);
         
             // execute query
             $check_request_stmt->execute();
@@ -76,7 +76,7 @@ class Friend {
         
     }
 
-    function accept($data) {
+    function accept() {
         // check if user requested exists
         $user_query = "SELECT * FROM user WHERE username = ?";
     
@@ -84,7 +84,7 @@ class Friend {
         $user_stmt = $this->conn->prepare($user_query);
 
         // bind id of product to be updated
-        $user_stmt->bindParam(1, $data->username);
+        $user_stmt->bindParam(1, $this->username);
     
         // execute query
         $user_stmt->execute();
@@ -102,8 +102,8 @@ class Friend {
             $check_request_stmt = $this->conn->prepare($check_request_query);
 
             // bind parameters
-            $check_request_stmt->bindParam(1, $data->username);
-            $check_request_stmt->bindParam(2, $data->friend);
+            $check_request_stmt->bindParam(1, $this->username);
+            $check_request_stmt->bindParam(2, $this->friend);
         
             // execute query
             $check_request_stmt->execute();
@@ -135,8 +135,8 @@ class Friend {
                 $delete_stmt = $this->conn->prepare($delete_query);
 
                 // bind parameters
-                $delete_stmt->bindParam(1, $data->username);
-                $delete_stmt->bindParam(2, $data->friend);
+                $delete_stmt->bindParam(1, $this->username);
+                $delete_stmt->bindParam(2, $this->friend);
             
                 // execute query
                 if ($delete_stmt->execute()) {
