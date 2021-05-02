@@ -32,12 +32,12 @@
                 <v-text-field
                   v-model="event.start_date"
                   label="Start Date"
+                  v-bind="attrs"
+                  v-on="on"
                   outlined
                   dense
                   readonly
                   prepend-icon="mdi-calendar-search"
-                  v-bind="attrs"
-                  v-on="on"
                 ></v-text-field>
               </template>
               <v-date-picker
@@ -95,75 +95,6 @@
                 ></v-combobox>
               </v-col>
             </v-row>
-
-
-
-
-
-<!--            <v-menu-->
-<!--              ref="menu"-->
-<!--              v-model="startTime_menu"-->
-<!--              :close-on-content-click="false"-->
-<!--              :nudge-right="40"-->
-<!--              :return-value.sync="startTime_menu"-->
-<!--              transition="scale-transition"-->
-<!--              offset-y-->
-<!--              max-width="290px"-->
-<!--              min-width="290px"-->
-<!--            >-->
-<!--              <template v-slot:activator="{ on, attrs }">-->
-<!--                <v-text-field-->
-<!--                  v-model="event.start_time"-->
-<!--                  label="Start Time"-->
-<!--                  outlined-->
-<!--                  dense-->
-<!--                  readonly-->
-<!--                  prepend-icon="mdi-clock-start"-->
-<!--                  v-bind="attrs"-->
-<!--                  v-on="on"-->
-<!--                ></v-text-field>-->
-<!--              </template>-->
-<!--              <v-time-picker-->
-<!--                v-if="startTime_menu"-->
-<!--                v-model="event.start_time"-->
-<!--                full-width-->
-<!--                :max="event.start_time"-->
-<!--                @click:minute="$refs.menu.save(event.start_time)"-->
-<!--              ></v-time-picker>-->
-<!--            </v-menu>-->
-
-<!--            <v-menu-->
-<!--              ref="menu"-->
-<!--              v-model="endTime_menu"-->
-<!--              :close-on-content-click="false"-->
-<!--              :nudge-right="40"-->
-<!--              :return-value.sync="endTime_menu"-->
-<!--              transition="scale-transition"-->
-<!--              offset-y-->
-<!--              max-width="290px"-->
-<!--              min-width="290px"-->
-<!--            >-->
-<!--              <template v-slot:activator="{ on, attrs }">-->
-<!--                <v-text-field-->
-<!--                  v-model="event.end_time"-->
-<!--                  label="End Time"-->
-<!--                  outlined-->
-<!--                  prepend-icon="mdi-clock-end"-->
-<!--                  dense-->
-<!--                  readonly-->
-<!--                  v-bind="attrs"-->
-<!--                  v-on="on"-->
-<!--                ></v-text-field>-->
-<!--              </template>-->
-<!--              <v-time-picker-->
-<!--                v-if="endTime_menu"-->
-<!--                v-model="event.end_time"-->
-<!--                :min="event.start_time"-->
-<!--                full-width-->
-<!--                @click:minute="$refs.menu.save(event.end_time)"-->
-<!--              ></v-time-picker>-->
-<!--            </v-menu>-->
-
             <v-btn
               color="dialog"
               @click="e6 = 2"
@@ -174,6 +105,7 @@
               Cancel
             </v-btn>
           </v-stepper-content>
+
 
           <v-stepper-step
             :complete="e6 > 2"
@@ -187,11 +119,10 @@
           <v-stepper-content step="2">
             <v-col class="pt-0 mt-0"></v-col>
             <v-combobox
-              v-model="event.attendees"
+              v-model="attendees"
               :items="categories"
               multiple
               outlined
-              dense
               chips
               prepend-icon="mdi-account-group"
               no-resize
@@ -228,7 +159,6 @@
             </v-btn>
           </v-stepper-content>
 
-          <!-- Step 3 !-->
           <v-stepper-step
             :complete="e6 > 3"
             step="3"
@@ -267,7 +197,105 @@
               Cancel
             </v-btn>
           </v-stepper-content>
-          
+
+          <v-stepper-step
+            step="4"
+            editable
+          >
+            Send meeting invite
+            <small>Finalize meeting details</small>
+          </v-stepper-step>
+          <v-stepper-content step="4">
+            <v-col class="pt-0 mt-0"></v-col>
+            <v-text-field
+              v-model="event.start_date"
+              label="Start Date"
+              outlined
+              dense
+              readonly
+              prepend-icon="mdi-calendar-search"
+            ></v-text-field>
+
+            <v-row>
+              <v-col>
+                <v-menu
+                  ref="menu"
+                  v-model="startTime_menu"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  :return-value.sync="startTime_menu"
+                  transition="scale-transition"
+                  offset-y
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="event.start_time"
+                      label="Start Time"
+                      outlined
+                      dense
+                      readonly
+                      prepend-icon="mdi-clock-start"
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-time-picker
+                    v-if="startTime_menu"
+                    v-model="event.start_time"
+                    full-width
+                    :max="event.start_time"
+                    @click:minute="$refs.menu.save(event.start_time)"
+                  ></v-time-picker>
+                </v-menu>
+              </v-col>
+
+              <v-col>
+                <v-menu
+                  ref="menu"
+                  v-model="endTime_menu"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  :return-value.sync="endTime_menu"
+                  transition="scale-transition"
+                  offset-y
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="event.end_time"
+                      label="End Time"
+                      outlined
+                      prepend-icon="mdi-clock-end"
+                      dense
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-time-picker
+                    v-if="endTime_menu"
+                    v-model="event.end_time"
+                    :min="event.start_time"
+                    full-width
+                    @click:minute="$refs.menu.save(event.end_time)"
+                  ></v-time-picker>
+                </v-menu>
+              </v-col>
+            </v-row>
+            <v-btn
+              color="dialog"
+              @click="fetchEvents"
+            >
+              Continue
+            </v-btn>
+            <v-btn text>
+              Cancel
+            </v-btn>
+          </v-stepper-content>
+
         </v-stepper>
 
       </v-col>
@@ -321,7 +349,7 @@
             color="accent"
             type="category"
             category-show-all
-            :categories="event.attendees"
+            :categories="attendees"
             :events="events"
             :event-color="getEventColor"
             @change="fetchEvents"
@@ -333,84 +361,182 @@
 </template>
 
 <script>
+import moment from 'moment'
 
-    export default {
-        data: () => ({
-            e6: 1,
-            event_menu: false,
-            duration_menu: false,
-            duration_days: '',
-            duration_hours: '',
-            duration_minutes: '',
-            hours_options: [...Array(24).keys()],
-            min_options: [15,30,45],
-
-            startTime_menu: false,
-            endTime_menu: false,
-            focus: '',
-            events: [],
-            colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-            names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
-            categories: ['John Smith', 'Tori Walker', "Ronnie Dangerfield", "Mark Rowry", "Patrick Stevenson"],
-            event: {
-                name: '',
-                start_date: null,
-                end_date: null,
-                start_time: null,
-                end_time: null,
-                location: '',
-                description: '',
-                attendees: []
-            },
-        }),
-        mounted () {
-            this.$refs.calendar.checkChange()
+export default {
+    data: () => ({
+        e6: 1,
+        event_menu: false,
+        duration_menu: false,
+        duration_days: '',
+        duration_hours: '',
+        duration_minutes: '',
+        hours_options: [...Array(24).keys()],
+        min_options: [15,30,45],
+        attendees: [],
+        startTime_menu: false,
+        endTime_menu: false,
+        focus: '',
+        events: [],
+        colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
+        names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+        categories: ['Combined', 'John Smith', 'Tori Walker', "Michael Clevs", "Mark Rowry"],
+        event: {
+            name: '',
+            start_date: null,
+            end_date: null,
+            start_time: null,
+            end_time: null,
+            location: '',
+            description: '',
         },
-        methods: {
-            getEventColor (event) {
-                return event.color
-            },
-            setToday () {
-                this.focus = ''
-            },
-            prev () {
-                this.$refs.calendar.prev()
-            },
-            next () {
-                this.$refs.calendar.next()
-            },
-            fetchEvents ({ start, end }) {
-                const events = [];
+        on: '',
+        attrs: '',
+    }),
+    mounted () {
+        this.$refs.calendar.checkChange()
+    },
+    methods: {
+        getEventColor (event) {
+            return event.color
+        },
+        setToday () {
+            this.focus = ''
+        },
+        prev () {
+            this.$refs.calendar.prev()
+        },
+        next () {
+            this.$refs.calendar.next()
+        },
+        getUserEvents () {
+            // Truong, make this function async and pull the event data here
+            let data = [
+                          {
+                              "username": "clevs13",
+                              "email": "clevs10@buffalo.edu",
+                              "event_name": "Demo event something",
+                              "event_start_day": "2021-05-02",
+                              "event_start_time": "15:00:00",
+                              "event_end_day": "2021-05-02",
+                              "event_end_time": "16:00:00",
+                              "event_description": "Demo the create route for the new event backend",
+                              "event_location": "Home",
+                              "event_attendee_username": "clevs13",
+                              "event_attendee_email": "clevs13@buffalo.edu"
+                          },
+                          {
+                              "username": "jsmith11",
+                              "email": "jsmith11@buffalo.edu",
+                              "event_name": "Meeting",
+                              "event_start_day": "2021-05-02",
+                              "event_start_time": "14:00:00",
+                              "event_end_day": "2021-05-02",
+                              "event_end_time": "15:00:00",
+                              "event_description": "Demo the create route for the new event backend",
+                              "event_location": "Home",
+                              "event_attendee_username": "clevs13",
+                              "event_attendee_email": "clevs13@buffalo.edu"
+                          },
+                          {
+                              "username": "markrowry",
+                              "email": "markrowry@buffalo.edu",
+                              "event_name": "Meeting",
+                              "event_start_day": "2021-05-02",
+                              "event_start_time": "13:00:00",
+                              "event_end_day": "2021-05-02",
+                              "event_end_time": "16:00:00",
+                              "event_description": "Demo the create route for the new event backend",
+                              "event_location": "Home",
+                              "event_attendee_username": "clevs13",
+                              "event_attendee_email": "clevs13@buffalo.edu"
+                          },
+                          {
+                              "username": "markrowry",
+                              "email": "markrowry@buffalo.edu",
+                              "event_name": "Meeting",
+                              "event_start_day": "2021-05-02",
+                              "event_start_time": "11:00:00",
+                              "event_end_day": "2021-05-02",
+                              "event_end_time": "14:00:00",
+                              "event_description": "Demo the create route for the new event backend",
+                              "event_location": "Home",
+                              "event_attendee_username": "clevs13",
+                              "event_attendee_email": "clevs13@buffalo.edu"
+                          },
+                          {
+                              "username": "towalker",
+                              "email": "towalker@buffalo.edu",
+                              "event_name": "Meeting",
+                              "event_start_day": "2021-05-02",
+                              "event_start_time": "16:00:00",
+                              "event_end_day": "2021-05-02",
+                              "event_end_time": "17:00:00",
+                              "event_description": "Demo the create route for the new event backend",
+                              "event_location": "Home",
+                              "event_attendee_username": "clevs13",
+                              "event_attendee_email": "clevs13@buffalo.edu"
+                          },
 
-                const min = new Date(`${start.date}T00:00:00`);
-                const max = new Date(`${end.date}T23:59:59`);
-                const days = (max.getTime() - min.getTime()) / 86400000;
-                const eventCount = this.rnd(days, days + 20);
+                        ];
+            return data;
+        },
+        getNames () {
+            let data = {
+                "clevs13": "Michael Clevs",
+                "jsmith11": "John Smith",
+                "markrowry": "Mark Rowry",
+                "towalker": "Tori Walker"
+            };
+            return data;
+        },
+        fetchEvents ({ start, end }) {
+            const events = [];
+            const user_calendars = this.getUserEvents();
 
-                for (let i = 0; i < eventCount; i++) {
-                    const allDay = this.rnd(0, 3) === 0;
-                    const firstTimestamp = this.rnd(min.getTime(), max.getTime());
-                    const first = new Date(firstTimestamp - (firstTimestamp % 900000));
-                    const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
-                    const second = new Date(first.getTime() + secondTimestamp);
+            for(let events in user_calendars){
 
-                    events.push({
-                        name: this.names[this.rnd(0, this.names.length - 1)],
-                        start: first,
-                        end: second,
-                        color: this.colors[this.rnd(0, this.colors.length - 1)],
-                        timed: !allDay,
-                        category: this.event.attendees,
-                    })
+            }
+
+            let user_names = this.getNames();
+
+            const eventCount = user_calendars.length;
+
+            for (let i = 0; i < eventCount; i++) {
+                let startTime = '';
+                let endTime = '';
+
+                if (user_calendars[i].event_start_day === user_calendars[i].event_end_day || user_calendars[i].event_end_day == null) {
+                    startTime = user_calendars[i].event_start_day + ' ' + user_calendars[i].event_start_time;
+                    endTime = user_calendars[i].event_start_day + " " + user_calendars[i].event_end_time;
                 }
-                console.log(this.event.start_date);
+                else {
+                    startTime = user_calendars[i].event_start_day + ' ' + user_calendars[i].event_start_time;
+                    endTime = user_calendars[i].event_end_day + " " + user_calendars[i].event_start_time;
+                }
 
-                this.events = events
-            },
-            rnd (a, b) {
-                return Math.floor((b - a + 1) * Math.random()) + a
-            },
+                startTime = moment(startTime, "YYYY-MM-DD HH:mm:ss");
+                endTime = moment(endTime, "YYYY-MM-DD HH:mm:ss");
+
+                // let n = this.attendees.includes(user_names[user_calendars[i].username]);
+
+                events.push({
+                    name: user_calendars[i].event_name,
+                    start: startTime.format("YYYY-MM-DD HH:mm:ss"),
+                    end: endTime.format("YYYY-MM-DD HH:mm:ss"),
+                    color: this.colors[this.rnd(0, this.colors.length - 1)],
+                    category: user_names[user_calendars[i].username],
+                });
+            }
+
+            console.log(this.attendees);
+
+            this.events = events
         },
-    }
+        rnd (a, b) {
+            return Math.floor((b - a + 1) * Math.random()) + a
+        },
+    },
+}
 
 </script>

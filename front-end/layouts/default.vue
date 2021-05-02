@@ -325,6 +325,8 @@
 export default {
   data () {
     return {
+      on: '',
+      attrs: '',
       notification_panel: false,
       show: true,
       sneak: false,
