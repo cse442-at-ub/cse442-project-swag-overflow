@@ -47,6 +47,7 @@ class User {
 
         // execute
         $check_stmt->execute();
+        
         if ($check_stmt->rowCount() > 0) {
             return "error-tkn";
         }
@@ -95,7 +96,7 @@ class User {
         $query = "SELECT * FROM user WHERE username = ?";
     
         // prepare query statement
-        $stmt = $this->conn->prepare( $query );
+        $stmt = $this->conn->prepare($query);
 
         // bind id of product to be updated
         $stmt->bindParam(1, $data->username);

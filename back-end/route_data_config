@@ -1,5 +1,6 @@
 /user/register: POST request to register a new user
 
+Expected data:
 first_name: First Name
 last_name: Last Name
 dob: Date of Birth
@@ -7,9 +8,8 @@ username: username
 email: Email
 password: password
 
-expected headers to return:
+Expected headers to return:
 
-var headers = new Headers();
 headers.get('message');
 -Returns "error-in" if the provided data fields were incomplete. Should never happen since there's form validation
 -Returns "error-tkn" if the provided username is already taken
@@ -23,12 +23,13 @@ headers.get('username'); // returns user's first name
 
 /user/signin: POST request to sign in
 
+Expected data:
+
 username: username
 password: password
 
-expected headers to return:
+Expected headers to return:
 
-var headers = new Headers();
 headers.get('message');
 -Returns "error-dnm" if the username and password did not match
 -Returns "error-nf" if the username was not found
@@ -45,3 +46,32 @@ headers.get('username'); // returns user's first name
 ----------------
 
 /event/create: POST request to create a new event
+
+
+----------------
+
+/friend/request: POST request to send a friend request
+
+Expected data:
+
+username: The username of the user who is BEING REQUESTED
+request: The username of the user who is DOING THE REQUESTING
+
+Expected headers to return: 
+
+headers.get('message');
+-Returns "error-ae" if there was already a request
+
+----------------
+
+/friend/accept: POST request to accept a previous friend request
+
+Expected data: 
+
+username: The username of the user who is accepting the request
+friend: The username of the user who's request you are accepting
+
+Expected headers to return: 
+
+headers.get('message');
+-Returns "error-nr" if there isn't a request to accept

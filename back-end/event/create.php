@@ -35,7 +35,7 @@
         !empty($data->event_attendee_username) &&
         !empty($data->event_attendee_email)
     ) {
-        // set user property values
+        // set event property values
         $event->username = $data->username;
         $event->email = $data->email;
         $event->event_name = $data->event_name;
@@ -50,8 +50,6 @@
         $event->event_attendee_email = $data->event_attendee_email;
 
         $code = $event->create();
-
-        echo($code);
 
         if ($code == "success") {
 

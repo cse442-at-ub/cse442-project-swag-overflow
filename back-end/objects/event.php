@@ -25,10 +25,10 @@ class Event {
         $this->conn = $db;
     }
 
-    // read users
+    // read events
     function read() {
         // select all query
-        $query = "SELECT * FROM user";
+        $query = "SELECT * FROM $this->table_name";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -39,6 +39,7 @@ class Event {
         return $stmt;
     }
 
+    // create an event
     function create() {
 
         // query to insert record
