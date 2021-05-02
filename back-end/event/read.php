@@ -25,7 +25,7 @@
     // check if more than 0 record found
     if($num>0) {
     
-        // products array
+        // events array
         $event_arr=array();
         $event_arr["records"]=array();
     

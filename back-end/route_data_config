@@ -129,3 +129,33 @@ headers.get('message');
 -Returns "error-nr" if there isn't a request to accept
 -Returns "error" if there was some internal error
 -Returns "success" if the event was successfully created
+
+----------------
+
+/friend/read: POST request to list all requests or friends with a given username
+
+Expected data:
+
+username: the username of the user to return the data
+request: set to "true" if you want the requests returned, "false" otherwise
+friend: set to "true" if you want the friends returned, "false" otherwise
+
+Expected headers to return: 
+
+headers.get('message');
+-Returns "error-in" if one of the fields is blank
+-Returns "error-bf" if the data was formatted incorrectly, i.e. request/friend isn't true/false
+-Returns "error" if there was some internal error
+-Returns "success" if the event was successfully created
+headers.get('data'); // returns the data in JSON form, an example of which is provided below:
+{
+    "records": [
+        "clevs13",
+        "clevs13",
+        "clevs13",
+        "clevs13",
+        "testpassword",
+        "testpassword",
+        "adarshsi"
+    ]
+}

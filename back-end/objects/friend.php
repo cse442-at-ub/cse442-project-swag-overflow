@@ -148,6 +148,34 @@ class Friend {
         }
     }
 
+    function read() {
+        if ($this->request == "true" && $this->friend == "false") {
+            // return the requests associated with the username
+            $column = "request_from";
+
+        } else if ($this->request == "false" && $this->friend == "true") {
+            // return the requests associated with the username
+            $column = "friend";
+
+        } else {
+            return "error-bf";
+        }
+
+        // check if user requested exists
+        $query = "SELECT $column FROM $this->table_name WHERE username = ?";
+        
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // bind id of product to be updated
+        $stmt->bindParam(1, $this->username);
+    
+        // execute query
+        $stmt->execute();
+
+        return $stmt;
+    }
+
 }
 
 ?>
