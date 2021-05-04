@@ -23,8 +23,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -62,7 +61,8 @@ export default {
           info: '#FFFFFF',
           warning: '#D00000',
           error: '#F8961E',
-          success: '#80B918'
+          success: '#80B918',
+          inactive: '#ADADAD',
         }
       }
     }

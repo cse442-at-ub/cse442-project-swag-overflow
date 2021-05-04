@@ -47,128 +47,25 @@
               </v-date-picker>
             </v-menu>
 
-            <v-row>
-              <v-col
-                cols="12"
-                sm="4"
-                md="4"
-              >
-                <v-text-field
-                  v-model="duration_days"
-                  label="Days"
-                  outlined
-                  dense
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-text-field>
-              </v-col>
-
-              <v-col
-                cols="12"
-                sm="4"
-                md="4"
-              >
-                <v-combobox
-                  v-model="duration_hours"
-                  label="Hour"
-                  :items="hours_options"
-                  outlined
-                  dense
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-combobox>
-              </v-col>
-
-              <v-col
-                cols="12"
-                sm="4"
-                md="4"
-              >
-                <v-combobox
-                  v-model="duration_minutes"
-                  label="Minutes"
-                  :items="min_options"
-                  outlined
-                  dense
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-combobox>
-              </v-col>
-            </v-row>
             <v-btn
               color="dialog"
               @click="e6 = 2"
             >
               Continue
             </v-btn>
-            <v-btn text>
-              Cancel
-            </v-btn>
-          </v-stepper-content>
 
+          </v-stepper-content>
 
           <v-stepper-step
             :complete="e6 > 2"
             step="2"
             editable
           >
-            Select attendees
-            <small>Select your meeting's attendees</small>
-          </v-stepper-step>
-
-          <v-stepper-content step="2">
-            <v-col class="pt-0 mt-0"></v-col>
-            <v-combobox
-              v-model="attendees"
-              :items="categories"
-              multiple
-              outlined
-              chips
-              prepend-icon="mdi-account-group"
-              no-resize
-              label="Attendees"
-            >
-              <template v-slot:selection="data">
-                <v-chip
-                  :key="JSON.stringify(data.item)"
-                  v-bind="data.attrs"
-                  :input-value="data.selected"
-                  :disabled="data.disabled"
-                  close
-                  close-icon="mdi-close"
-                  @click:close="data.parent.selectItem(data.item)"
-                >
-                  <v-avatar
-                    class="accent white--text"
-                    left
-                    v-text="data.item.slice(0, 1).toUpperCase()"
-                  ></v-avatar>
-                  {{ data.item }}
-                </v-chip>
-              </template>
-            </v-combobox>
-
-            <v-btn
-              color="dialog"
-              @click="e6 = 3"
-            >
-              Continue
-            </v-btn>
-            <v-btn text>
-              Cancel
-            </v-btn>
-          </v-stepper-content>
-
-          <v-stepper-step
-            :complete="e6 > 3"
-            step="3"
-            editable
-          >
             Meeting details
             <small>Select your meeting's date and duration</small>
           </v-stepper-step>
 
-          <v-stepper-content step="3">
+          <v-stepper-content step="2">
             <v-col class="pt-0 mt-0"></v-col>
 
             <v-text-field
@@ -189,13 +86,86 @@
 
             <v-btn
               color="dialog"
+              @click="loadCalendar"
+            >
+              Continue
+            </v-btn>
+            <v-btn
+              text
+              @click="cancelEvent"
+            >
+              Cancel
+            </v-btn>
+          </v-stepper-content>
+
+          <v-stepper-step
+            :complete="e6 > 3"
+            step="3"
+            editable
+          >
+            Select attendees
+            <small>Select your meeting's attendees</small>
+          </v-stepper-step>
+
+          <v-stepper-content step="3">
+            <v-col class="pt-0 mt-0"></v-col>
+            <v-combobox
+              v-model="attendees"
+              :items="categories"
+              multiple
+              outlined
+              chips
+              prepend-icon="mdi-account-group"
+              no-resize
+              label="Attendees"
+            >
+              <template v-slot:selection="data">
+
+                <v-chip
+                  :key="JSON.stringify(data.item)"
+                  v-bind="data.attrs"
+                  :input-value="data.selected"
+                  :disabled="data.disabled"
+                  close
+                  close-icon="mdi-close"
+                  @click:close="data.parent.selectItem(data.item)"
+                >
+                  <v-avatar
+                    class="accent white--text"
+                    left
+                    v-text="data.item.slice(0, 1).toUpperCase()"
+                  ></v-avatar>
+                  {{ data.item }}
+                </v-chip>
+              </template>
+            </v-combobox>
+
+
+            <v-btn
+              color="dialog"
               @click="e6 = 4"
             >
               Continue
             </v-btn>
+
             <v-btn text>
               Cancel
             </v-btn>
+            <v-btn v-if="attendees.length > 2"
+                   @click="updateEvents"
+                   color="warning"
+                   class="mx-1"
+                   fab
+                   dark
+                   small
+            >
+              <v-icon center>
+                mdi-calendar-refresh
+              </v-icon>
+            </v-btn>
+
+            <v-col class="pt-0 mt-0"></v-col>
+
           </v-stepper-content>
 
           <v-stepper-step
@@ -218,71 +188,88 @@
 
             <v-row>
               <v-col>
-                <v-menu
-                  ref="menu"
-                  v-model="startTime_menu"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  :return-value.sync="startTime_menu"
-                  transition="scale-transition"
-                  offset-y
-                  max-width="290px"
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="event.start_time"
-                      label="Start Time"
-                      outlined
-                      dense
-                      readonly
-                      prepend-icon="mdi-clock-start"
-                      v-bind="attrs"
-                      v-on="on"
-                    ></v-text-field>
-                  </template>
-                  <v-time-picker
-                    v-if="startTime_menu"
-                    v-model="event.start_time"
-                    full-width
-                    :max="event.start_time"
-                    @click:minute="$refs.menu.save(event.start_time)"
-                  ></v-time-picker>
-                </v-menu>
+                <v-text-field
+                  v-model="event.start_time"
+                  label="Start Time"
+                  outlined
+                  dense
+                  readonly
+                  prepend-icon="mdi-clock-start"
+                ></v-text-field>
+<!--                <v-menu-->
+<!--                  ref="menu"-->
+<!--                  v-model="startTime_menu"-->
+<!--                  :close-on-content-click="false"-->
+<!--                  :nudge-right="40"-->
+<!--                  :return-value.sync="startTime_menu"-->
+<!--                  transition="scale-transition"-->
+<!--                  offset-y-->
+<!--                  max-width="290px"-->
+<!--                  min-width="290px"-->
+<!--                >-->
+<!--                  <template v-slot:activator="{ on, attrs }">-->
+<!--                    <v-text-field-->
+<!--                      v-model="event.start_time"-->
+<!--                      label="Start Time"-->
+<!--                      outlined-->
+<!--                      dense-->
+<!--                      readonly-->
+<!--                      prepend-icon="mdi-clock-start"-->
+<!--                      v-bind="attrs"-->
+<!--                      v-on="on"-->
+<!--                    ></v-text-field>-->
+<!--                  </template>-->
+<!--                  <v-time-picker-->
+<!--                    v-if="startTime_menu"-->
+<!--                    v-model="event.start_time"-->
+<!--                    full-width-->
+<!--                    :max="event.start_time"-->
+<!--                    @click:minute="$refs.menu.save(event.start_time)"-->
+<!--                  ></v-time-picker>-->
+<!--                </v-menu>-->
               </v-col>
 
               <v-col>
-                <v-menu
-                  ref="menu"
-                  v-model="endTime_menu"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  :return-value.sync="endTime_menu"
-                  transition="scale-transition"
-                  offset-y
-                  max-width="290px"
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="event.end_time"
-                      label="End Time"
-                      outlined
-                      prepend-icon="mdi-clock-end"
-                      dense
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                    ></v-text-field>
-                  </template>
-                  <v-time-picker
-                    v-if="endTime_menu"
-                    v-model="event.end_time"
-                    :min="event.start_time"
-                    full-width
-                    @click:minute="$refs.menu.save(event.end_time)"
-                  ></v-time-picker>
-                </v-menu>
+                <v-text-field
+                  v-model="event.end_time"
+                  label="End Time"
+                  outlined
+                  prepend-icon="mdi-clock-end"
+                  dense
+                  readonly
+                ></v-text-field>
+
+<!--                <v-menu-->
+<!--                  ref="menu"-->
+<!--                  v-model="endTime_menu"-->
+<!--                  :close-on-content-click="false"-->
+<!--                  :nudge-right="40"-->
+<!--                  :return-value.sync="endTime_menu"-->
+<!--                  transition="scale-transition"-->
+<!--                  offset-y-->
+<!--                  max-width="290px"-->
+<!--                  min-width="290px"-->
+<!--                >-->
+<!--                  <template v-slot:activator="{ on, attrs }">-->
+<!--                    <v-text-field-->
+<!--                      v-model="event.end_time"-->
+<!--                      label="End Time"-->
+<!--                      outlined-->
+<!--                      prepend-icon="mdi-clock-end"-->
+<!--                      dense-->
+<!--                      readonly-->
+<!--                      v-bind="attrs"-->
+<!--                      v-on="on"-->
+<!--                    ></v-text-field>-->
+<!--                  </template>-->
+<!--                  <v-time-picker-->
+<!--                    v-if="endTime_menu"-->
+<!--                    v-model="event.end_time"-->
+<!--                    :min="event.start_time"-->
+<!--                    full-width-->
+<!--                    @click:minute="$refs.menu.save(event.end_time)"-->
+<!--                  ></v-time-picker>-->
+<!--                </v-menu>-->
               </v-col>
             </v-row>
             <v-btn
@@ -343,17 +330,41 @@
           </v-toolbar>
         </v-sheet>
         <v-sheet height="800">
-          <v-calendar
+          <v-skeleton-loader v-if="!load_calendar"
+            class="mx-auto"
+            type="table-heading, list-item-three-line, image, table-tfoot"
+          ></v-skeleton-loader>
+
+          <v-calendar v-else
             ref="calendar"
+
             v-model="event.start_date"
             color="accent"
             type="category"
             category-show-all
             :categories="attendees"
             :events="events"
+            :event-ripple="false"
             :event-color="getEventColor"
-            @change="fetchEvents"
+            @mousedown:event="startDrag"
+            @mousedown:time="startTime"
+            @mousemove:time="mouseMove"
+            @mouseup:time="endDrag"
+            @mouseleave.native="cancelDrag"
+            @change="updateEvents"
           ></v-calendar>
+          <template v-slot:event="{ event_x, time, eventSummary }">
+            <div
+              class="v-event-draggable"
+              v-html="eventSummary()"
+            ></div>
+            <div
+              v-if="time"
+              class="v-event-drag-bottom"
+              @mousedown.stop="extendBottom(event_x)"
+            ></div>
+          </template>
+
         </v-sheet>
       </v-col>
     </v-row>
@@ -367,20 +378,21 @@ export default {
     data: () => ({
         e6: 1,
         event_menu: false,
+        load_calendar: false,
         duration_menu: false,
         duration_days: '',
         duration_hours: '',
         duration_minutes: '',
         hours_options: [...Array(24).keys()],
         min_options: [15,30,45],
-        attendees: [],
+        attendees: ['Combined', "Michael Clevs"],
         startTime_menu: false,
         endTime_menu: false,
         focus: '',
         events: [],
-        colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
+        colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange'],
         names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
-        categories: ['Combined', 'John Smith', 'Tori Walker', "Michael Clevs", "Mark Rowry"],
+        categories: ['John Smith', 'Tori Walker', "Michael Clevs", "Mark Rowry"],
         event: {
             name: '',
             start_date: null,
@@ -390,11 +402,19 @@ export default {
             location: '',
             description: '',
         },
+        dragEvent: null,
+        dragStart: null,
+        createEvent: null,
+        createStart: null,
+        extendOriginal: null,
+        count: 1,
         on: '',
         attrs: '',
     }),
     mounted () {
-        this.$refs.calendar.checkChange()
+        if(this.load_calendar){
+            this.$refs.calendar.checkChange()
+        }
     },
     methods: {
         getEventColor (event) {
@@ -409,6 +429,111 @@ export default {
         next () {
             this.$refs.calendar.next()
         },
+        loadCalendar () {
+            this.e6 = 3;
+            this.load_calendar = true;
+        },
+        cancelEvent () {
+            // console.log(this.events);
+            // delete this.events[this.events.length-1];
+        },
+        startDrag ({ event, timed }) {
+            let new_event_index = this.events.findIndex(x => x.name === event.name);
+            let events_len = this.events.length;
+            if (event && timed && new_event_index === events_len - 1) {
+                this.dragEvent = event;
+                this.dragTime = null;
+                this.extendOriginal = null
+            }
+        },
+
+        startTime (tms) {
+            const mouse = this.toTime(tms);
+
+            if (this.dragEvent && this.dragTime === null) {
+                const start = this.dragEvent.start;
+                this.dragTime = mouse - start
+            } else {
+                this.createStart = this.roundTime(mouse);
+                this.createEvent = {
+                    name: this.event.name,
+                    color: this.rndElement(this.colors),
+                    start: this.createStart,
+                    end: this.createStart,
+                    timed: true,
+                    category: "Combined",
+                };
+                this.events.push(this.createEvent)
+            }
+        },
+
+        extendBottom (event) {
+            this.createEvent = event;
+            this.createStart = event.start;
+            this.extendOriginal = event.end
+        },
+
+        mouseMove (tms) {
+            const mouse = this.toTime(tms);
+
+            if (this.dragEvent && this.dragTime !== null) {
+                const start = this.dragEvent.start;
+                const end = this.dragEvent.end;
+                const duration = end - start;
+                const newStartTime = mouse - this.dragTime;
+                const newStart = this.roundTime(newStartTime);
+                const newEnd = newStart + duration;
+
+                this.dragEvent.start = newStart;
+                this.dragEvent.end = newEnd
+            }
+            else if (this.createEvent && this.createStart !== null) {
+                const mouseRounded = this.roundTime(mouse, false);
+                const min = Math.min(mouseRounded, this.createStart);
+                const max = Math.max(mouseRounded, this.createStart);
+
+                this.createEvent.start = min;
+                this.createEvent.end = max
+            }
+        },
+        endDrag () {
+            this.dragTime = null;
+            this.dragEvent = null;
+            this.createEvent = null;
+            this.createStart = null;
+            this.extendOriginal = null
+        },
+
+        cancelDrag () {
+            if (this.createEvent) {
+                if (this.extendOriginal) {
+                    this.createEvent.end = this.extendOriginal
+                } else {
+                    const i = this.events.indexOf(this.createEvent);
+                    if (i !== -1) {
+                        this.events.splice(i, 1)
+                    }
+                }
+            }
+            this.createEvent = null;
+            this.createStart = null;
+            this.dragTime = null;
+            this.dragEvent = null
+        },
+
+        roundTime (time, down = true) {
+            const roundTo = 15; // minutes
+            const roundDownTime = roundTo * 60 * 1000;
+
+            return down
+                ? time - time % roundDownTime
+                : time + (roundDownTime - (time % roundDownTime))
+        },
+
+        toTime (tms) {
+            return new Date(tms.year, tms.month - 1, tms.day, tms.hour, tms.minute).getTime()
+        },
+
         getUserEvents () {
             // Truong, make this function async and pull the event data here
             let data = [
@@ -481,7 +606,9 @@ export default {
                         ];
             return data;
         },
+
         getNames () {
+            // Truong, bring in the username and name of users into this datastructure
             let data = {
                 "clevs13": "Michael Clevs",
                 "jsmith11": "John Smith",
@@ -490,15 +617,14 @@ export default {
             };
             return data;
         },
+
         fetchEvents ({ start, end }) {
             const events = [];
             const user_calendars = this.getUserEvents();
 
-            for(let events in user_calendars){
-
-            }
-
             let user_names = this.getNames();
+
+            // this.categories = user_names.keys();
 
             const eventCount = user_calendars.length;
 
@@ -518,25 +644,55 @@ export default {
                 startTime = moment(startTime, "YYYY-MM-DD HH:mm:ss");
                 endTime = moment(endTime, "YYYY-MM-DD HH:mm:ss");
 
-                // let n = this.attendees.includes(user_names[user_calendars[i].username]);
+                let user = user_names[user_calendars[i].username];
 
-                events.push({
-                    name: user_calendars[i].event_name,
-                    start: startTime.format("YYYY-MM-DD HH:mm:ss"),
-                    end: endTime.format("YYYY-MM-DD HH:mm:ss"),
-                    color: this.colors[this.rnd(0, this.colors.length - 1)],
-                    category: user_names[user_calendars[i].username],
+                if(this.attendees.indexOf(user) !== -1){
+                    events.push({
+                        name: user_calendars[i].event_name,
+                        start: startTime.format("YYYY-MM-DD HH:mm:ss"),
+                        end: endTime.format("YYYY-MM-DD HH:mm:ss"),
+                        color: "inactive",
+                        category: user_names[user_calendars[i].username],
+                    });
+                }
+
+            }
+            this.events = events;
+
+            return events;
+
+        },
+
+        updateEvents ({ start, end }){
+            let individual_events = this.fetchEvents( { start, end} );
+            let combined = [];
+
+            for(let element of individual_events){
+                combined.push({
+                    name: element.name,
+                    start: element.start,
+                    end: element.end,
+                    color: "inactive",
+                    category: "Combined",
                 });
             }
 
-            console.log(this.attendees);
+            // individual_events = individual_events.concat(combined);
+            this.events = this.events.concat(combined)
 
-            this.events = events
         },
+
         rnd (a, b) {
             return Math.floor((b - a + 1) * Math.random()) + a
+        },
+        rndElement (arr) {
+            return arr[this.rnd(0, arr.length - 1)]
         },
     },
 }
 
 </script>
+
+<style lang="scss">
+  @import "./assets/variables.scss";
+</style>

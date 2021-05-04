@@ -1,129 +1,35 @@
 <template>
-  <v-app id="scheduler">
+  <v-app id="temp">
     <v-row class="fill-height">
-      <v-col cols="3">
-        <v-sheet rounded="lg">
-          <v-card-title class="text-h6">
-            Select Date and Attendees
-          </v-card-title>
-
-          <v-divider class="my-1"></v-divider>
-          <v-col
-            cols="12"
-          >
-            <v-menu
-              v-model="event_menu"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="event.start_date"
-                  label="Date"
-                  prepend-icon="mdi-clock-outline"
-                  dense
-                  outlined
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="event.start_date"
-                @input="event_menu = false"
-              >
-              </v-date-picker>
-            </v-menu>
-          </v-col>
-
-          <v-col cols="12">
-            <v-combobox
-              v-model="event.attendees"
-              :items="categories"
-              multiple
-              outlined
-              chips
-              prepend-icon="mdi-account-group"
-            >
-              <template v-slot:selection="data">
-                <v-chip
-                  :key="JSON.stringify(data.item)"
-                  v-bind="data.attrs"
-                  :input-value="data.selected"
-                  :disabled="data.disabled"
-                  close
-                  close-icon="mdi-close"
-                  @click:close="data.parent.selectItem(data.item)"
-                >
-                  <v-avatar
-                    class="accent white--text"
-                    left
-                    v-text="data.item.slice(0, 1).toUpperCase()"
-                  ></v-avatar>
-                  {{ data.item }}
-                </v-chip>
-              </template>
-            </v-combobox>
-          </v-col>
-        </v-sheet>
-      </v-col>
-
       <v-col>
-        <v-sheet height="64">
-          <v-toolbar
-            flat
-          >
-            <v-btn
-              outlined
-              class="mr-4"
-              color="accent"
-              @click="setToday"
-            >
-              Today
-            </v-btn>
-            <v-btn
-              fab
-              text
-              small
-              color="info"
-              @click="prev"
-            >
-              <v-icon small>
-                mdi-chevron-left
-              </v-icon>
-            </v-btn>
-            <v-btn
-              fab
-              text
-              small
-              color="info"
-              @click="next"
-            >
-              <v-icon small>
-                mdi-chevron-right
-              </v-icon>
-            </v-btn>
-            <v-toolbar-title v-if="$refs.calendar">
-              {{ $refs.calendar.title }}
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-          </v-toolbar>
-        </v-sheet>
-        <v-sheet height="800">
+        <v-sheet height="600">
           <v-calendar
             ref="calendar"
-            v-model="focus"
+            v-model="value"
             color="primary"
-            type="category"
-            category-show-all
-            :categories="event.attendees"
+            type="4day"
             :events="events"
             :event-color="getEventColor"
-            @change="fetchEvents"
-          ></v-calendar>
+            :event-ripple="false"
+            @change="getEvents"
+            @mousedown:event="startDrag"
+            @mousedown:time="startTime"
+            @mousemove:time="mouseMove"
+            @mouseup:time="endDrag"
+            @mouseleave.native="cancelDrag"
+          >
+            <template v-slot:event="{ event, timed, eventSummary }">
+              <div
+                class="v-event-draggable"
+                v-html="eventSummary()"
+              ></div>
+              <div
+                v-if="timed"
+                class="v-event-drag-bottom"
+                @mousedown.stop="extendBottom(event)"
+              ></div>
+            </template>
+          </v-calendar>
         </v-sheet>
       </v-col>
     </v-row>
@@ -132,74 +38,157 @@
 
 <script>
 
-    export default {
-        data: () => ({
-            event_menu: false,
-            focus: '',
-            events: [],
-            colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-            names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
-            categories: ['John Smith', 'Tori Walker', "Ronnie Dangerfield", "Mark Rowry", "Patrick Stevenson"],
-            event: {
-                name: '',
-                start_date: null,
-                end_date: null,
-                start_time: null,
-                end_time: null,
-                location: '',
-                description: '',
-                attendees: []
-            },
-
-        }),
-        mounted () {
-            this.$refs.calendar.checkChange()
+export default {
+    data: () => ({
+        value: '',
+        events: [],
+        colors: ['#2196F3', '#3F51B5', '#673AB7', '#00BCD4', '#4CAF50', '#FF9800', '#757575'],
+        names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+        dragEvent: null,
+        dragStart: null,
+        createEvent: null,
+        createStart: null,
+        extendOriginal: null,
+    }),
+    methods: {
+        startDrag ({ event, timed }) {
+            if (event && timed) {
+                this.dragEvent = event
+                this.dragTime = null
+                this.extendOriginal = null
+            }
         },
-        methods: {
-            getEventColor (event) {
-                return event.color
-            },
-            setToday () {
-                this.focus = ''
-            },
-            prev () {
-                this.$refs.calendar.prev()
-            },
-            next () {
-                this.$refs.calendar.next()
-            },
-            fetchEvents ({ start, end }) {
-                const events = []
+        startTime (tms) {
+            const mouse = this.toTime(tms)
 
-                const min = new Date(`${start.date}T00:00:00`)
-                const max = new Date(`${end.date}T23:59:59`)
-                const days = (max.getTime() - min.getTime()) / 86400000
-                const eventCount = this.rnd(days, days + 20)
+            if (this.dragEvent && this.dragTime === null) {
+                const start = this.dragEvent.start
 
-                for (let i = 0; i < eventCount; i++) {
-                    const allDay = this.rnd(0, 3) === 0
-                    const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-                    const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-                    const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-                    const second = new Date(first.getTime() + secondTimestamp)
-
-                    events.push({
-                        name: this.names[this.rnd(0, this.names.length - 1)],
-                        start: first,
-                        end: second,
-                        color: this.colors[this.rnd(0, this.colors.length - 1)],
-                        timed: !allDay,
-                        category: this.event.attendees,
-                    })
+                this.dragTime = mouse - start
+            } else {
+                this.createStart = this.roundTime(mouse)
+                this.createEvent = {
+                    name: `Event #${this.events.length}`,
+                    color: this.rndElement(this.colors),
+                    start: this.createStart,
+                    end: this.createStart,
+                    timed: true,
                 }
-                console.log(this.event.start_date);
 
-                this.events = events
-            },
-            rnd (a, b) {
-                return Math.floor((b - a + 1) * Math.random()) + a
-            },
+                this.events.push(this.createEvent)
+            }
         },
-    }
+        extendBottom (event) {
+            this.createEvent = event
+            this.createStart = event.start
+            this.extendOriginal = event.end
+        },
+        mouseMove (tms) {
+            const mouse = this.toTime(tms)
+
+            if (this.dragEvent && this.dragTime !== null) {
+                const start = this.dragEvent.start
+                const end = this.dragEvent.end
+                const duration = end - start
+                const newStartTime = mouse - this.dragTime
+                const newStart = this.roundTime(newStartTime)
+                const newEnd = newStart + duration
+
+                this.dragEvent.start = newStart
+                this.dragEvent.end = newEnd
+            } else if (this.createEvent && this.createStart !== null) {
+                const mouseRounded = this.roundTime(mouse, false)
+                const min = Math.min(mouseRounded, this.createStart)
+                const max = Math.max(mouseRounded, this.createStart)
+
+                this.createEvent.start = min
+                this.createEvent.end = max
+            }
+        },
+        endDrag () {
+            this.dragTime = null
+            this.dragEvent = null
+            this.createEvent = null
+            this.createStart = null
+            this.extendOriginal = null
+        },
+        cancelDrag () {
+            if (this.createEvent) {
+                if (this.extendOriginal) {
+                    this.createEvent.end = this.extendOriginal
+                } else {
+                    const i = this.events.indexOf(this.createEvent)
+                    if (i !== -1) {
+                        this.events.splice(i, 1)
+                    }
+                }
+            }
+
+            this.createEvent = null
+            this.createStart = null
+            this.dragTime = null
+            this.dragEvent = null
+        },
+        roundTime (time, down = true) {
+            const roundTo = 15 // minutes
+            const roundDownTime = roundTo * 60 * 1000
+
+            return down
+                ? time - time % roundDownTime
+                : time + (roundDownTime - (time % roundDownTime))
+        },
+        toTime (tms) {
+            return new Date(tms.year, tms.month - 1, tms.day, tms.hour, tms.minute).getTime()
+        },
+        getEventColor (event) {
+            const rgb = parseInt(event.color.substring(1), 16)
+            const r = (rgb >> 16) & 0xFF
+            const g = (rgb >> 8) & 0xFF
+            const b = (rgb >> 0) & 0xFF
+
+            return event === this.dragEvent
+                ? `rgba(${r}, ${g}, ${b}, 0.7)`
+                : event === this.createEvent
+                    ? `rgba(${r}, ${g}, ${b}, 0.7)`
+                    : event.color
+        },
+        getEvents ({ start, end }) {
+            const events = []
+
+            const min = new Date(`${start.date}T00:00:00`).getTime()
+            const max = new Date(`${end.date}T23:59:59`).getTime()
+            const days = (max - min) / 86400000
+            const eventCount = this.rnd(days, days + 20)
+
+            for (let i = 0; i < eventCount; i++) {
+                const timed = this.rnd(0, 3) !== 0
+                const firstTimestamp = this.rnd(min, max)
+                const secondTimestamp = this.rnd(2, timed ? 8 : 288) * 900000
+                const start = firstTimestamp - (firstTimestamp % 900000)
+                const end = start + secondTimestamp
+
+                events.push({
+                    name: this.rndElement(this.names),
+                    color: this.rndElement(this.colors),
+                    start,
+                    end,
+                    timed,
+                })
+            }
+
+            this.events = events
+        },
+        rnd (a, b) {
+            return Math.floor((b - a + 1) * Math.random()) + a
+        },
+        rndElement (arr) {
+            return arr[this.rnd(0, arr.length - 1)]
+        },
+    },
+}
 
 </script>
+
+<style lang="scss">
+  @import "./assets/variables.scss";
+</style>
