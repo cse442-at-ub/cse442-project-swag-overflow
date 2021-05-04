@@ -80,7 +80,7 @@
             >
             <v-btn
               color="#E5E5E5"
-              @click="sendRequest"
+              @click="refresh"
               block
               light
             >REFRESH</v-btn>
@@ -266,7 +266,8 @@ export default {
         }
       })
       .then(function (response) {
-          self.friendsRequests = response.body
+          var headers = response.headers
+          self.friendsRequests = headers['data']['records']
       })
       .catch(function (error) {
         console.log(error.response)
@@ -289,7 +290,8 @@ export default {
         }
       })
       .then(function (response) {
-          self.friendsList = response.body
+          var headers = response.headers
+          self.friendsList = headers['data']['records']
       })
       .catch(function (error) {
         console.log(error.response)

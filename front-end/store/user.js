@@ -1,14 +1,10 @@
 
 export const state = () => ({
-    username: '',
-    token: '',
-    friends: []
+    username: ''
   })
   
 export const mutations = {
-    addUser(state, text, tokenReceived, friendsList) {
+    addUser(state, text) {
         state.username = text
-        state.token = tokenReceived
-        state.friends = friendsList
     }
   }

@@ -534,87 +534,56 @@ export default {
             return new Date(tms.year, tms.month - 1, tms.day, tms.hour, tms.minute).getTime()
         },
 
-        getUserEvents () {
+        async getUserEvents () {
             // Truong, make this function async and pull the event data here
-            let data = [
-                          {
-                              "username": "clevs13",
-                              "email": "clevs10@buffalo.edu",
-                              "event_name": "Demo event something",
-                              "event_start_day": "2021-05-02",
-                              "event_start_time": "15:00:00",
-                              "event_end_day": "2021-05-02",
-                              "event_end_time": "16:00:00",
-                              "event_description": "Demo the create route for the new event backend",
-                              "event_location": "Home",
-                              "event_attendee_username": "clevs13",
-                              "event_attendee_email": "clevs13@buffalo.edu"
-                          },
-                          {
-                              "username": "jsmith11",
-                              "email": "jsmith11@buffalo.edu",
-                              "event_name": "Meeting",
-                              "event_start_day": "2021-05-02",
-                              "event_start_time": "14:00:00",
-                              "event_end_day": "2021-05-02",
-                              "event_end_time": "15:00:00",
-                              "event_description": "Demo the create route for the new event backend",
-                              "event_location": "Home",
-                              "event_attendee_username": "clevs13",
-                              "event_attendee_email": "clevs13@buffalo.edu"
-                          },
-                          {
-                              "username": "markrowry",
-                              "email": "markrowry@buffalo.edu",
-                              "event_name": "Meeting",
-                              "event_start_day": "2021-05-02",
-                              "event_start_time": "13:00:00",
-                              "event_end_day": "2021-05-02",
-                              "event_end_time": "16:00:00",
-                              "event_description": "Demo the create route for the new event backend",
-                              "event_location": "Home",
-                              "event_attendee_username": "clevs13",
-                              "event_attendee_email": "clevs13@buffalo.edu"
-                          },
-                          {
-                              "username": "markrowry",
-                              "email": "markrowry@buffalo.edu",
-                              "event_name": "Meeting",
-                              "event_start_day": "2021-05-02",
-                              "event_start_time": "11:00:00",
-                              "event_end_day": "2021-05-02",
-                              "event_end_time": "14:00:00",
-                              "event_description": "Demo the create route for the new event backend",
-                              "event_location": "Home",
-                              "event_attendee_username": "clevs13",
-                              "event_attendee_email": "clevs13@buffalo.edu"
-                          },
-                          {
-                              "username": "towalker",
-                              "email": "towalker@buffalo.edu",
-                              "event_name": "Meeting",
-                              "event_start_day": "2021-05-02",
-                              "event_start_time": "16:00:00",
-                              "event_end_day": "2021-05-02",
-                              "event_end_time": "17:00:00",
-                              "event_description": "Demo the create route for the new event backend",
-                              "event_location": "Home",
-                              "event_attendee_username": "clevs13",
-                              "event_attendee_email": "clevs13@buffalo.edu"
-                          },
-
-                        ];
+            await this.$axios.post('/event/read.php', {
+              headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "OPTIONS",
+              "Access-Control-Allow-Headers": "Content-Type, Authorization",
+              "Access-Control-Allow-Credentials": "true",
+              "CrossOrigin": "true"
+              },
+              data: {
+                username: this.$store.state.user.username,
+              }
+            })
+            .then(function (response) {
+                var headers = response.headers
+                return headers['data']['records']
+            })
+            .catch(function (error) {
+              console.log(error.response)
+            });
+            let data = [];
             return data;
         },
+        async getNames () {
 
-        getNames () {
-            // Truong, bring in the username and name of users into this datastructure
-            let data = {
-                "clevs13": "Michael Clevs",
-                "jsmith11": "John Smith",
-                "markrowry": "Mark Rowry",
-                "towalker": "Tori Walker"
-            };
+            await this.$axios.post('/friend/read.php', {
+              headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "OPTIONS",
+              "Access-Control-Allow-Headers": "Content-Type, Authorization",
+              "Access-Control-Allow-Credentials": "true",
+              "CrossOrigin": "true"
+              },
+              data: {
+                username: this.$store.state.user.username,
+                request: false,
+                friend: true
+              }
+            })
+            .then(function (response) {
+                var headers = response.headers
+                return headers['data']['records']
+            })
+            .catch(function (error) {
+              console.log(error.response)
+            });
+            let data = [];
             return data;
         },
 
@@ -624,7 +593,7 @@ export default {
 
             let user_names = this.getNames();
 
-            // this.categories = user_names.keys();
+            this.categories = user_names
 
             const eventCount = user_calendars.length;
 
@@ -644,7 +613,7 @@ export default {
                 startTime = moment(startTime, "YYYY-MM-DD HH:mm:ss");
                 endTime = moment(endTime, "YYYY-MM-DD HH:mm:ss");
 
-                let user = user_names[user_calendars[i].username];
+                let user = user_calendars[i].username;
 
                 if(this.attendees.indexOf(user) !== -1){
                     events.push({
@@ -652,7 +621,7 @@ export default {
                         start: startTime.format("YYYY-MM-DD HH:mm:ss"),
                         end: endTime.format("YYYY-MM-DD HH:mm:ss"),
                         color: "inactive",
-                        category: user_names[user_calendars[i].username],
+                        category: user,
                     });
                 }
 
@@ -662,7 +631,40 @@ export default {
             return events;
 
         },
+        async createEvent (ev1, ev2, ev3, ev4, ev5, ev6, ev7, ev8, ev9, ev10, ev11, ev12) {
+            await this.$axios.post('/event/create.php', {
+              headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "OPTIONS",
+              "Access-Control-Allow-Headers": "Content-Type, Authorization",
+              "Access-Control-Allow-Credentials": "true",
+              "CrossOrigin": "true"
+              },
+              data: {
+                username: ev1,
+                email: ev2,
+                event_name: ev3,
+                event_type: ev4,
+                event_start_day: ev5,
+                event_start_time: ev6,
+                event_end_day: ev7,
+                event_end_time: ev8,
+                event_description: ev9,
+                event_location: ev10,
+                event_attendee_username: ev11,
+                event_attendee_email: ev12
+              }
+            })
+            .then(function (response) {
+                return response.headers['message']
+            })
+            .catch(function (error) {
+              return response.headers['message']
+            });
+            return data;
 
+        },
         updateEvents ({ start, end }){
             let individual_events = this.fetchEvents( { start, end} );
             let combined = [];

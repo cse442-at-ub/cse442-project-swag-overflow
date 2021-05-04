@@ -503,8 +503,8 @@ export default {
           })
           // console.log(data)
           .then(function (response) {
-              console.log(response)
               var headers = response.headers
+              this.$store.commit('user/addUser', headers['firstname'])
               self.loginNotification(headers['firstname'], true)
           })
           .catch(function (error) {
@@ -535,6 +535,7 @@ export default {
           })
           .then(function (response) {
               var headers = response.headers
+              this.$store.commit('user/addUser', headers['firstname'])
               self.loginNotification(headers['firstname'], true)
           })
           .catch(function (error) {
