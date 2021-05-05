@@ -52,7 +52,7 @@
               >
               <v-slide-item
                 v-for="friend in friendsList"
-                :key="'A' + friend.id"
+                :key="friend.id"
               >
                 <v-btn
                   class="mx-2"
