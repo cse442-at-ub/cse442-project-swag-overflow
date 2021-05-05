@@ -535,7 +535,7 @@ export default {
 
         async getUserEvents () {
             // Truong, make this function async and pull the event data here
-            await this.$axios.post('/event/read.php', {
+            await this.$axios.post('http://localhost/event/read.php', {
               headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
@@ -561,7 +561,7 @@ export default {
 
         async getNames () {
 
-            await this.$axios.post('/friend/read.php', {
+            await this.$axios.post('http://localhost/friend/read.php', {
               headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
@@ -643,7 +643,7 @@ export default {
 
         },
         async buildEvent (ev1, ev2, ev3, ev4, ev5, ev6, ev7, ev8, ev9, ev10, ev11, ev12) {
-            await this.$axios.post('/event/create.php', {
+            await this.$axios.post('http://localhost/event/create.php', {
               headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",

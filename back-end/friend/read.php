@@ -59,8 +59,10 @@
             // http://stackoverflow.com/questions/2770630/pdofetchall-vs-pdofetch-in-a-loop
             while ($row = $code->fetch(PDO::FETCH_ASSOC)){
 
+                echo json_encode($row);
+
                 if ($data->request == "true") {
-                    array_push($data_arr["records"], $row['request']);
+                    array_push($data_arr["records"], $row['request_from']);
                 } else {
                     // echo $row;
                     array_push($data_arr["records"], $row['friend']);
@@ -79,7 +81,15 @@
     } else {
         // tell the user the data is incomplete
         header("message: error-in");
-        header("Location: $url");
+        // header("Location: $url");
+
+        $str = json_encode($data);
+
+        header("username: $data->username");
+        header("request: $data->request");
+        header("friend: $data->friend");
+
+        header("posted_data: $str");
     
         // tell the user
         echo json_encode(array("message" => "Unable to send request. Data is incomplete."));

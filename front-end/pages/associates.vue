@@ -135,8 +135,9 @@ export default {
   },
   methods: {
     async sendRequest() {
+      console.log(this.$store.state.user.username)
       var self = this;
-      await this.$axios.post('/friend/request.php', {
+      await this.$axios.post('http://localhost/friend/request.php', {
         headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -147,13 +148,14 @@ export default {
         },
         data: {
           username: this.friendName,
-          source: this.$store.state.user.username
+          request: this.$store.state.user.username
         }
       })
       .then(function (response) {
-          self.befriendMessage(true, text)
+          self.befriendMessage(true, self.friendName)
       })
       .catch(function (error) {
+        console.log(error)
         console.log(error.response)
         var headers = error.response.headers
         console.log(headers)
@@ -170,7 +172,7 @@ export default {
     },
     async acceptRequest( text ) {
       var self = this;
-      await this.$axios.post('/friend/accept.php', {
+      await this.$axios.post('http://localhost/friend/accept.php', {
         headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -180,16 +182,17 @@ export default {
         "CrossOrigin": "true"
         },
         data: {
-          username: text,
-          source: this.$store.state.user.username
+          username: this.$store.state.user.username,
+          friend: text
         }
       })
       .then(function (response) {
           self.newFriendMessage(true, text)
-          this.friendsRequests = this.friendsRequests.filter(item => item !== text)
-          this.friendsList.push(text)
+          self.friendsRequests = self.friendsRequests.filter(item => item !== text)
+          self.friendsList.push(text)
       })
       .catch(function (error) {
+        console.log(error)
         console.log(error.response)
         var headers = error.response.headers
         console.log(headers)
@@ -250,7 +253,7 @@ export default {
       var self = this;
 
       // Get all friend requests
-      await this.$axios.post('/friend/read.php', {
+      await this.$axios.post('http://localhost/friend/read.php', {
         headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -261,20 +264,25 @@ export default {
         },
         data: {
           username: this.$store.state.user.username,
-          request: true,
-          friend: false
+          request: "true",
+          friend: "false"
         }
       })
       .then(function (response) {
           var headers = response.headers
-          self.friendsRequests = headers['data']['records']
+          // console.log(headers)
+          // console.log(headers['data'])
+          var data = JSON.parse(headers['data']).records
+          data = data.filter(e => e != null)
+          console.log(data)          
+          self.friendsRequests = data
       })
       .catch(function (error) {
         console.log(error.response)
       });
 
       // Get all friends
-      await this.$axios.post('/friend/read.php', {
+      await this.$axios.post('http://localhost/friend/read.php', {
         headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -285,18 +293,24 @@ export default {
         },
         data: {
           username: this.$store.state.user.username,
-          request: false,
-          friend: true
+          request: "false",
+          friend: "true"
         }
       })
       .then(function (response) {
           var headers = response.headers
-          self.friendsList = headers['data']['records']
+          var data = JSON.parse(headers['data']).records
+          data = data.filter(e => e != null)
+          console.log(data)    
+          self.friendsList = data
       })
       .catch(function (error) {
         console.log(error.response)
       });
     }
+  },
+  beforeMount() {
+    this.refresh()
   },
 }
 </script>

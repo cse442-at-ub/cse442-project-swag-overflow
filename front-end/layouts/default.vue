@@ -479,9 +479,9 @@ export default {
           this.signup_dialog = false;
           const PATH_API = 'user/register.php'
           // DEPLOYED_URL: '/CSE442-542/2021-Spring/cse-442m/back-end/user/register.php'
-          // LOCAL_URL = 'localhost/user/register.php'
+          // LOCAL_URL = 'http://localhost/user/register.php'
           var self = this;
-          await this.$axios.post('/CSE442-542/2021-Spring/cse-442m/back-end/user/register.php', {
+          await this.$axios.post('http://localhost/user/register.php', {
             headers: {
             "Content-Type": "application/json",
             "Accept": "*/*",
@@ -504,12 +504,13 @@ export default {
           // console.log(data)
           .then(function (response) {
               var headers = response.headers
-              this.$store.commit('user/addUser', headers['firstname'])
+              self.$store.commit('user/addUser', headers['username'])
               self.loginNotification(headers['firstname'], true)
           })
           .catch(function (error) {
+              var headers = error.response.headers
               console.log(error)
-              self.loginNotification('error', false)
+              self.loginNotification(headers['message'], false)
           });
           console.log(this.signup);
       },
@@ -518,8 +519,8 @@ export default {
           var self = this;
           const PATH_API = 'user/signin.php'
           // DEPLOYED_URL = '/CSE442-542/2021-Spring/cse-442m/back-end/user/signin.php'
-          // LOCAL_URL = 'localhost/user/signin.php'
-          await this.$axios.post('/CSE442-542/2021-Spring/cse-442m/back-end/user/signin.php', {
+          // LOCAL_URL = 'http://localhost/user/signin.php'
+          await this.$axios.post('http://localhost/user/signin.php', {
             headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
@@ -535,7 +536,7 @@ export default {
           })
           .then(function (response) {
               var headers = response.headers
-              this.$store.commit('user/addUser', headers['firstname'])
+              self.$store.commit('user/addUser', headers['username'])
               self.loginNotification(headers['firstname'], true)
           })
           .catch(function (error) {

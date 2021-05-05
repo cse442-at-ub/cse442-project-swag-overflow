@@ -36,11 +36,11 @@
             http_response_code(201);
 
             // tell the user
-            echo json_encode(array("message" => "You successfully accepted $friend->friend's request."));
+            // echo json_encode(array("message" => "You successfully accepted $friend->friend's request."));
 
             // send back data
             header("message: success");
-            header("accepted: $friend->friend");
+            // header("accepted: $friend->friend");
         } else {
             // something went wrong
 
@@ -65,7 +65,7 @@
     } else {
         // tell the user the data is incomplete
         header("message: error-in");
-        header("Location: $url");
+        // header("Location: $url");
     
         // tell the user
         echo json_encode(array("message" => "Unable to send request. Data is incomplete."));
