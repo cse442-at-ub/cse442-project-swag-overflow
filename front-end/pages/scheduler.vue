@@ -196,37 +196,6 @@
                   readonly
                   prepend-icon="mdi-clock-start"
                 ></v-text-field>
-<!--                <v-menu-->
-<!--                  ref="menu"-->
-<!--                  v-model="startTime_menu"-->
-<!--                  :close-on-content-click="false"-->
-<!--                  :nudge-right="40"-->
-<!--                  :return-value.sync="startTime_menu"-->
-<!--                  transition="scale-transition"-->
-<!--                  offset-y-->
-<!--                  max-width="290px"-->
-<!--                  min-width="290px"-->
-<!--                >-->
-<!--                  <template v-slot:activator="{ on, attrs }">-->
-<!--                    <v-text-field-->
-<!--                      v-model="event.start_time"-->
-<!--                      label="Start Time"-->
-<!--                      outlined-->
-<!--                      dense-->
-<!--                      readonly-->
-<!--                      prepend-icon="mdi-clock-start"-->
-<!--                      v-bind="attrs"-->
-<!--                      v-on="on"-->
-<!--                    ></v-text-field>-->
-<!--                  </template>-->
-<!--                  <v-time-picker-->
-<!--                    v-if="startTime_menu"-->
-<!--                    v-model="event.start_time"-->
-<!--                    full-width-->
-<!--                    :max="event.start_time"-->
-<!--                    @click:minute="$refs.menu.save(event.start_time)"-->
-<!--                  ></v-time-picker>-->
-<!--                </v-menu>-->
               </v-col>
 
               <v-col>
@@ -239,37 +208,6 @@
                   readonly
                 ></v-text-field>
 
-<!--                <v-menu-->
-<!--                  ref="menu"-->
-<!--                  v-model="endTime_menu"-->
-<!--                  :close-on-content-click="false"-->
-<!--                  :nudge-right="40"-->
-<!--                  :return-value.sync="endTime_menu"-->
-<!--                  transition="scale-transition"-->
-<!--                  offset-y-->
-<!--                  max-width="290px"-->
-<!--                  min-width="290px"-->
-<!--                >-->
-<!--                  <template v-slot:activator="{ on, attrs }">-->
-<!--                    <v-text-field-->
-<!--                      v-model="event.end_time"-->
-<!--                      label="End Time"-->
-<!--                      outlined-->
-<!--                      prepend-icon="mdi-clock-end"-->
-<!--                      dense-->
-<!--                      readonly-->
-<!--                      v-bind="attrs"-->
-<!--                      v-on="on"-->
-<!--                    ></v-text-field>-->
-<!--                  </template>-->
-<!--                  <v-time-picker-->
-<!--                    v-if="endTime_menu"-->
-<!--                    v-model="event.end_time"-->
-<!--                    :min="event.start_time"-->
-<!--                    full-width-->
-<!--                    @click:minute="$refs.menu.save(event.end_time)"-->
-<!--                  ></v-time-picker>-->
-<!--                </v-menu>-->
               </v-col>
             </v-row>
             <v-btn @click="buildEvent"
@@ -430,6 +368,7 @@ export default {
         },
         loadCalendar () {
             this.e6 = 3;
+            // this.categories.push(this.$store.state.user.username);
             this.load_calendar = true;
         },
         cancelEvent () {
@@ -562,50 +501,45 @@ export default {
 
         async getNames () {
 
-            await this.$axios.post('http://localhost/friend/read.php', {
-              headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Methods": "OPTIONS",
-              "Access-Control-Allow-Headers": "Content-Type, Authorization",
-              "Access-Control-Allow-Credentials": "true",
-              "CrossOrigin": "true"
-              },
-              data: {
-                username: this.$store.state.user.username,
-                request: "false",
-                friend: "true"
-              }
-            })
-            .then(function (response) {
-                var headers = response.headers
-                return headers['data']['records']
-            })
-            .catch(function (error) {
-              console.log(error.response)
-            });
-            let data = [];
+            // await this.$axios.post('http://localhost/friend/read.php', {
+            //   headers: {
+            //   "Content-Type": "application/json",
+            //   "Access-Control-Allow-Origin": "*",
+            //   "Access-Control-Allow-Methods": "OPTIONS",
+            //   "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            //   "Access-Control-Allow-Credentials": "true",
+            //   "CrossOrigin": "true"
+            //   },
+            //   data: {
+            //     username: this.$store.state.user.username,
+            //     request: "false",
+            //     friend: "true"
+            //   }
+            // })
+            // .then(function (response) {
+            //     var headers = response.headers
+            //     return headers['data']['records']
+            // })
+            // .catch(function (error) {
+            //   console.log(error.response)
+            // });
+            // let data = [];
+            // return data;
+
+            let data = {
+                "clevs13": "Michael Clevs",
+                "jsmith11": "John Smith",
+                "markrowry": "Mark Rowry",
+                "towalker": "Tori Walker"
+            };
             return data;
-        },
-
-        eventConfirm () {
-            this.e6 = 4;
-            let newEvent = this.events[this.events.length-1];
-
-            let start  = moment.unix(newEvent.start).format("HH:mm");
-            let end = moment.unix(newEvent.end).format("HH:mm");
-
-            this.event.start_time = start;
-            this.event.end_time = end;
         },
 
         fetchEvents ({ start, end }) {
             const events = [];
             const user_calendars = this.getUserEvents();
 
-            let user_names = this.getNames();
-
-            this.categories = user_names
+            this.categories = this.getNames();
 
             const eventCount = user_calendars.length;
 
@@ -643,38 +577,96 @@ export default {
             return events;
 
         },
-        async buildEvent (ev1, ev2, ev3, ev4, ev5, ev6, ev7, ev8, ev9, ev10, ev11, ev12) {
-            await this.$axios.post('http://localhost/event/create.php', {
-              headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Methods": "OPTIONS",
-              "Access-Control-Allow-Headers": "Content-Type, Authorization",
-              "Access-Control-Allow-Credentials": "true",
-              "CrossOrigin": "true"
-              },
-              data: {
-                username: ev1,
-                email: ev2,
-                event_name: ev3,
-                event_type: ev4,
-                event_start_day: ev5,
-                event_start_time: ev6,
-                event_end_day: ev7,
-                event_end_time: ev8,
-                event_description: ev9,
-                event_location: ev10,
-                event_attendee_username: ev11,
-                event_attendee_email: ev12
-              }
-            })
-            .then(function (response) {
-                return response.headers['message']
-            })
-            .catch(function (error) {
-              console.log(error.response)
-              return response.headers['message']
-            });
+
+        eventConfirm () {
+            this.e6 = 4;
+            let newEvent = this.events[this.events.length-1];
+
+            let start  = moment.unix(newEvent.start).format("HH:mm");
+            let end = moment.unix(newEvent.end).format("HH:mm");
+
+            this.event.end_date = this.event.start_date;
+            this.event.type = "Conference Meeting";
+            this.event.start_time = start;
+            this.event.end_time = end;
+            this.event.location = "Conference"
+
+        },
+
+        async buildEvent () {
+            const attendees = [...this.attendees];
+
+            const comb = attendees.indexOf("Combined");
+            if (comb > -1){
+                attendees.splice(comb, 1);
+            }
+
+            for(let users in attendees){
+              await this.$axios.post('http://localhost/event/create.php', {
+                  headers: {
+                      "Content-Type": "application/json",
+                      "Access-Control-Allow-Origin": "*",
+                      "Access-Control-Allow-Methods": "OPTIONS",
+                      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+                      "Access-Control-Allow-Credentials": "true",
+                      "CrossOrigin": "true"
+                  },
+                  data: {
+                      username: users,
+                      email: users,
+                      event_name: this.event.name,
+                      event_type: this.event.type,
+                      event_start_day: this.event.start_date,
+                      event_start_time: this.event.start_time,
+                      event_end_day: this.event.end_date,
+                      event_end_time: this.event.end_time,
+                      event_description: this.event.description,
+                      event_location: this.event.location,
+                      event_attendee_username: "",
+                      event_attendee_email: ""
+                  }
+              })
+                  .then(function (response) {
+                      return response.headers['message']
+                  })
+                  .catch(function (error) {
+                      console.log(error.response)
+                      return response.headers['message']
+                  });
+
+            }
+
+            // await this.$axios.post('http://localhost/event/create.php', {
+            //   headers: {
+            //   "Content-Type": "application/json",
+            //   "Access-Control-Allow-Origin": "*",
+            //   "Access-Control-Allow-Methods": "OPTIONS",
+            //   "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            //   "Access-Control-Allow-Credentials": "true",
+            //   "CrossOrigin": "true"
+            //   },
+            //   data: {
+            //     username: username,
+            //     email: email,
+            //     event_name: this.event.name,
+            //     event_type: this.event.type,
+            //     event_start_day: this.event.start_date,
+            //     event_start_time: this.event.start_time,
+            //     event_end_day: this.event.end_time,
+            //     event_end_time: this.event.end_time,
+            //     event_description: this.event.description,
+            //     event_location: this.event.location,
+            //     event_attendee_username: "",
+            //     event_attendee_email: ""
+            //   }
+            // })
+            // .then(function (response) {
+            //     return response.headers['message']
+            // })
+            // .catch(function (error) {
+            //   console.log(error.response)
+            //   return response.headers['message']
+            // });
             return data;
 
         },
