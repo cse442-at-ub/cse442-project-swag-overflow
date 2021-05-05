@@ -143,7 +143,7 @@
 
             <v-btn
               color="dialog"
-              @click="e6 = 4"
+              @click="eventConfirm"
             >
               Continue
             </v-btn>
@@ -274,9 +274,8 @@
             </v-row>
             <v-btn
               color="dialog"
-              @click="fetchEvents"
             >
-              Continue
+              Schedule it!
             </v-btn>
             <v-btn text>
               Cancel
@@ -485,7 +484,7 @@ export default {
                 const newEnd = newStart + duration;
 
                 this.dragEvent.start = newStart;
-                this.dragEvent.end = newEnd
+                this.dragEvent.end = newEnd;
             }
             else if (this.createEvent && this.createStart !== null) {
                 const mouseRounded = this.roundTime(mouse, false);
@@ -493,7 +492,7 @@ export default {
                 const max = Math.max(mouseRounded, this.createStart);
 
                 this.createEvent.start = min;
-                this.createEvent.end = max
+                this.createEvent.end = max;
             }
         },
         endDrag () {
@@ -559,6 +558,7 @@ export default {
             let data = [];
             return data;
         },
+
         async getNames () {
 
             await this.$axios.post('/friend/read.php', {
@@ -585,6 +585,17 @@ export default {
             });
             let data = [];
             return data;
+        },
+
+        eventConfirm () {
+            this.e6 = 4;
+            let newEvent = this.events[this.events.length-1];
+
+            let start  = moment.unix(newEvent.start).format("HH:mm");
+            let end = moment.unix(newEvent.end).format("HH:mm");
+
+            this.event.start_time = start;
+            this.event.end_time = end;
         },
 
         fetchEvents ({ start, end }) {
@@ -631,7 +642,7 @@ export default {
             return events;
 
         },
-        async createEvent (ev1, ev2, ev3, ev4, ev5, ev6, ev7, ev8, ev9, ev10, ev11, ev12) {
+        async buildEvent (ev1, ev2, ev3, ev4, ev5, ev6, ev7, ev8, ev9, ev10, ev11, ev12) {
             await this.$axios.post('/event/create.php', {
               headers: {
               "Content-Type": "application/json",
