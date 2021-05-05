@@ -3,9 +3,9 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   target: 'static',
-  // router: {
-  //   base: '/CSE442-542/2021-Spring/cse-442m/front-end/dist'
-  // },
+  router: {
+    base: '/CSE442-542/2021-Spring/cse-442m/front-end/dist'
+  },
   head: {
     titleTemplate: 'Swag Overflow',
     title: 'Swag Overflow',

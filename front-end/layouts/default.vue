@@ -481,7 +481,7 @@ export default {
           // DEPLOYED_URL: '/CSE442-542/2021-Spring/cse-442m/back-end/user/register.php'
           // LOCAL_URL = 'http://localhost/user/register.php'
           var self = this;
-          await this.$axios.post('http://localhost/user/register.php', {
+          await this.$axios.post('/CSE442-542/2021-Spring/cse-442m/back-end/user/register.php', {
             headers: {
             "Content-Type": "application/json",
             "Accept": "*/*",
@@ -520,7 +520,7 @@ export default {
           const PATH_API = 'user/signin.php'
           // DEPLOYED_URL = '/CSE442-542/2021-Spring/cse-442m/back-end/user/signin.php'
           // LOCAL_URL = 'http://localhost/user/signin.php'
-          await this.$axios.post('http://localhost/user/signin.php', {
+          await this.$axios.post('/CSE442-542/2021-Spring/cse-442m/back-end/user/signin.php', {
             headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",

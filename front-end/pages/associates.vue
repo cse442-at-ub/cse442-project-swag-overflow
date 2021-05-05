@@ -137,7 +137,7 @@ export default {
     async sendRequest() {
       console.log(this.$store.state.user.username)
       var self = this;
-      await this.$axios.post('http://localhost/friend/request.php', {
+      await this.$axios.post('/CSE442-542/2021-Spring/cse-442m/back-end/friend/request.php', {
         headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -172,7 +172,7 @@ export default {
     },
     async acceptRequest( text ) {
       var self = this;
-      await this.$axios.post('http://localhost/friend/accept.php', {
+      await this.$axios.post('/CSE442-542/2021-Spring/cse-442m/back-end/friend/accept.php', {
         headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -253,7 +253,7 @@ export default {
       var self = this;
 
       // Get all friend requests
-      await this.$axios.post('http://localhost/friend/read.php', {
+      await this.$axios.post('/CSE442-542/2021-Spring/cse-442m/back-end/friend/read.php', {
         headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -282,7 +282,7 @@ export default {
       });
 
       // Get all friends
-      await this.$axios.post('http://localhost/friend/read.php', {
+      await this.$axios.post('/CSE442-542/2021-Spring/cse-442m/back-end/friend/read.php', {
         headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",

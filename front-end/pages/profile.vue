@@ -634,7 +634,7 @@ export default {
         var self = this
 
         // Get all friends
-        await this.$axios.post('http://localhost/friend/read.php', {
+        await this.$axios.post('/CSE442-542/2021-Spring/cse-442m/back-end/friend/read.php', {
           headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
@@ -661,7 +661,7 @@ export default {
         });
 
         // Loads event data
-        await this.$axios.post('http://localhost/event/read.php', {
+        await this.$axios.post('/CSE442-542/2021-Spring/cse-442m/back-end/event/read.php', {
               headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
@@ -726,7 +726,7 @@ export default {
 
           // Create event
           var self = this
-          await this.$axios.post('http://localhost/event/create.php', {
+          await this.$axios.post('/CSE442-542/2021-Spring/cse-442m/back-end/event/create.php', {
                   headers: {
                       "Content-Type": "application/json",
                       "Access-Control-Allow-Origin": "*",
@@ -737,7 +737,7 @@ export default {
                   },
                   data: {
                       username: self.$store.state.user.username,
-                      email: "",
+                      email: "todo",
                       event_name: self.event.name,
                       event_type: self.event.description,
                       event_start_day: self.event.start_date,
@@ -746,8 +746,8 @@ export default {
                       event_end_time: self.event.end_time,
                       event_description: self.event.description,
                       event_location: self.event.hall,
-                      event_attendee_username: "",
-                      event_attendee_email: ""
+                      event_attendee_username: "todo",
+                      event_attendee_email: "todo"
                   }
               })
                   .then(function (response) {

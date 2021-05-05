@@ -476,7 +476,7 @@ export default {
         async getUserEvents () {
           console.log(this.$store.state.user.username)
             // Truong, make this function async and pull the event data here
-            await this.$axios.post('http://localhost/event/read.php', {
+            await this.$axios.post('/CSE442-542/2021-Spring/cse-442m/back-end/event/read.php', {
               headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
@@ -605,7 +605,7 @@ export default {
             if (comb > -1){
                 attendees.splice(comb, 1);
             }
-            await this.$axios.post('http://localhost/event/create.php', {
+            await this.$axios.post('/CSE442-542/2021-Spring/cse-442m/back-end/event/create.php', {
                 headers: {
                     "Content-Type": "application/json",
                     "Access-Control-Allow-Origin": "*",
