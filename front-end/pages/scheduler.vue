@@ -368,12 +368,9 @@ export default {
         },
         loadCalendar () {
             this.e6 = 3;
-            // this.categories.push(this.$store.state.user.username);
             this.load_calendar = true;
         },
         cancelEvent () {
-            // console.log(this.events);
-            // delete this.events[this.events.length-1];
         },
         startDrag ({ event, timed }) {
             let new_event_index = this.events.findIndex(x => x.name === event.name);
@@ -408,7 +405,7 @@ export default {
         extendBottom (event) {
             this.createEvent = event;
             this.createStart = event.start;
-            this.extendOriginal = event.end
+            this.extendOriginal = event.end;
         },
 
         mouseMove (tms) {
