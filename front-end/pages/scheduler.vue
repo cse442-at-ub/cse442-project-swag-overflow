@@ -272,7 +272,7 @@
 <!--                </v-menu>-->
               </v-col>
             </v-row>
-            <v-btn
+            <v-btn @click="buildEvent"
               color="dialog"
             >
               Schedule it!
@@ -534,6 +534,7 @@ export default {
         },
 
         async getUserEvents () {
+          console.log(this.$store.state.user.username)
             // Truong, make this function async and pull the event data here
             await this.$axios.post('http://localhost/event/read.php', {
               headers: {
@@ -545,7 +546,7 @@ export default {
               "CrossOrigin": "true"
               },
               data: {
-                username: this.$store.state.user.username,
+                username: this.$store.state.user.username
               }
             })
             .then(function (response) {
@@ -572,8 +573,8 @@ export default {
               },
               data: {
                 username: this.$store.state.user.username,
-                request: false,
-                friend: true
+                request: "false",
+                friend: "true"
               }
             })
             .then(function (response) {
@@ -671,6 +672,7 @@ export default {
                 return response.headers['message']
             })
             .catch(function (error) {
+              console.log(error.response)
               return response.headers['message']
             });
             return data;

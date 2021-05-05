@@ -22,6 +22,9 @@
     // get posted username
     $posted_username = json_decode(file_get_contents("php://input"))->data->username;
 
+    // get posted data
+    $data = json_decode(file_get_contents("php://input"))->data;
+
     // check if more than 0 record found
     if($num>0) {
     
@@ -37,6 +40,7 @@
             // this will make $row['name'] to
             // just $name only
             extract($row);
+
             if ($username == $posted_username) {
 
                 $event_item = array(
@@ -62,6 +66,11 @@
             // set response code - 404 NOT FOUND
             http_response_code(404);
 
+            $str = json_encode($data);
+
+            header("posted_data: $str");
+
+            echo(json_encode($event_arr));
             echo("User not found");
         } else {
             $str = json_encode($event_arr);

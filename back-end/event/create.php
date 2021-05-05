@@ -78,7 +78,7 @@
         } else {
             // other error
             header("message: error");
-            header("Location: $url");
+            // header("Location: $url");
     
             // tell the user
             echo json_encode(array("message" => "Unable to create event."));
@@ -90,7 +90,10 @@
     // tell the user data is incomplete
     else{
         header("message: error-in");
-        header("Location: $url");
+        // header("Location: $url");
+
+        $str = json_encode($data);
+        header("posted_data: $str");
     
         // tell the user
         echo json_encode(array("message" => "Unable to create event. Data is incomplete."));
