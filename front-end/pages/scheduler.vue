@@ -259,6 +259,10 @@
                 mdi-chevron-right
               </v-icon>
             </v-btn>
+            <v-btn
+              @click="fetchEvents">
+              REFRESH
+            </v-btn>
             <v-toolbar-title v-if="$refs.calendar">
               {{ $refs.calendar.title }}
             </v-toolbar-title>

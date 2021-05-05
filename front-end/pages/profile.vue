@@ -37,6 +37,10 @@
                 mdi-chevron-right
               </v-icon>
             </v-btn>
+            <v-btn
+              @click="refresh">
+              REFRESH
+            </v-btn>
             <v-toolbar-title v-if="$refs.calendar">
               {{ $refs.calendar.title }}
             </v-toolbar-title>
@@ -626,8 +630,72 @@ export default {
       rnd (a, b) {
           return Math.floor((b - a + 1) * Math.random()) + a
       },
+      async refresh() {
+        var self = this
 
-      addEvent(){
+        // Get all friends
+        await this.$axios.post('http://localhost/friend/read.php', {
+          headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+          "Access-Control-Allow-Credentials": "true",
+          "CrossOrigin": "true"
+          },
+          data: {
+            username: this.$store.state.user.username,
+            request: "false",
+            friend: "true"
+          }
+        })
+        .then(function (response) {
+            var headers = response.headers
+            var data = JSON.parse(headers['data']).records
+            data = data.filter(e => e != null)
+            console.log(data)    
+            self.friendsList = data
+        })
+        .catch(function (error) {
+          console.log(error.response)
+        });
+
+        // Loads event data
+        await this.$axios.post('http://localhost/event/read.php', {
+              headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "OPTIONS",
+              "Access-Control-Allow-Headers": "Content-Type, Authorization",
+              "Access-Control-Allow-Credentials": "true",
+              "CrossOrigin": "true"
+              },
+              data: {
+                username: this.$store.state.user.username
+              }
+            })
+            .then(function (response) {
+                var headers = response.headers
+                var formatted = []
+                for (var eventItem in headers['data']['records']) {
+                  var temp = {}
+                  temp['name'] = eventItem['username']
+                  temp['start_date'] = eventItem['event_start_day']
+                  temp['end_date'] = eventItem['event_end_day']
+                  temp['start_time'] = eventItem['event_start_time']
+                  temp['end_time'] = eventItem['event_end_time']
+                  temp['hall'] = eventItem['event_location']
+                  temp['description'] = eventItem['event_description']
+                  temp['attendees'] = [eventItem['event_attendee_username']]
+                  formatted.push(temp)
+                }
+                self.events = formatted
+            })
+            .catch(function (error) {
+              console.log(error.response)
+            });
+      },
+      async addEvent(){
           let userEvent = [];
 
           let startTime = '';
@@ -654,9 +722,41 @@ export default {
               color: this.colors[this.rnd(0, this.colors.length - 1)],
           });
 
-          console.log(userEvent);
+          this.events.push(userEvent)
 
-          this.events = userEvent
+          // Create event
+          var self = this
+          await this.$axios.post('http://localhost/event/create.php', {
+                  headers: {
+                      "Content-Type": "application/json",
+                      "Access-Control-Allow-Origin": "*",
+                      "Access-Control-Allow-Methods": "OPTIONS",
+                      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+                      "Access-Control-Allow-Credentials": "true",
+                      "CrossOrigin": "true"
+                  },
+                  data: {
+                      username: self.$store.state.user.username,
+                      email: "",
+                      event_name: self.event.name,
+                      event_type: self.event.description,
+                      event_start_day: self.event.start_date,
+                      event_start_time: self.event.start_time,
+                      event_end_day: self.event.end_date,
+                      event_end_time: self.event.end_time,
+                      event_description: self.event.description,
+                      event_location: self.event.hall,
+                      event_attendee_username: "",
+                      event_attendee_email: ""
+                  }
+              })
+                  .then(function (response) {
+                      return response.headers['message']
+                  })
+                  .catch(function (error) {
+                      console.log(error.response)
+                      return response.headers['message']
+                  });
       },
     }
 }
