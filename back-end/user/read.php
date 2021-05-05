@@ -21,7 +21,7 @@
     // check if more than 0 record found
     if($num>0) {
     
-        // products array
+        // users array
         $users_arr=array();
         $users_arr["records"]=array();
     
@@ -51,16 +51,15 @@
 
         echo json_encode($users_arr);
 
-        $url = 'https://www-student.cse.buffalo.edu/CSE442-542/2021-Spring/cse-442m/front-end/dist/';
-        header("Location: $url");
+        // $url = 'https://www-student.cse.buffalo.edu/CSE442-542/2021-Spring/cse-442m/front-end/dist/';
+        // header("Location: $url");
     } else {
-  
         // set response code - 404 Not found
         http_response_code(404);
       
-        // tell the user no products found
+        // tell the user no users found
         echo json_encode(
-            array("message" => "No products found.")
+            array("message" => "No users found.")
         );
     }
 ?>
