@@ -596,45 +596,48 @@ export default {
         async buildEvent () {
             const attendees = [...this.attendees];
 
+            console.log(attendees);
+
+            var self = this;
+
             const comb = attendees.indexOf("Combined");
             if (comb > -1){
                 attendees.splice(comb, 1);
             }
+            await this.$axios.post('http://localhost/event/create.php', {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "OPTIONS",
+                    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+                    "Access-Control-Allow-Credentials": "true",
+                    "CrossOrigin": "true"
+                },
+                data: {
+                    username: this.$store.state.user.username,
+                    email: "todo",
+                    event_name: self.event.name,
+                    event_type: self.event.type,
+                    event_start_day: self.event.start_date,
+                    event_start_time: self.event.start_time,
+                    event_end_day: self.event.end_date,
+                    event_end_time: self.event.end_time,
+                    event_description: self.event.description,
+                    event_location: self.event.location,
+                    event_attendee_username: "todo",
+                    event_attendee_email: "todo"
+                }
+            })
+                .then(function (response) {
+                    console.log(response)
+                    return response.headers['message']
+                })
+                .catch(function (error) {
+                    console.log(error)
+                    console.log(error.response)
+                    return response.headers['message']
+                });
 
-            for(let users in attendees){
-              await this.$axios.post('http://localhost/event/create.php', {
-                  headers: {
-                      "Content-Type": "application/json",
-                      "Access-Control-Allow-Origin": "*",
-                      "Access-Control-Allow-Methods": "OPTIONS",
-                      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-                      "Access-Control-Allow-Credentials": "true",
-                      "CrossOrigin": "true"
-                  },
-                  data: {
-                      username: users,
-                      email: users,
-                      event_name: this.event.name,
-                      event_type: this.event.type,
-                      event_start_day: this.event.start_date,
-                      event_start_time: this.event.start_time,
-                      event_end_day: this.event.end_date,
-                      event_end_time: this.event.end_time,
-                      event_description: this.event.description,
-                      event_location: this.event.location,
-                      event_attendee_username: "",
-                      event_attendee_email: ""
-                  }
-              })
-                  .then(function (response) {
-                      return response.headers['message']
-                  })
-                  .catch(function (error) {
-                      console.log(error.response)
-                      return response.headers['message']
-                  });
-
-            }
 
             // await this.$axios.post('http://localhost/event/create.php', {
             //   headers: {
@@ -667,7 +670,7 @@ export default {
             //   console.log(error.response)
             //   return response.headers['message']
             // });
-            return data;
+            // return data;
 
         },
         updateEvents ({ start, end }){
